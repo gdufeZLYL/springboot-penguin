@@ -4,4 +4,8 @@ public class QexzConst {
 
     //本地服务器-文件,图片所在位置
     public static final String UPLOAD_FILE_PATH = "file:D:/IdeaProjects/data/springboot-penguin/upload/";
+
+    //默认头像url
+    public static final String DEFAULT_AVATAR_IMG_URL = "default_avatar_img.jpg";
+
 }
