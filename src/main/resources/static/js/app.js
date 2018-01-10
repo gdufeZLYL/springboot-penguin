@@ -21,8 +21,8 @@ var app = {
         var currTime = localDateTime.year + "-" + localDateTime.monthValue
             + "-" + localDateTime.dayOfMonth + " " + localDateTime.hour
             + ":" + localDateTime.minute + ":" + localDateTime.second;
-        console.log("currTime = " + currTime);
-        console.log("new Date(currTime).valueOf() = " + new Date(currTime).valueOf());
+        //console.log("currTime = " + currTime);
+        //console.log("new Date(currTime).valueOf() = " + new Date(currTime).valueOf());
         return new Date(currTime).valueOf();
     },
     /**

@@ -26,7 +26,8 @@ body {
     height: 100%;
 }
 .logo_panel{
-    width: 350px;
+    /*width: 350px;*/
+    width: 700px;
     height: 300px;
     position: relative;
     top:15%;
