@@ -4,6 +4,8 @@ import com.qexz.common.QexzConst;
 import com.qexz.dto.AjaxResult;
 import com.qexz.model.Account;
 import com.qexz.service.AccountService;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +20,8 @@ import java.time.LocalDateTime;
 @RequestMapping(value = "/")
 public class DefaultController {
 
+    private static Log LOG = LogFactory.getLog(DefaultController.class);
+
     @Autowired
     private AccountService accountService;
 
@@ -27,7 +31,9 @@ public class DefaultController {
     @RequestMapping(value="/", method= RequestMethod.GET)
     public String home(HttpServletRequest request, Model model) {
         Account currentAccount = (Account) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
-        currentAccount = new Account();
+        //TODO::处理
+        currentAccount = accountService.getAccountByUsername("14251104208");
+        LOG.info("currentAccount = " + currentAccount);
         model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentAccount);
         return "/home";
     }

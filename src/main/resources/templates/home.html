@@ -26,16 +26,15 @@
     <a th:href="@{/}" class="item">
         <i class="talk icon"></i>讨论区
     </a>
-    <a th:href="@{/}" class="right item" th:if="@{current_account == null}">
+    <a th:href="@{/}" class="right item" th:if="${current_account == null}">
         <i class="sign in icon"></i>登录
     </a>
-    <div class="ui simple dropdown right item" th:href="@{current_account != null}">
-        <img class="ui avatar image" th:src="@{/upload/images/headimg_placeholder.png}" />
-        <!--<img class="avatar" th:href="@{/upload/images/headimg_placeholder.png}" style="max-height: 36px; height:36px; border-radius: 50%;" />-->
-        曾庆熙 <i class="dropdown icon"></i>
+    <div class="ui simple dropdown right item" th:href="${current_account != null}">
+        <img class="ui avatar image" th:src="@{'/upload/images/'+${current_account.avatarImgUrl}}" />
+        <span th:text="${current_account.name}"></span> <i class="dropdown icon"></i>
         <div class="menu">
-            <a class="item" th:href="@{/}">
-                <i class="user icon"></i>个人中心
+            <a class="item" th:href="@{/account/profile}">
+                <i class="user icon"></i>我的主页
             </a>
             <a class="item" th:href="@{/}">
                 <i class="sign out icon"></i>退出
