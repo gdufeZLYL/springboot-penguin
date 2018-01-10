@@ -29,7 +29,7 @@ public class DefaultController {
         Account currentAccount = (Account) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
         currentAccount = new Account();
         model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentAccount);
-        return "/user/home";
+        return "/home";
     }
 
 

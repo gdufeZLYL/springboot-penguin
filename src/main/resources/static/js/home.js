@@ -14,7 +14,7 @@ var home = {
     init: function () {
         $.get(app.URL.now(), {}, function (result) {
             if (result && result['success']) {
-                console.log(result['data']);
+                //console.log(result['data']);
                 home.data.nowTime = app.toTimeStamp(result['data']);
                 console.log("服务器当前的时间==========" + home.data.nowTime);
             } else {

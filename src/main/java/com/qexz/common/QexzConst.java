@@ -9,6 +9,6 @@ public class QexzConst {
     public static final String UPLOAD_FILE_PATH = "file:D:/IdeaProjects/data/springboot-penguin/upload/";
 
     //默认头像url
-    public static final String DEFAULT_AVATAR_IMG_URL = "default_avatar_img.jpg";
+    public static final String DEFAULT_AVATAR_IMG_URL = "headimg_placeholder.png";
 
 }
