@@ -34,6 +34,18 @@ public class AccountController {
         return "/user/profile";
     }
 
+    /**
+     * 更改密码
+     */
+    @RequestMapping(value="/password", method= RequestMethod.GET)
+    public String password(HttpServletRequest request, Model model) {
+        Account currentAccount = (Account) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
+        //TODO::处理
+        currentAccount = accountService.getAccountByUsername("14251104208");
+        model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentAccount);
+        return "/user/password";
+    }
+
 
 
 }
