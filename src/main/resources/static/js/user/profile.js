@@ -11,14 +11,14 @@ $(document)
     })
 ;
 $(function(){
-    myInfo.init();
-    window.setInterval("myInfo.run();", 1000);
+    profilePage.init();
+    window.setInterval("profilePage.run();", 1000);
 });
 
 /**
  * 模块JavaScript
  */
-var myInfo = {
+var profilePage = {
     data:{
         nowTime: null
     },
@@ -26,8 +26,8 @@ var myInfo = {
         $.get(app.URL.now(), {}, function (result) {
             if (result && result['success']) {
                 //console.log(result['data']);
-                myInfo.data.nowTime = app.toTimeStamp(result['data']);
-                console.log("服务器当前的时间==========" + myInfo.data.nowTime);
+                profilePage.data.nowTime = app.toTimeStamp(result['data']);
+                console.log("服务器当前的时间==========" + profilePage.data.nowTime);
             } else {
                 console.log('结果:' + result);
                 console.log('result' + result);
