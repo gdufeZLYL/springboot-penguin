@@ -66,6 +66,7 @@
                         <a href="#">
                             <i class="user icon"></i>个人信息
                         </a>
+                        <i class="pointing left icon"></i>
                     </div>
                     <div class="content">
                         <a href="#">
@@ -74,7 +75,7 @@
                     </div>
                     <div class="content">
                         <a href="#">
-                            <i class="trophy icon"></i>考试记录
+                            <i class="history icon"></i>考试记录
                         </a>
                     </div>
                     <div class="content">
@@ -117,7 +118,7 @@
                     <div class="field">
                         <label><i class="smile icon"></i>自我描述</label>
                         <textarea  name="description" rows="6"
-                                   th:value="${current_account.description}"></textarea>
+                                   th:text="${current_account.description}"></textarea>
                     </div>
                     <input type="submit" class="positive ui button" value="保存" />
                 </form>

@@ -23,7 +23,7 @@ public class AccountController {
     private AccountService accountService;
 
     /**
-     * 个人信息
+     * 个人信息页面
      */
     @RequestMapping(value="/profile", method= RequestMethod.GET)
     public String profile(HttpServletRequest request, Model model) {
@@ -35,7 +35,7 @@ public class AccountController {
     }
 
     /**
-     * 更改密码
+     * 更改密码页面
      */
     @RequestMapping(value="/password", method= RequestMethod.GET)
     public String password(HttpServletRequest request, Model model) {
@@ -45,6 +45,19 @@ public class AccountController {
         model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentAccount);
         return "/user/password";
     }
+
+    /**
+     * 考试记录页面
+     */
+    @RequestMapping(value="/myExam", method= RequestMethod.GET)
+    public String myExam(HttpServletRequest request, Model model) {
+        Account currentAccount = (Account) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
+        //TODO::处理
+        currentAccount = accountService.getAccountByUsername("14251104208");
+        model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentAccount);
+        return "/user/myExam";
+    }
+
 
 
 
