@@ -38,6 +38,19 @@ public class DefaultController {
         return "/home";
     }
 
+    /**
+     * 在线考试列表页
+     */
+    @RequestMapping(value="/contest/index", method= RequestMethod.GET)
+    public String contestIndex(HttpServletRequest request, Model model) {
+        Account currentAccount = (Account) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
+        //TODO::处理
+        currentAccount = accountService.getAccountByUsername("14251104208");
+        LOG.info("currentAccount = " + currentAccount);
+        model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentAccount);
+        return "/contest/index";
+    }
+
 
 
     /**
