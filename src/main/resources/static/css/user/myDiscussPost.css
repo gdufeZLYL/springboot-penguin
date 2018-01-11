@@ -1,0 +1,20 @@
+body {
+    background-color: #EEEEEE;
+}
+.main.container {
+    margin-top: 7em;
+    width: 1000px;
+}
+
+.ui.footer.segment {
+    margin: 5em 0em 0em;
+    padding: 5em 0em;
+}
+
+.second-footer {
+    height: 100px;
+}
+.ui.pagination.menu {
+    margin-left: 4em;
+    margin-top: 2em;
+}
