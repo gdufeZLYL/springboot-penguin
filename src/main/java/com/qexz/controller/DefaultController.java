@@ -69,7 +69,7 @@ public class DefaultController {
      * 题目列表页
      */
     @RequestMapping(value="/problemset/{problemsetId}/problems", method= RequestMethod.GET)
-    public String problemlist(HttpServletRequest request, @PathVariable("problemsetId") Integer problemsetId, Model model) {
+    public String problemList(HttpServletRequest request, @PathVariable("problemsetId") Integer problemsetId, Model model) {
         Account currentAccount = (Account) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
         //TODO::处理
         currentAccount = accountService.getAccountByUsername("14251104208");
@@ -77,6 +77,21 @@ public class DefaultController {
         LOG.info("currentAccount = " + currentAccount);
         model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentAccount);
         return "/problem/problemlist";
+    }
+
+    /**
+     * 题目详情页
+     */
+    @RequestMapping(value="/problemset/{problemsetId}/problem/{problemId}", method= RequestMethod.GET)
+    public String problemDetail(HttpServletRequest request, @PathVariable("problemsetId") Integer problemsetId, @PathVariable("problemId") Integer problemId, Model model) {
+        Account currentAccount = (Account) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
+        //TODO::处理
+        currentAccount = accountService.getAccountByUsername("14251104208");
+        LOG.info("problemsetId = " + problemsetId);
+        LOG.info("problemId = " + problemId);
+        LOG.info("currentAccount = " + currentAccount);
+        model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentAccount);
+        return "/problem/problemdetail";
     }
 
 
