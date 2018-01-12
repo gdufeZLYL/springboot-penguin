@@ -9,6 +9,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -62,6 +63,20 @@ public class DefaultController {
         LOG.info("currentAccount = " + currentAccount);
         model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentAccount);
         return "/problem/problemset";
+    }
+
+    /**
+     * 题目列表页
+     */
+    @RequestMapping(value="/problemset/{problemsetId}/problems", method= RequestMethod.GET)
+    public String problemlist(HttpServletRequest request, @PathVariable("problemsetId") Integer problemsetId, Model model) {
+        Account currentAccount = (Account) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
+        //TODO::处理
+        currentAccount = accountService.getAccountByUsername("14251104208");
+        LOG.info("problemsetId = " + problemsetId);
+        LOG.info("currentAccount = " + currentAccount);
+        model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentAccount);
+        return "/problem/problemlist";
     }
 
 
