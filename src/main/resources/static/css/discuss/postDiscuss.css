@@ -1,0 +1,31 @@
+body {
+    background-color: #FFFFFF;
+}
+.main.container {
+    margin-top: 7em;
+}
+.ui.footer.segment {
+    margin: 5em 0em 0em;
+    padding: 5em 0em;
+}
+.ui.menu{
+    margin: 0 !important;
+}
+.second-footer {
+    height: 60px;
+}
+.ui.header.container {
+    margin-top: 4em;
+}
+.ui.postDiscuss.container {
+    margin-top: 1em;
+}
+.ui.accordion.segment {
+    margin-top: 1em;
+}
+.ui.table {
+    margin-top: 1em;
+}
+.ui.subPage.container {
+    margin-top: 2em;
+}

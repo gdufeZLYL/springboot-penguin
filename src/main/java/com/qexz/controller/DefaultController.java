@@ -121,6 +121,19 @@ public class DefaultController {
         return "/discuss/discussDetail";
     }
 
+    /**
+     * 发布帖子页
+     */
+    @RequestMapping(value="/discuss/post", method= RequestMethod.GET)
+    public String postDiscuss(HttpServletRequest request, Model model) {
+        Account currentAccount = (Account) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
+        //TODO::处理
+        currentAccount = accountService.getAccountByUsername("14251104208");
+        LOG.info("currentAccount = " + currentAccount);
+        model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentAccount);
+        return "/discuss/postDiscuss";
+    }
+
 
 
     /**
