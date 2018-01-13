@@ -94,6 +94,19 @@ public class DefaultController {
         return "/problem/problemdetail";
     }
 
+    /**
+     * 讨论区首页
+     */
+    @RequestMapping(value="/discuss", method= RequestMethod.GET)
+    public String discuss(HttpServletRequest request, Model model) {
+        Account currentAccount = (Account) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
+        //TODO::处理
+        currentAccount = accountService.getAccountByUsername("14251104208");
+        LOG.info("currentAccount = " + currentAccount);
+        model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentAccount);
+        return "/discuss/discuss";
+    }
+
 
 
     /**
