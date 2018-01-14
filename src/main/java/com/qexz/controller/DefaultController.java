@@ -33,8 +33,8 @@ public class DefaultController {
     public String home(HttpServletRequest request, Model model) {
         Account currentAccount = (Account) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
         //TODO::处理
-        currentAccount = accountService.getAccountByUsername("14251104208");
-        LOG.info("currentAccount = " + currentAccount);
+//        currentAccount = accountService.getAccountByUsername("14251104208");
+//        LOG.info("currentAccount = " + currentAccount);
         model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentAccount);
         return "/home";
     }
