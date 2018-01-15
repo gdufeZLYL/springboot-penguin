@@ -4,10 +4,12 @@
     <meta charset="utf-8" />
     <title>GDUFE在线考试系统</title>
     <link rel="stylesheet" th:href="@{https://cdn.bootcss.com/semantic-ui/2.2.13/semantic.min.css}" />
+    <link rel="stylesheet" th:href="@{https://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css}" />
     <link rel="stylesheet" th:href="@{/css/app.css}" />
     <link rel="stylesheet" th:href="@{/css/user/profile.css}" />
     <script type="text/javascript" th:src="@{https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js}"></script>
     <script type="text/javascript" th:src="@{https://cdn.bootcss.com/semantic-ui/2.2.13/semantic.min.js}"></script>
+    <script type="text/javascript" th:src="@{https://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/app.js}"></script>
     <script type="text/javascript" th:src="@{/js/user/profile.js}"></script>
 </head>
@@ -17,16 +19,16 @@
         <!--<img class="ui" th:src="@{/img/logo_flat.png}" width="104" height="24" alt="" />-->
         <img class="ui" th:src="@{/img/logo.png}" width="156" height="32" alt="" />
     </a>
-    <a th:href="@{/}" href="#" class="item">
+    <a th:href="@{/contest/index}" href="#" class="item">
         <i class="desktop icon"></i>在线考试
     </a>
-    <a th:href="@{/}" class="item">
+    <a th:href="@{/problemset/list}" class="item">
         <i class="list layout icon"></i>题库中心
     </a>
-    <a th:href="@{/}" class="item">
+    <a th:href="@{/discuss}" class="item">
         <i class="talk icon"></i>讨论区
     </a>
-    <a th:href="@{/}" class="right item">
+    <a class="right item" id="logout">
         <i class="sign out icon"></i>退出
     </a>
 </div>
@@ -49,37 +51,37 @@
                         <img th:src="@{'/upload/images/'+${current_account.avatarImgUrl}}" />
                     </div>
                     <div class="content">
-                        <div class="header">曾庆熙</div>
+                        <div class="header" th:text="${current_account.name}"></div>
                         <div class="meta">
                             <!--<a class="group">信息学院</a>-->
                             <div class="group">
                                 <i class="student icon"></i>信息学院
                             </div>
                         </div>
-                        <div class="description">某工地的程序员</div>
+                        <div class="description" th:text="${current_account.description}"></div>
                     </div>
                 </div>
             </div>
             <div class="row" style="margin-top: 1em;">
                 <div class="ui card">
                     <div class="content">
-                        <a href="#">
+                        <a th:href="@{/account/profile}">
                             <i class="user icon"></i>个人信息
                         </a>
                         <i class="pointing left icon"></i>
                     </div>
                     <div class="content">
-                        <a href="#">
+                        <a th:href="@{/account/password}">
                             <i class="edit icon"></i>更改密码
                         </a>
                     </div>
                     <div class="content">
-                        <a href="#">
+                        <a th:href="@{/account/myExam}">
                             <i class="history icon"></i>考试记录
                         </a>
                     </div>
                     <div class="content">
-                        <a href="#">
+                        <a th:href="@{/account/myDiscussPost}">
                             <i class="talk icon"></i>我的发帖
                         </a>
                     </div>
@@ -89,38 +91,44 @@
         <div class="twelve wide column">
             <div class="ui segment">
                 <h4 class="ui dividing header">基本信息</h4>
-                <form class="ui form attached fluid segment">
+                <form class="ui form attached fluid segment" id="updateAccountForm">
+                    <div class="ui hidden negative message" id="updateAccountErrorMessage">
+                        <!--
+                        <div class="header">错误提示</div>
+                        <p></p>
+                        -->
+                    </div>
                     <div class="field">
                         <label><i class="user icon"></i>姓名</label>
-                        <input name="name" readonly="" placeholder="请输入姓名"
+                        <input id="myName" name="myName" readonly="" placeholder="请输入姓名"
                                type="text" th:value="${current_account.name}" />
                     </div>
                     <div class="field">
                         <label><i class="student icon"></i>学号</label>
-                        <input name="username" readonly="" placeholder="请输入学号"
+                        <input id="myUsername" name="myUsername" readonly="" placeholder="请输入学号"
                                type="text" th:value="${current_account.username}" />
                     </div>
                     <div class="field">
                         <label><i class="qq icon"></i>QQ</label>
-                        <input name="qq" placeholder="请输入QQ" type="text"
+                        <input id="myQq" name="myQq" placeholder="请输入QQ" type="text"
                                th:value="${current_account.qq}" />
                     </div>
                     <div class="field">
                         <label><i class="mobile icon"></i>手机号码</label>
-                        <input name="phone" placeholder="请输入手机号码" type="text"
+                        <input id="myPhone" name="myPhone" placeholder="请输入手机号码" type="text"
                                th:value="${current_account.phone}" />
                     </div>
                     <div class="field">
                         <label><i class="mail outline icon"></i>邮箱</label>
-                        <input name="email" placeholder="请输入邮箱地址" type="text"
+                        <input id="myEmail" name="myEmail" placeholder="请输入邮箱地址" type="text"
                                th:value="${current_account.email}" />
                     </div>
                     <div class="field">
                         <label><i class="smile icon"></i>自我描述</label>
-                        <textarea  name="description" rows="6"
+                        <textarea  id="myDescription" name="myDescription" rows="6"
                                    th:text="${current_account.description}"></textarea>
                     </div>
-                    <input type="submit" class="positive ui button" value="保存" />
+                    <div class="ui primary button" id="updateAccountButton">保存</div>
                 </form>
             </div>
         </div>
@@ -158,6 +166,10 @@
 </div>
 <script>
     /*<![CDATA[*/
+    $(function(){
+        app.init();
+        profilePage.init();
+    });
     /*]]>*/
 </script>
 </body>

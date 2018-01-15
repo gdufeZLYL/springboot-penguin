@@ -5,7 +5,7 @@ var app = {
     data:{
         nowTime: null
     },
-    // 封装秒杀相关的ajax的url
+    // 封装相关的ajax的url
     URL: {
         now: function () {
             return "/time/now";
@@ -19,6 +19,9 @@ var app = {
         homeUrl: function () {
             return "/";
         },
+        updateAccountUrl: function () {
+            return "/account/api/updateAccount";
+        }
     },
     /**
      * 全局初始化:服务器时间获取,登录功能,退出登录

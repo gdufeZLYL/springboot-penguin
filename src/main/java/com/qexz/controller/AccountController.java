@@ -35,8 +35,11 @@ public class AccountController {
     @RequestMapping(value="/profile", method= RequestMethod.GET)
     public String profile(HttpServletRequest request, Model model) {
         Account currentAccount = (Account) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
-        //TODO::处理
-        currentAccount = accountService.getAccountByUsername("14251104208");
+        //TODO::拦截器过滤处理
+        if (currentAccount == null) {
+            //用户未登录直接返回首页面
+            return "redirect:/";
+        }
         model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentAccount);
         return "/user/profile";
     }
@@ -47,8 +50,11 @@ public class AccountController {
     @RequestMapping(value="/password", method= RequestMethod.GET)
     public String password(HttpServletRequest request, Model model) {
         Account currentAccount = (Account) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
-        //TODO::处理
-        currentAccount = accountService.getAccountByUsername("14251104208");
+        //TODO::拦截器过滤处理
+        if (currentAccount == null) {
+            //用户未登录直接返回首页面
+            return "redirect:/";
+        }
         model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentAccount);
         return "/user/password";
     }
@@ -59,8 +65,11 @@ public class AccountController {
     @RequestMapping(value="/myExam", method= RequestMethod.GET)
     public String myExam(HttpServletRequest request, Model model) {
         Account currentAccount = (Account) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
-        //TODO::处理
-        currentAccount = accountService.getAccountByUsername("14251104208");
+        //TODO::拦截器过滤处理
+        if (currentAccount == null) {
+            //用户未登录直接返回首页面
+            return "redirect:/";
+        }
         model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentAccount);
         return "/user/myExam";
     }
@@ -71,10 +80,60 @@ public class AccountController {
     @RequestMapping(value="/myDiscussPost", method= RequestMethod.GET)
     public String myDiscussPost(HttpServletRequest request, Model model) {
         Account currentAccount = (Account) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
-        //TODO::处理
-        currentAccount = accountService.getAccountByUsername("14251104208");
+        //TODO::拦截器过滤处理
+        if (currentAccount == null) {
+            //用户未登录直接返回首页面
+            return "redirect:/";
+        }
         model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentAccount);
         return "/user/myDiscussPost";
+    }
+
+    /**
+     * 更新密码
+     */
+    @RequestMapping(value = "/api/updatePassword", method = RequestMethod.POST)
+    @ResponseBody
+    public AjaxResult updatePassword(HttpServletRequest request, HttpServletResponse response) {
+        AjaxResult ajaxResult = new AjaxResult();
+        try {
+            String password = request.getParameter("password");
+            Account currentAccount = (Account) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
+            currentAccount.setPassword(password);
+            boolean result = accountService.updateAccount(currentAccount);
+            ajaxResult.setSuccess(result);
+        } catch (Exception e) {
+            LOG.error(e.getMessage(), e);
+            return AjaxResult.fixedError(QexzWebError.COMMON);
+        }
+        return ajaxResult;
+    }
+
+    /**
+     * 更新个人信息
+     */
+    @RequestMapping(value = "/api/updateAccount", method = RequestMethod.POST)
+    @ResponseBody
+    public AjaxResult updateAccount(HttpServletRequest request, HttpServletResponse response) {
+        AjaxResult ajaxResult = new AjaxResult();
+        try {
+            String phone = request.getParameter("phone");
+            String qq = request.getParameter("qq");
+            String email = request.getParameter("email");
+            String description = request.getParameter("description");
+
+            Account currentAccount = (Account) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
+            currentAccount.setPhone(phone);
+            currentAccount.setQq(qq);
+            currentAccount.setEmail(email);
+            currentAccount.setDescription(description);
+            boolean result = accountService.updateAccount(currentAccount);
+            ajaxResult.setSuccess(result);
+        } catch (Exception e) {
+            LOG.error(e.getMessage(), e);
+            return AjaxResult.fixedError(QexzWebError.COMMON);
+        }
+        return ajaxResult;
     }
 
     /**
