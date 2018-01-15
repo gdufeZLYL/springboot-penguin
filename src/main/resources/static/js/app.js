@@ -21,6 +21,9 @@ var app = {
         },
         updateAccountUrl: function () {
             return "/account/api/updateAccount";
+        },
+        updatePasswordUrl: function () {
+            return "/account/api/updatePassword";
         }
     },
     /**

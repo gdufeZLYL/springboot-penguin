@@ -11,4 +11,7 @@ public class QexzConst {
     //默认头像url
     public static final String DEFAULT_AVATAR_IMG_URL = "headimg_placeholder.png";
 
+    //MD5加盐
+    public static final String MD5_SALT = "qexz";
+
 }

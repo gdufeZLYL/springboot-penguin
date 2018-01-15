@@ -6,6 +6,7 @@ import com.qexz.exception.QexzWebError;
 import com.qexz.model.Account;
 import com.qexz.service.AccountService;
 import com.qexz.util.MD5;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,9 +98,20 @@ public class AccountController {
     public AjaxResult updatePassword(HttpServletRequest request, HttpServletResponse response) {
         AjaxResult ajaxResult = new AjaxResult();
         try {
-            String password = request.getParameter("password");
+            String oldPassword = request.getParameter("oldPassword");
+            String newPassword = request.getParameter("newPassword");
+            String confirmNewPassword = request.getParameter("confirmNewPassword");
+            String md5OldPassword = MD5.md5(QexzConst.MD5_SALT+oldPassword);
+            String md5NewPassword = MD5.md5(QexzConst.MD5_SALT+newPassword);
+            if (StringUtils.isNotEmpty(newPassword) && StringUtils.isNotEmpty(confirmNewPassword)
+                    && !newPassword.equals(confirmNewPassword)) {
+                return AjaxResult.fixedError(QexzWebError.NOT_EQUALS_CONFIRM_PASSWORD);
+            }
             Account currentAccount = (Account) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
-            currentAccount.setPassword(password);
+            if (!currentAccount.getPassword().equals(md5OldPassword)) {
+                return AjaxResult.fixedError(QexzWebError.WRONG_PASSWORD);
+            }
+            currentAccount.setPassword(md5NewPassword);
             boolean result = accountService.updateAccount(currentAccount);
             ajaxResult.setSuccess(result);
         } catch (Exception e) {
@@ -148,7 +160,7 @@ public class AccountController {
             String password = request.getParameter("password");
             Account current_account = accountService.getAccountByUsername(username);
             if(current_account != null) {
-                String pwd = MD5.md5(password);
+                String pwd = MD5.md5(QexzConst.MD5_SALT+password);
                 if(pwd.equals(current_account.getPassword())) {
                     request.getSession().setAttribute(QexzConst.CURRENT_ACCOUNT,current_account);
                     ajaxResult.setData(current_account);
