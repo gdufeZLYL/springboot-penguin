@@ -6,7 +6,9 @@ public enum  QexzWebError {
     WRONG_USERNAME_OR_PASSWORD("账号或密码错误", 3001),
     WRONG_USERNAME("该账号不存在", 3002),
     WRONG_PASSWORD("密码错误", 3003),
-    NOT_EQUALS_CONFIRM_PASSWORD("确认密码不一致", 3004);
+    NOT_EQUALS_CONFIRM_PASSWORD("确认密码不一致", 3004),
+    UPLOAD_FILE_IMAGE_ANALYZE_ERROR("服务端解析文件出错", 3005),
+    UPLOAD_FILE_IMAGE_NOT_QUALIFIED("图片不合法",3006);
 
     public final String errMsg;
     public final int code;
