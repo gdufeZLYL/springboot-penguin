@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -202,9 +203,9 @@ public class AccountController {
     /**
      * 上传头像
      */
+    @RequestMapping(value = "/api/uploadAvatar", method = RequestMethod.POST)
     @ResponseBody
-    @RequestMapping(value = "/api/uploadAvatar")
-    public Map<String,Object> uploadAvatar(HttpServletRequest request, MultipartFile file) throws IllegalStateException, IOException{
+    public Map<String,Object> uploadAvatar(HttpServletRequest request, @RequestParam("file") MultipartFile file) throws IllegalStateException, IOException{
         AjaxResult ajaxResult = new AjaxResult();
         try {
             //原始名称
