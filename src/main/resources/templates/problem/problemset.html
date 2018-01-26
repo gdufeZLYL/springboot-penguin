@@ -9,6 +9,7 @@
     <script type="text/javascript" th:src="@{https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js}"></script>
     <script type="text/javascript" th:src="@{https://cdn.bootcss.com/semantic-ui/2.2.13/semantic.min.js}"></script>
     <script type="text/javascript" th:src="@{https://cdn.bootcss.com/jquery.countdown/2.2.0/jquery.countdown.min.js}"></script>
+    <script type="text/javascript" th:src="@{https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/app.js}"></script>
     <script type="text/javascript" th:src="@{/js/problem/problemset.js}"></script>
 </head>
@@ -18,19 +19,19 @@
         <!--<img class="ui" th:src="@{/img/logo_flat.png}" width="104" height="24" alt="" />-->
         <img class="ui" th:src="@{/img/logo.png}" width="156" height="32" alt="" />
     </a>
-    <a th:href="@{/}" href="#" class="item">
+    <a th:href="@{/contest/index}" href="#" class="item">
         <i class="desktop icon"></i>在线考试
     </a>
-    <a th:href="@{/}" class="active item">
+    <a th:href="@{/problemset/list}" class="active item">
         <i class="list layout icon"></i>题库中心
     </a>
-    <a th:href="@{/}" class="item">
+    <a th:href="@{/discuss}" class="item">
         <i class="talk icon"></i>讨论区
     </a>
-    <a th:href="@{/}" class="right item" th:if="${current_account == null}">
+    <a th:onclick="'app.showLogin()'" class="right item" th:if="${current_account == null}">
         <i class="sign in icon"></i>登录
     </a>
-    <div class="ui simple dropdown right item" th:href="${current_account != null}">
+    <div class="ui simple dropdown right item" th:if="${current_account != null}">
         <img class="ui avatar image" th:src="@{'/upload/images/'+${current_account.avatarImgUrl}}" />
         <span th:text="${current_account.name}"></span> <i class="dropdown icon"></i>
         <div class="menu">
@@ -55,456 +56,74 @@
     <div class="ui secondary pointing menu">
         <a class="active item"><i class="book icon"></i>所有课程</a>
     </div>
-    <section>
-        <!-- 第一排 -->
-        <div class="ui four column stackable grid">
-            <!-- 第一列 -->
-            <div class="column">、
-                <div class="ui fluid card">
-                    <a href="javascript:void(0)" class="image">
-                        <img th:src="@{'/upload/images/problemset_default.jpg'}" style="max-height: 240px;" />
-                    </a>
-                    <div class="content">
-                        <div class="header">
-                            <a href="javascript:void(0)">计算机组成原理</a>
-                        </div>
-                        <p class="meta">
-                            <i class="user icon"></i>
-                            <a href="javascript:void(0)">admin</a>
-                        </p>
-                        <p class="description"></p>
+    <!-- 第一排 -->
+    <div class="ui four column stackable grid">
+        <div class="column" th:each="item,itemStats : ${data['subjects']}">
+            <div class="ui fluid card">
+                <a href="javascript:void(0)" class="image">
+                    <img th:src="@{'/upload/images/'+${item.imgUrl}}" style="max-height: 240px;" />
+                </a>
+                <div class="content">
+                    <div class="header">
+                        <!-- TODO::跳转处理 -->
+                        <a th:if="${current_account != null}" href="javascript:void(0)" th:text="${item.name}">计算机组成原理</a>
+                        <a th:if="${current_account == null}" th:onclick="'app.showLogin()'" th:text="${item.name}">计算机组成原理</a>
                     </div>
-                    <div class="extra content">
-                        <span class="right floated">
-                            <span>
-                            <i class="globe icon"></i>私有题库
-                            </span>
-                        </span>
-                        <i class="file text outline icon"></i>478题
-                    </div>
+                    <p class="meta">
+                        <i class="user icon"></i>
+                        <a href="javascript:void(0)">admin</a>
+                    </p>
+                    <p class="description"></p>
                 </div>
-            </div>
-            <!-- 第二列 -->
-            <div class="column">、
-                <div class="ui fluid card">
-                    <a href="javascript:void(0)" class="image">
-                        <img th:src="@{'/upload/images/problemset_c.jpg'}" style="max-height: 240px;" />
-                    </a>
-                    <div class="content">
-                        <div class="header">
-                            <a href="javascript:void(0)">C语言程序设计</a>
-                        </div>
-                        <p class="meta">
-                            <i class="user icon"></i>
-                            <a href="javascript:void(0)">admin</a>
-                        </p>
-                        <p class="description">
-                        </p>
-                    </div>
-                    <div class="extra content">
-                        <span class="right floated">
-                            <span>
-                            <i class="globe icon"></i>私有题库
-                            </span>
+                <div class="extra content">
+                    <span class="right floated">
+                        <span>
+                        <i class="globe icon"></i>私有题库
                         </span>
-                        <i class="file text outline icon"></i>478题
-                    </div>
-                </div>
-            </div>
-            <!-- 第三列 -->
-            <div class="column">、
-                <div class="ui fluid card">
-                    <a href="javascript:void(0)" class="image">
-                        <img th:src="@{'/upload/images/problemset_java.jpg'}" style="max-height: 240px;" />
-                    </a>
-                    <div class="content">
-                        <div class="header">
-                            <a href="javascript:void(0)">Java语言程序设计</a>
-                        </div>
-                        <p class="meta">
-                            <i class="user icon"></i>
-                            <a href="javascript:void(0)">admin</a>
-                        </p>
-                        <p class="description">
-                        </p>
-                    </div>
-                    <div class="extra content">
-                        <span class="right floated">
-                            <span>
-                            <i class="globe icon"></i>私有题库
-                            </span>
-                        </span>
-                        <i class="file text outline icon"></i>478题
-                    </div>
-                </div>
-            </div>
-            <!-- 第四列 -->
-            <div class="column">、
-                <div class="ui fluid card">
-                    <a href="javascript:void(0)" class="image">
-                        <img th:src="@{'/upload/images/problemset_c++.jpg'}" style="max-height: 240px;" />
-                    </a>
-                    <div class="content">
-                        <div class="header">
-                            <a href="javascript:void(0)">C++语言程序设计</a>
-                        </div>
-                        <p class="meta">
-                            <i class="user icon"></i>
-                            <a href="javascript:void(0)">admin</a>
-                        </p>
-                        <p class="description">
-                        </p>
-                    </div>
-                    <div class="extra content">
-                        <span class="right floated">
-                            <span>
-                            <i class="globe icon"></i>私有题库
-                            </span>
-                        </span>
-                        <i class="file text outline icon"></i>478题
-                    </div>
+                    </span>
+                    <i class="file text outline icon"></i>
+                    <span th:text="${item.questionNum}"></span>
                 </div>
             </div>
         </div>
-        <!-- 第二排 -->
-        <div class="ui four column stackable grid">
-            <!-- 第一列 -->
-            <div class="column">、
-                <div class="ui fluid card">
-                    <a href="javascript:void(0)" class="image">
-                        <img th:src="@{'/upload/images/problemset_default.jpg'}" style="max-height: 240px;" />
-                    </a>
-                    <div class="content">
-                        <div class="header">
-                            <a href="javascript:void(0)">计算机组成原理</a>
-                        </div>
-                        <p class="meta">
-                            <i class="user icon"></i>
-                            <a href="javascript:void(0)">admin</a>
-                        </p>
-                        <p class="description"></p>
+        <!-- 第一列 -->
+        <!--
+        <div class="column">
+            <div class="ui fluid card">
+                <a href="javascript:void(0)" class="image">
+                    <img th:src="@{'/upload/images/problemset_default.jpg'}" style="max-height: 240px;" />
+                </a>
+                <div class="content">
+                    <div class="header">
+                        <a href="javascript:void(0)">计算机组成原理</a>
                     </div>
-                    <div class="extra content">
-                        <span class="right floated">
-                            <span>
-                            <i class="globe icon"></i>私有题库
-                            </span>
-                        </span>
-                        <i class="file text outline icon"></i>478题
-                    </div>
+                    <p class="meta">
+                        <i class="user icon"></i>
+                        <a href="javascript:void(0)">admin</a>
+                    </p>
+                    <p class="description"></p>
                 </div>
-            </div>
-            <!-- 第二列 -->
-            <div class="column">、
-                <div class="ui fluid card">
-                    <a href="javascript:void(0)" class="image">
-                        <img th:src="@{'/upload/images/problemset_c.jpg'}" style="max-height: 240px;" />
-                    </a>
-                    <div class="content">
-                        <div class="header">
-                            <a href="javascript:void(0)">C语言程序设计</a>
-                        </div>
-                        <p class="meta">
-                            <i class="user icon"></i>
-                            <a href="javascript:void(0)">admin</a>
-                        </p>
-                        <p class="description">
-                        </p>
-                    </div>
-                    <div class="extra content">
-                        <span class="right floated">
-                            <span>
-                            <i class="globe icon"></i>私有题库
-                            </span>
+                <div class="extra content">
+                    <span class="right floated">
+                        <span>
+                        <i class="globe icon"></i>私有题库
                         </span>
-                        <i class="file text outline icon"></i>478题
-                    </div>
-                </div>
-            </div>
-            <!-- 第三列 -->
-            <div class="column">、
-                <div class="ui fluid card">
-                    <a href="javascript:void(0)" class="image">
-                        <img th:src="@{'/upload/images/problemset_java.jpg'}" style="max-height: 240px;" />
-                    </a>
-                    <div class="content">
-                        <div class="header">
-                            <a href="javascript:void(0)">Java语言程序设计</a>
-                        </div>
-                        <p class="meta">
-                            <i class="user icon"></i>
-                            <a href="javascript:void(0)">admin</a>
-                        </p>
-                        <p class="description">
-                        </p>
-                    </div>
-                    <div class="extra content">
-                        <span class="right floated">
-                            <span>
-                            <i class="globe icon"></i>私有题库
-                            </span>
-                        </span>
-                        <i class="file text outline icon"></i>478题
-                    </div>
-                </div>
-            </div>
-            <!-- 第四列 -->
-            <div class="column">、
-                <div class="ui fluid card">
-                    <a href="javascript:void(0)" class="image">
-                        <img th:src="@{'/upload/images/problemset_c++.jpg'}" style="max-height: 240px;" />
-                    </a>
-                    <div class="content">
-                        <div class="header">
-                            <a href="javascript:void(0)">C++语言程序设计</a>
-                        </div>
-                        <p class="meta">
-                            <i class="user icon"></i>
-                            <a href="javascript:void(0)">admin</a>
-                        </p>
-                        <p class="description">
-                        </p>
-                    </div>
-                    <div class="extra content">
-                        <span class="right floated">
-                            <span>
-                            <i class="globe icon"></i>私有题库
-                            </span>
-                        </span>
-                        <i class="file text outline icon"></i>478题
-                    </div>
+                    </span>
+                    <i class="file text outline icon"></i>478题
                 </div>
             </div>
         </div>
-        <!-- 第三排 -->
-        <div class="ui four column stackable grid">
-            <!-- 第一列 -->
-            <div class="column">、
-                <div class="ui fluid card">
-                    <a href="javascript:void(0)" class="image">
-                        <img th:src="@{'/upload/images/problemset_default.jpg'}" style="max-height: 240px;" />
-                    </a>
-                    <div class="content">
-                        <div class="header">
-                            <a href="javascript:void(0)">计算机组成原理</a>
-                        </div>
-                        <p class="meta">
-                            <i class="user icon"></i>
-                            <a href="javascript:void(0)">admin</a>
-                        </p>
-                        <p class="description"></p>
-                    </div>
-                    <div class="extra content">
-                        <span class="right floated">
-                            <span>
-                            <i class="globe icon"></i>私有题库
-                            </span>
-                        </span>
-                        <i class="file text outline icon"></i>478题
-                    </div>
-                </div>
-            </div>
-            <!-- 第二列 -->
-            <div class="column">、
-                <div class="ui fluid card">
-                    <a href="javascript:void(0)" class="image">
-                        <img th:src="@{'/upload/images/problemset_c.jpg'}" style="max-height: 240px;" />
-                    </a>
-                    <div class="content">
-                        <div class="header">
-                            <a href="javascript:void(0)">C语言程序设计</a>
-                        </div>
-                        <p class="meta">
-                            <i class="user icon"></i>
-                            <a href="javascript:void(0)">admin</a>
-                        </p>
-                        <p class="description">
-                        </p>
-                    </div>
-                    <div class="extra content">
-                        <span class="right floated">
-                            <span>
-                            <i class="globe icon"></i>私有题库
-                            </span>
-                        </span>
-                        <i class="file text outline icon"></i>478题
-                    </div>
-                </div>
-            </div>
-            <!-- 第三列 -->
-            <div class="column">、
-                <div class="ui fluid card">
-                    <a href="javascript:void(0)" class="image">
-                        <img th:src="@{'/upload/images/problemset_java.jpg'}" style="max-height: 240px;" />
-                    </a>
-                    <div class="content">
-                        <div class="header">
-                            <a href="javascript:void(0)">Java语言程序设计</a>
-                        </div>
-                        <p class="meta">
-                            <i class="user icon"></i>
-                            <a href="javascript:void(0)">admin</a>
-                        </p>
-                        <p class="description">
-                        </p>
-                    </div>
-                    <div class="extra content">
-                        <span class="right floated">
-                            <span>
-                            <i class="globe icon"></i>私有题库
-                            </span>
-                        </span>
-                        <i class="file text outline icon"></i>478题
-                    </div>
-                </div>
-            </div>
-            <!-- 第四列 -->
-            <div class="column">、
-                <div class="ui fluid card">
-                    <a href="javascript:void(0)" class="image">
-                        <img th:src="@{'/upload/images/problemset_c++.jpg'}" style="max-height: 240px;" />
-                    </a>
-                    <div class="content">
-                        <div class="header">
-                            <a href="javascript:void(0)">C++语言程序设计</a>
-                        </div>
-                        <p class="meta">
-                            <i class="user icon"></i>
-                            <a href="javascript:void(0)">admin</a>
-                        </p>
-                        <p class="description">
-                        </p>
-                    </div>
-                    <div class="extra content">
-                        <span class="right floated">
-                            <span>
-                            <i class="globe icon"></i>私有题库
-                            </span>
-                        </span>
-                        <i class="file text outline icon"></i>478题
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- 第四排 -->
-        <div class="ui four column stackable grid">
-            <!-- 第一列 -->
-            <div class="column">、
-                <div class="ui fluid card">
-                    <a href="javascript:void(0)" class="image">
-                        <img th:src="@{'/upload/images/problemset_default.jpg'}" style="max-height: 240px;" />
-                    </a>
-                    <div class="content">
-                        <div class="header">
-                            <a href="javascript:void(0)">计算机组成原理</a>
-                        </div>
-                        <p class="meta">
-                            <i class="user icon"></i>
-                            <a href="javascript:void(0)">admin</a>
-                        </p>
-                        <p class="description"></p>
-                    </div>
-                    <div class="extra content">
-                        <span class="right floated">
-                            <span>
-                            <i class="globe icon"></i>私有题库
-                            </span>
-                        </span>
-                        <i class="file text outline icon"></i>478题
-                    </div>
-                </div>
-            </div>
-            <!-- 第二列 -->
-            <div class="column">、
-                <div class="ui fluid card">
-                    <a href="javascript:void(0)" class="image">
-                        <img th:src="@{'/upload/images/problemset_c.jpg'}" style="max-height: 240px;" />
-                    </a>
-                    <div class="content">
-                        <div class="header">
-                            <a href="javascript:void(0)">C语言程序设计</a>
-                        </div>
-                        <p class="meta">
-                            <i class="user icon"></i>
-                            <a href="javascript:void(0)">admin</a>
-                        </p>
-                        <p class="description">
-                        </p>
-                    </div>
-                    <div class="extra content">
-                        <span class="right floated">
-                            <span>
-                            <i class="globe icon"></i>私有题库
-                            </span>
-                        </span>
-                        <i class="file text outline icon"></i>478题
-                    </div>
-                </div>
-            </div>
-            <!-- 第三列 -->
-            <div class="column">、
-                <div class="ui fluid card">
-                    <a href="javascript:void(0)" class="image">
-                        <img th:src="@{'/upload/images/problemset_java.jpg'}" style="max-height: 240px;" />
-                    </a>
-                    <div class="content">
-                        <div class="header">
-                            <a href="javascript:void(0)">Java语言程序设计</a>
-                        </div>
-                        <p class="meta">
-                            <i class="user icon"></i>
-                            <a href="javascript:void(0)">admin</a>
-                        </p>
-                        <p class="description">
-                        </p>
-                    </div>
-                    <div class="extra content">
-                        <span class="right floated">
-                            <span>
-                            <i class="globe icon"></i>私有题库
-                            </span>
-                        </span>
-                        <i class="file text outline icon"></i>478题
-                    </div>
-                </div>
-            </div>
-            <!-- 第四列 -->
-            <div class="column">、
-                <div class="ui fluid card">
-                    <a href="javascript:void(0)" class="image">
-                        <img th:src="@{'/upload/images/problemset_c++.jpg'}" style="max-height: 240px;" />
-                    </a>
-                    <div class="content">
-                        <div class="header">
-                            <a href="javascript:void(0)">C++语言程序设计</a>
-                        </div>
-                        <p class="meta">
-                            <i class="user icon"></i>
-                            <a href="javascript:void(0)">admin</a>
-                        </p>
-                        <p class="description">
-                        </p>
-                    </div>
-                    <div class="extra content">
-                        <span class="right floated">
-                            <span>
-                            <i class="globe icon"></i>私有题库
-                            </span>
-                        </span>
-                        <i class="file text outline icon"></i>478题
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+        -->
+    </div>
 </div>
 <!-- 分页 -->
 <div class="ui subPage container">
-    <div class="ui pagination menu">
-        <a class="item">
+    <div class="ui pagination menu" id="subPageMenu">
+        <!--
+        <a th:onclick="'problemSetPage.firstPage()'" class="item">
             首页
         </a>
-        <a class="item">
+        <a th:onclick="'problemSetPage.prevPage()'" class="item">
             上一页
         </a>
         <a class="active item">
@@ -513,30 +132,13 @@
         <a class="item">
             2
         </a>
-        <a class="item">
-            3
-        </a>
-        <a class="item">
-            4
-        </a>
-        <a class="item">
-            5
-        </a>
-        <a class="item">
-            6
-        </a>
-        <a class="item">
-            7
-        </a>
-        <a class="item">
-            8
-        </a>
-        <a class="item">
+        <a th:onclick="'problemSetPage.nextPage()'" class="item">
             下一页
         </a>
-        <a class="item">
+        <a th:onclick="'problemSetPage.lastPage()'" class="item">
             末页
         </a>
+        -->
     </div>
 </div>
 <!-- 不可抗力元素 -->
@@ -574,8 +176,54 @@
         </div>
     </div>
 </div>
-<script>
+<!-- 登录模态框 -->
+<div class="ui mini modal" id="loginModal">
+    <div class="header">登录</div>
+    <div class="content">
+        <form class="ui form" id="loginModalForm">
+            <div class="ui hidden negative message" id="loginModalErrorMessage">
+                <!--
+                <div class="header">错误提示</div>
+                <p></p>
+                -->
+            </div>
+            <div class="field required">
+                <label>账号</label>
+                <div class="ui left icon input">
+                    <input id="username" type="text" placeholder="请输入学号或教工号或指定账号" />
+                    <i class="user icon"></i>
+                </div>
+            </div>
+            <div class="field required">
+                <label>密码</label>
+                <div class="ui left icon input">
+                    <input id="password" type="password" />
+                    <i class="lock icon"></i>
+                </div>
+            </div>
+            <div class="field">
+                <div class="ui toggle checkbox">
+                    <input type="checkbox" id="rememberMe" name="rememberMe" tabindex="0" class="hidden" />
+                    <label>记住登录</label>
+                </div>
+            </div>
+            <div class="ui button" id="loginModalCloseButton">关闭</div>
+            <div class="ui primary button" id="loginModalSubmitButton">登录</div>
+        </form>
+    </div>
+</div>
+<script th:inline="javascript">
     /*<![CDATA[*/
+    var pageNum = /*[[${data['pageNum']}]]*/;
+    var pageSize = /*[[${data['pageSize']}]]*/;
+    var totalPageNum = /*[[${data['totalPageNum']}]]*/;
+    var totalPageSize = /*[[${data['totalPageSize']}]]*/;
+    var subjects = /*[[${data['subjects']}]]*/;
+
+    $(function(){
+        app.init();
+        problemSetPage.init(pageNum, pageSize, totalPageNum, totalPageSize, subjects);
+    });
     /*]]>*/
 </script>
 </body>

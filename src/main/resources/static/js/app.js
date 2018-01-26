@@ -19,6 +19,9 @@ var app = {
         homeUrl: function () {
             return "/";
         },
+        problemsetUrl: function () {
+            return "/problemset/list";
+        },
         updateAccountUrl: function () {
             return "/account/api/updateAccount";
         },
