@@ -77,7 +77,7 @@
         <div class="field" id="editor">
         </div>
         <button class="ui button">取消</button>
-        <input type="submit" class="positive ui button" value="发布" />
+        <div class="positive ui button" id="postDiscussSubmitButton">发布</div>
     </form>
 </div>
 <!-- 不可抗力元素 -->
@@ -117,6 +117,10 @@
 </div>
 <script>
     /*<![CDATA[*/
+    $(function(){
+        app.init();
+        postDiscussPage.init();
+    });
     /*]]>*/
 </script>
 </body>

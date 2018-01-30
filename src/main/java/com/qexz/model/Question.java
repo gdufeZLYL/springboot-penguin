@@ -17,6 +17,7 @@ public class Question {
     private int subjectId;
     private int contestId;
     private int value;
+    private int difficulty;
     private Date createTime;
     private Date updateTime;
 
@@ -140,6 +141,14 @@ public class Question {
         this.updateTime = updateTime;
     }
 
+    public int getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(int difficulty) {
+        this.difficulty = difficulty;
+    }
+
     @Override
     public String toString() {
         return "Question{" +
@@ -156,6 +165,7 @@ public class Question {
                 ", subjectId=" + subjectId +
                 ", contestId=" + contestId +
                 ", value=" + value +
+                ", difficulty=" + difficulty +
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
                 '}';
