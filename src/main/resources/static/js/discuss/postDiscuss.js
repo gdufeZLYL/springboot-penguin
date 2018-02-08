@@ -32,12 +32,12 @@ var postDiscussPage = {
          TODO::代码规范,文本编辑器
          */
         postDiscussPage.data.E = window.wangEditor;
-        postDiscussPage.data.editor = new E('#editor') // 或者 var editor = new E( document.getElementById('editor') )
+        postDiscussPage.data.editor = new postDiscussPage.data.E('#editor'); // 或者 var editor = new E( document.getElementById('editor') )
         postDiscussPage.data.editor.create();
     },
     postDiscuss: function () {
         var E = window.wangEditor;
-        var editor = new E('#editor');
+        var editor = new postDiscussPage.data.E('#editor');
         alert(editor.txt.text());
     },
 };

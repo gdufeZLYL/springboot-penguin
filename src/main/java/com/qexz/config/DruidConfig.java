@@ -125,8 +125,8 @@ public class DruidConfig {
         ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean(new StatViewServlet(), "/druid/*");
 
         //控制台管理用户，加入下面2行 进入druid后台就需要登录
-        servletRegistrationBean.addInitParameter("loginUsername", "admin");
-        servletRegistrationBean.addInitParameter("loginPassword", "admin");
+        servletRegistrationBean.addInitParameter("loginUsername", "manage");
+        servletRegistrationBean.addInitParameter("loginPassword", "manage");
         return servletRegistrationBean;
     }
 

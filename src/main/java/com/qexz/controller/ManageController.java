@@ -1,0 +1,69 @@
+package com.qexz.controller;
+
+import com.qexz.common.QexzConst;
+import com.qexz.model.Account;
+import com.qexz.service.AccountService;
+import com.qexz.service.ContestService;
+import com.qexz.service.SubjectService;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
+
+@Controller
+@RequestMapping(value = "/manage")
+public class ManageController {
+
+    private static Log LOG = LogFactory.getLog(ManageController.class);
+
+    @Autowired
+    private AccountService accountService;
+    @Autowired
+    private SubjectService subjectService;
+    @Autowired
+    private ContestService contestService;
+
+    /**
+     * 管理员登录页
+     */
+    @RequestMapping(value="/login", method= RequestMethod.GET)
+    public String login(HttpServletRequest request, Model model) {
+        Account currentAccount = (Account) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
+        //TODO::处理
+        //currentAccount = accountService.getAccountByUsername("manage");
+        model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentAccount);
+
+        if (currentAccount == null) {
+            return "/manage/manage-login";
+        } else {
+            return "redirect:/manage/contest/list";
+        }
+    }
+
+    /**
+     * 考试管理
+     */
+    @RequestMapping(value="/contest/list", method= RequestMethod.GET)
+    public String contestList(HttpServletRequest request,
+                              @RequestParam(value = "page", defaultValue = "1") int page,
+                              Model model) {
+        Account currentAccount = (Account) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
+        //TODO::处理
+        currentAccount = accountService.getAccountByUsername("admin");
+        model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentAccount);
+        if (currentAccount == null) {
+            return "redirect:/";
+        } else {
+            Map<String, Object> data = contestService.getContests(page, QexzConst.contestPageSize);
+            model.addAttribute(QexzConst.DATA, data);
+            return "/manage/manage-contestBoard";
+        }
+    }
+}

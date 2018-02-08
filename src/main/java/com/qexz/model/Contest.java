@@ -10,6 +10,11 @@ public class Contest {
     private int subjectId;
     private Date createTime;
     private Date updateTime;
+    private Date startTime;
+    private Date endTime;
+    private int state;
+
+    private String subjectName;
 
     public int getId() {
         return id;
@@ -59,6 +64,38 @@ public class Contest {
         this.updateTime = updateTime;
     }
 
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+    }
+
+    public String getSubjectName() {
+        return subjectName;
+    }
+
+    public void setSubjectName(String subjectName) {
+        this.subjectName = subjectName;
+    }
+
     @Override
     public String toString() {
         return "Contest{" +
@@ -68,6 +105,10 @@ public class Contest {
                 ", subjectId=" + subjectId +
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", state=" + state +
+                ", subjectName='" + subjectName + '\'' +
                 '}';
     }
 }

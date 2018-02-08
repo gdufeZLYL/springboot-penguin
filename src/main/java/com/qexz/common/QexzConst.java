@@ -16,6 +16,7 @@ public class QexzConst {
     public static final String DEFAULT_SUBJECT_IMG_URL = "problemset_default.jpg";
 
     public static final int subjectPageSize = 16;
+    public static final int contestPageSize = 10;
 
     //MD5加盐
     public static final String MD5_SALT = "qexz";
