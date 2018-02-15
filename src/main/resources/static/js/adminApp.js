@@ -27,7 +27,7 @@ var app = {
         },
         updatePasswordUrl: function () {
             return "/account/api/updatePassword";
-        }
+        },
     },
     /**
      * 全局初始化:服务器时间获取,登录功能,退出登录

@@ -17,6 +17,60 @@ var manageContestBoardPage = {
         manageContestBoardPage.data.contests = contests;
         //分页初始化
         manageContestBoardPage.subPageMenuInit();
+
+        //新增考试，弹出新增窗口
+        $("#addContestBtn").click(function () {
+            //输入框初始化数据
+            manageContestBoardPage.initAddContestData();
+            $("#addContestModal").modal({
+                keyboard : false,
+                show : true,
+                backdrop : "static"
+            });
+        });
+
+        //新增考试，取消考试增加
+        $('#cancelAddContestBtn').click(function(){
+            $("#addContestModal").modal('hide');
+        });
+
+        //新增考试，确定增加考试
+        $('#confirmAddContestBtn').click(function(){
+            manageContestBoardPage.addContestAction();
+        });
+
+        //新增考试，弹出新增窗口
+        $("#update").click(function () {
+            //输入框初始化数据
+            manageContestBoardPage.initAddContestData();
+            $("#addContestModal").modal({
+                keyboard : false,
+                show : true,
+                backdrop : "static"
+            });
+        });
+
+        //新增考试，取消考试增加
+        $('#cancelAddContestBtn').click(function(){
+            $("#addContestModal").modal('hide');
+        });
+
+        //新增考试，确定增加考试
+        $('#confirmAddContestBtn').click(function(){
+            manageContestBoardPage.addContestAction();
+        });
+
+        //日期时间控件
+        $('.form_datetime').datetimepicker({
+            language:  'zh-CN',
+            weekStart: 1,
+            todayBtn:  1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            forceParse: 0,
+            showMeridian: 1
+        });
     },
     firstPage: function () {
         window.location.href = app.URL.manageContestListUrl() + '?page=1';
@@ -64,4 +118,68 @@ var manageContestBoardPage = {
         }
         $('#subPageHead').html(subPageStr);
     },
+    initAddContestData: function () {
+        //初始化数据
+        $('#contestTitle').val("");
+        $('#contestStartDatetimepicker').val("");
+        $('#contestEndDatetimepicker').val("");
+    },
+    checkAddContestData: function (contestTitle, startTime, endTime) {
+        if (contestTitle == null || contestTitle == ''
+            || contestTitle.replace(/(^s*)|(s*$)/g, "").length == 0) {
+            //TODO::信息校验
+            $('#loginModalErrorMessage').html('<i class="close icon"></i><div class="header">错误提示</div>\n' +
+                '                <p>'+'账号不能为空'+'</p>');
+            $('#loginModalErrorMessage').removeClass('hidden');
+            return false;
+        }
+        if (startTime == null || startTime == ''
+            || startTime.replace(/(^s*)|(s*$)/g, "").length == 0) {
+            $('#loginModalErrorMessage').html('<i class="close icon"></i><div class="header">错误提示</div>\n' +
+                '                <p>'+'密码不能为空'+'</p>');
+            $('#loginModalErrorMessage').removeClass('hidden');
+            return false;
+        }
+        return true;
+    },
+    addContestAction: function () {
+        var contestTitle = $('#contestTitle').val();
+        var subjectId = $('#contestSubjectId').val();
+        var startTimeStr = $('#contestStartDatetimepicker').val();
+        var endTimeStr = $('#contestEndDatetimepicker').val();
+        var startTime = new Date($('#contestStartDatetimepicker').val());
+        var endTime = new Date($('#contestEndDatetimepicker').val());
+
+        if (manageContestBoardPage.checkAddContestData(contestTitle, startTimeStr, endTimeStr)) {
+            $.ajax({
+                url : app.URL.addContestUrl(),
+                type : "POST",
+                dataType: "json",
+                contentType : "application/json;charset=UTF-8",
+                <!-- 向后端传输的数据 -->
+                data : JSON.stringify({
+                    title: contestTitle,
+                    subjectId: subjectId,
+                    startTime: startTime,
+                    endTime: endTime,
+                }),
+                success:function(result) {
+                    if (result && result['success']) {
+                        // 验证通过 刷新页面
+                        window.location.reload();
+                    } else {
+                        $('#loginModalErrorMessage').html('<i class="close icon"></i><div class="header">错误提示</div>\n' +
+                            '                <p>'+result.message+'</p>');
+                        $('#loginModalErrorMessage').removeClass('hidden');
+                    }
+                },
+                error:function(result){
+                    $('#loginModalErrorMessage').html('<i class="close icon"></i><div class="header">错误提示</div>\n' +
+                        '                <p>'+result.message+'</p>');
+                    $('#loginModalErrorMessage').removeClass('hidden');
+                }
+            });
+        }
+    },
+
 };

@@ -2,6 +2,7 @@ package com.qexz.controller;
 
 import com.qexz.common.QexzConst;
 import com.qexz.model.Account;
+import com.qexz.model.Subject;
 import com.qexz.service.AccountService;
 import com.qexz.service.ContestService;
 import com.qexz.service.SubjectService;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -62,6 +64,8 @@ public class ManageController {
             return "redirect:/";
         } else {
             Map<String, Object> data = contestService.getContests(page, QexzConst.contestPageSize);
+            List<Subject> subjects = subjectService.getSubjects();
+            data.put("subjects", subjects);
             model.addAttribute(QexzConst.DATA, data);
             return "/manage/manage-contestBoard";
         }

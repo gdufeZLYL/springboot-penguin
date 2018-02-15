@@ -74,4 +74,9 @@ public class SubjectServiceImpl implements SubjectService {
         data.put("subjects", subjects);
         return data;
     }
+
+    @Override
+    public List<Subject> getSubjects() {
+        return subjectMapper.getSubjects();
+    }
 }

@@ -31,6 +31,9 @@ var app = {
         manageContestListUrl: function () {
             return "";
         },
+        addContestUrl: function () {
+            return "/contest/api/addContest"
+        },
     },
     /**
      * 全局初始化:服务器时间获取,登录功能,退出登录

@@ -2,6 +2,7 @@ package com.qexz.service;
 
 import com.qexz.model.Subject;
 
+import java.util.List;
 import java.util.Map;
 
 public interface SubjectService {
@@ -13,4 +14,6 @@ public interface SubjectService {
     Subject getSubjectById(int id);
 
     Map<String, Object> getSubjects(int pageNum, int pageSize);
+
+    List<Subject> getSubjects();
 }
