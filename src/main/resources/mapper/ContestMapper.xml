@@ -23,6 +23,11 @@
         #{contest.startTime}, #{contest.endTime}, #{contest.state})
     </insert>
 
+    <delete id="deleteContest" parameterType="int">
+        DELETE FROM t_penguin_contest
+        where id = #{id}
+    </delete>
+
     <update id="updateContestById" parameterType="com.qexz.model.Contest">
         UPDATE t_penguin_contest
         SET

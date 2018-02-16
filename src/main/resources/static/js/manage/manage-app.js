@@ -34,6 +34,12 @@ var app = {
         addContestUrl: function () {
             return "/contest/api/addContest"
         },
+        updateContestUrl: function () {
+            return "/contest/api/updateContest"
+        },
+        deleteContestUrl: function () {
+            return "/contest/api/deleteContest/";
+        },
     },
     /**
      * 全局初始化:服务器时间获取,登录功能,退出登录

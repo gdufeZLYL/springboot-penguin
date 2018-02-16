@@ -165,9 +165,9 @@
     <td th:if="${item.state == 1}"><span class="label label-success">进行中</span></td>
     <td th:if="${item.state == 2}"><span class="label label-danger">已结束</span></td>
     <td>
-    <button type="button" class="btn btn-info btn-xs"><i class="fa fa-search"></i>查看试题</button>
-    <button type="button" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i>编辑</button>
-    <button type="button" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i>删除</button>
+        <button type="button" class="btn btn-info btn-xs"><i class="fa fa-search"></i>查看试题</button>
+        <button type="button" class="btn btn-primary btn-xs" th:onclick="'manageContestBoardPage.updateContestModalAction('+${itemStats.index}+')'"><i class="fa fa-edit"></i>编辑</button>
+        <button type="button" class="btn btn-danger btn-xs" th:onclick="'manageContestBoardPage.deleteContestAction('+${item.id}+')'"><i class="fa fa-trash"></i>删除</button>
     </td>
     </tr>
     <!--
@@ -409,7 +409,7 @@
                 </div>
                 <div class="modal-body">
                     <form class="form-horizontal" role="form" onsubmit="return false;">
-
+                        <input type="hidden" id="updateContestIndex" />
                         <div class="form-group">
                             <label class="col-sm-2 control-label">考试名称</label>
                             <div class="col-sm-8">

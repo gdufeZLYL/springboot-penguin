@@ -83,4 +83,9 @@ public class ContestServiceImpl implements ContestService{
         data.put("contests", contests);
         return data;
     }
+
+    @Override
+    public boolean deleteContest(int id) {
+        return contestMapper.deleteContest(id) > 0;
+    }
 }

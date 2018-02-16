@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
 @RequestMapping(value = "/contest")
 public class ContestController {
 
@@ -30,19 +30,19 @@ public class ContestController {
     //更新考试信息
     @RequestMapping(value="/api/updateContest", method= RequestMethod.POST)
     @ResponseBody
-    public AjaxResult updateStudent(@RequestBody Contest contest) {
+    public AjaxResult updateContest(@RequestBody Contest contest) {
         AjaxResult ajaxResult = new AjaxResult();
         boolean result = contestService.updateContest(contest);
         return new AjaxResult().setData(result);
     }
 
     //删除考试信息
-//    @DeleteMapping("/api/delContest/{id}")
-//    public AjaxResult deleteStudent(@PathVariable int id) {
-//        AjaxResult ajaxResult = new AjaxResult();
-//        int result = contestService.
-//        return new AjaxResult().setData(result);
-//    }
+    @DeleteMapping("/api/deleteContest/{id}")
+    public AjaxResult deleteContest(@PathVariable int id) {
+        AjaxResult ajaxResult = new AjaxResult();
+        boolean result = contestService.deleteContest(id);
+        return new AjaxResult().setData(result);
+    }
 
 
 }

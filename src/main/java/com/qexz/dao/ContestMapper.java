@@ -20,4 +20,6 @@ public interface ContestMapper {
     int getCount();
 
     List<Contest> getContests();
+
+    int deleteContest(@Param("id") int id);
 }

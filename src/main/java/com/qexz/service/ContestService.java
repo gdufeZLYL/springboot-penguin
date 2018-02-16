@@ -13,4 +13,6 @@ public interface ContestService {
     Contest getContestById(int id);
 
     Map<String, Object> getContests(int pageNum, int pageSize);
+
+    boolean deleteContest(int id);
 }
