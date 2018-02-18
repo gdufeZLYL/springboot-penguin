@@ -51,7 +51,7 @@
           option_d = #{question.optionD}, answer = #{question.answer},
           parse = #{question.parse}, subject_id = #{question.subjectId},
           contest_id = #{question.contestId}, score = #{question.score},
-          difficulty = #{question.difficulty}, state = #{question.state}
+          difficulty = #{question.difficulty}
         WHERE
         id = #{question.id}
     </update>
@@ -63,29 +63,23 @@
         WHERE id = #{id}
     </select>
 
-    <select id="getCountByContentAndDifficulty" resultType="int">
+    <select id="getCountByContent" resultType="int">
         SELECT
           COUNT(1)
         FROM t_penguin_question
-        WHERE
+        WHERE 1 = 1 AND state = 1
         <if test="content != null and content != ''">
             AND content LIKE CONCAT(CONCAT('%', #{content}), '%')
-        </if>
-        <if test="difficulty != null and difficulty != ''">
-            AND difficulty LIKE CONCAT(CONCAT('%', #{difficulty}), '%')
         </if>
     </select>
 
-    <select id="getQuestionsByContentAndDifficulty" resultMap="BaseResultMap" >
+    <select id="getQuestionsByContent" resultMap="BaseResultMap" >
         SELECT
         *
         FROM t_penguin_question
-        WHERE
+        WHERE 1 = 1 AND state = 1
         <if test="content != null and content != ''">
             AND content LIKE CONCAT(CONCAT('%', #{content}), '%')
-        </if>
-        <if test="difficulty != null and difficulty != ''">
-            AND difficulty LIKE CONCAT(CONCAT('%', #{difficulty}), '%')
         </if>
     </select>
 

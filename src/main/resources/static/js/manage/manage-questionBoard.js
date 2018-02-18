@@ -1,19 +1,31 @@
 /**
  * 模块化JavaScript
  **/
-var manageEditContestProblemPage = {
+var manageQuestionBoardPage = {
     data:{
-        contest: null,
+        pageNum: 0,
+        pageSize: 0,
+        totalPageNum: 0,
+        totalPageSize: 0,
+        content: "",
         questions: [],
     },
-    init: function (contest, questions) {
-        manageEditContestProblemPage.data.contest = contest;
-        manageEditContestProblemPage.data.questions = questions;
+    init: function (pageNum, pageSize, totalPageNum, totalPageSize, content, questions) {
+        manageQuestionBoardPage.data.pageNum = pageNum;
+        manageQuestionBoardPage.data.pageSize = pageSize;
+        manageQuestionBoardPage.data.totalPageNum = totalPageNum;
+        manageQuestionBoardPage.data.totalPageSize = totalPageSize;
+        manageQuestionBoardPage.data.content = content;
+        manageQuestionBoardPage.data.questions = questions;
+        //分页初始化
+        manageQuestionBoardPage.subPageMenuInit();
+
+        $('#content').val(content);
 
         //新增题目，弹出新增窗口
         $("#addQuestionBtn").click(function () {
             //输入框初始化数据
-            manageEditContestProblemPage.initAddQuestionData();
+            manageQuestionBoardPage.initAddQuestionData();
             $("#addQuestionModal").modal({
                 keyboard : false,
                 show : true,
@@ -26,9 +38,9 @@ var manageEditContestProblemPage = {
             $("#addQuestionModal").modal('hide');
         });
 
-        //新增考试，确定增加考试
+        //新增题目，确定增加题目
         $('#confirmAddQuestionBtn').click(function(){
-            manageEditContestProblemPage.addQuestionAction();
+            manageQuestionBoardPage.addQuestionAction();
         });
 
         //编辑题目，取消题目编辑
@@ -38,9 +50,69 @@ var manageEditContestProblemPage = {
 
         //编辑题目，确定保存考试
         $('#confirmUpdateQuestionBtn').click(function(){
-            manageEditContestProblemPage.updateQuestionAction();
+            manageQuestionBoardPage.updateQuestionAction();
         });
 
+        //查詢按鈕触发
+        $('#queryQuestionBtn').click(function () {
+            manageQuestionBoardPage.queryQuestionAction();
+        });
+
+    },
+    firstPage: function () {
+        var content = $('#content').val();
+        window.location.href = app.URL.manageQuestionUrl() + '?page=1&content='+content;
+    },
+    prevPage: function () {
+        var content = $('#content').val();
+        window.location.href = app.URL.manageQuestionUrl() + '?page=' + (pageNum-1)
+            + '&content='+content;
+    },
+    targetPage: function (page) {
+        var content = $('#content').val();
+        window.location.href = app.URL.manageQuestionUrl() + '?page='
+            + page + '&content='+content;
+    },
+    nextPage: function () {
+        var content = $('#content').val();
+        window.location.href = app.URL.manageQuestionUrl() + '?page=' + (pageNum+1)
+            + '&content='+content;
+    },
+    lastPage: function () {
+        var content = $('#content').val();
+        window.location.href = app.URL.manageQuestionUrl() + '?page='
+            + manageQuestionBoardPage.data.totalPageNum + '&content='+content;
+    },
+    subPageMenuInit: function(){
+        var subPageStr = '<ul class="pagination">';
+        if (manageQuestionBoardPage.data.pageNum == 1) {
+            subPageStr += '<li class="disabled"><a><span>首页</span></a></li>';
+            subPageStr += '<li class="disabled"><a><span>上一页</span></a></li>';
+        } else {
+            subPageStr += '<li><a onclick="manageQuestionBoardPage.firstPage()"><span>首页</span></a></li>';
+            subPageStr += '<li><a onclick="manageQuestionBoardPage.prevPage()"><span>上一页</span></a></li>';
+        }
+        var startPage = (manageQuestionBoardPage.data.pageNum-4 > 0 ? manageQuestionBoardPage.data.pageNum-4 : 1);
+        var endPage = (startPage+7 > manageQuestionBoardPage.data.totalPageNum ? manageQuestionBoardPage.data.totalPageNum : startPage+7);
+        console.log('startPage = ' + startPage);
+        console.log('endPage = ' + endPage);
+        console.log('pageNum = ' + manageQuestionBoardPage.data.pageNum);
+        console.log('totalPageNum = ' + manageQuestionBoardPage.data.totalPageNum);
+        for (var i = startPage; i <= endPage; i++) {
+            if (i == manageQuestionBoardPage.data.pageNum) {
+                subPageStr += '<li class="active"><a onclick="manageQuestionBoardPage.targetPage('+i+')">'+i+'</a></li>';
+            } else {
+                subPageStr += '<li><a onclick="manageQuestionBoardPage.targetPage('+i+')">'+i+'</a></li>';
+            }
+        }
+        if (manageQuestionBoardPage.data.pageNum == manageQuestionBoardPage.data.totalPageNum) {
+            subPageStr += '<li class="disabled"><a><span>下一页</span></a></li>';
+            subPageStr += '<li class="disabled"><a><span>末页</span></a></li>';
+        } else {
+            subPageStr += '<li><a onclick="manageQuestionBoardPage.nextPage()"><span>下一页</span></a></li>';
+            subPageStr += '<li><a onclick="manageQuestionBoardPage.lastPage()"><span>末页</span></a></li>';
+        }
+        $('#subPageHead').html(subPageStr);
     },
     initAddQuestionData: function () {
         //初始化数据
@@ -66,6 +138,7 @@ var manageEditContestProblemPage = {
         var questionTitle = $('#questionTitle').val();
         var questionContent = $('#questionContent').val();
         var questionType = $('#questionType').val();
+        var subjectId = $('#subjectId').val();
         var optionA = $('#optionA').val();
         var optionB = $('#optionB').val();
         var optionC = $('#optionC').val();
@@ -74,10 +147,8 @@ var manageEditContestProblemPage = {
         var questionParse = $('#questionParse').val();
         var questionDifficulty = $('#questionDifficulty').val();
         var questionScore = $('#questionScore').val();
-        var contestId = manageEditContestProblemPage.data.contest.id;
-        var subjectId = manageEditContestProblemPage.data.contest.subjectId;
 
-        if (manageEditContestProblemPage.checkAddQuestionData(questionTitle, questionContent,
+        if (manageQuestionBoardPage.checkAddQuestionData(questionTitle, questionContent,
                 questionType, optionA,optionB, optionC, optionD, questionAnswer, questionParse,
                 questionDifficulty, questionScore)) {
             $.ajax({
@@ -97,7 +168,7 @@ var manageEditContestProblemPage = {
                     answer: questionAnswer,
                     parse: questionParse,
                     subjectId: subjectId,
-                    contestId: contestId,
+                    contestId: 0,
                     score: questionScore,
                     difficulty: questionDifficulty,
                 }),
@@ -124,7 +195,7 @@ var manageEditContestProblemPage = {
         //编辑考试，弹出编辑窗口
         //console.log(index);
         //输入框初始化数据
-        manageEditContestProblemPage.initUpdateQuestionData(index);
+        manageQuestionBoardPage.initUpdateQuestionData(index);
         $("#updateQuestionModal").modal({
             keyboard : false,
             show : true,
@@ -142,6 +213,12 @@ var manageEditContestProblemPage = {
                 selectQuestionTypes[i].selected = true;
             }
         }
+        var selectSubjectIds = document.getElementById('updateSubjectId');
+        for (var i = 0; i < selectSubjectIds.length; i++) {
+            if (selectSubjectIds[i].value == questions[index].subjectId) {
+                selectSubjectIds[i].selected = true;
+            }
+        }
         $('#updateOptionA').val(questions[index].optionA);
         $('#updateOptionB').val(questions[index].optionB);
         $('#updateOptionC').val(questions[index].optionC);
@@ -157,9 +234,9 @@ var manageEditContestProblemPage = {
         $('#updateQuestionScore').val(questions[index].score);
     },
     checkUpdateQuestionData: function (questionTitle, questionContent, questionType,
-                                    optionA, optionB, optionC, optionD,
-                                    questionAnswer, questionParse, questionDifficulty,
-                                    questionScore) {
+                                       optionA, optionB, optionC, optionD,
+                                       questionAnswer, questionParse, questionDifficulty,
+                                       questionScore) {
         //TODO::校验
         return true;
 
@@ -169,6 +246,7 @@ var manageEditContestProblemPage = {
         var questionTitle = $('#updateQuestionTitle').val();
         var questionContent = $('#updateQuestionContent').val();
         var questionType = $('#updateQuestionType').val();
+        var subjectId = $('#updateSubjectId').val();
         var optionA = $('#updateOptionA').val();
         var optionB = $('#updateOptionB').val();
         var optionC = $('#updateOptionC').val();
@@ -177,10 +255,8 @@ var manageEditContestProblemPage = {
         var questionParse = $('#updateQuestionParse').val();
         var questionDifficulty = $('#updateQuestionDifficulty').val();
         var questionScore = $('#updateQuestionScore').val();
-        var contestId = manageEditContestProblemPage.data.contest.id;
-        var subjectId = manageEditContestProblemPage.data.contest.subjectId;
 
-        if (manageEditContestProblemPage.checkUpdateQuestionData(questionTitle, questionContent,
+        if (manageQuestionBoardPage.checkUpdateQuestionData(questionTitle, questionContent,
                 questionType, optionA,optionB, optionC, optionD, questionAnswer, questionParse,
                 questionDifficulty, questionScore)) {
             $.ajax({
@@ -201,7 +277,7 @@ var manageEditContestProblemPage = {
                     answer: questionAnswer,
                     parse: questionParse,
                     subjectId: subjectId,
-                    contestId: contestId,
+                    contestId: 0,
                     score: questionScore,
                     difficulty: questionDifficulty,
                 }),
@@ -245,11 +321,12 @@ var manageEditContestProblemPage = {
                 $('#loginModalErrorMessage').removeClass('hidden');
             }
         });
-    }
-
-
-
-
+    },
+    //查询
+    queryQuestionAction: function () {
+        var content = $('#content').val();
+        window.location.href = app.URL.manageQuestionUrl() + '?page=1&content='+content;
+    },
 
 
 };

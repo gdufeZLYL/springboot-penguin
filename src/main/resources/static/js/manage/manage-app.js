@@ -29,7 +29,7 @@ var app = {
             return "/account/api/updatePassword";
         },
         manageContestListUrl: function () {
-            return "";
+            return "/manage/contest/list";
         },
         addContestUrl: function () {
             return "/contest/api/addContest"
@@ -48,6 +48,9 @@ var app = {
         },
         deleteQuestionUrl: function () {
             return "/question/api/deleteQuestion/";
+        },
+        manageQuestionUrl: function () {
+            return "/manage/question/list"
         },
     },
     /**

@@ -22,6 +22,8 @@ public class Question {
     private Date updateTime;
     private int state;
 
+    private String subjectName;
+
     public int getId() {
         return id;
     }
@@ -158,6 +160,14 @@ public class Question {
         this.state = state;
     }
 
+    public String getSubjectName() {
+        return subjectName;
+    }
+
+    public void setSubjectName(String subjectName) {
+        this.subjectName = subjectName;
+    }
+
     @Override
     public String toString() {
         return "Question{" +
@@ -178,6 +188,7 @@ public class Question {
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
                 ", state=" + state +
+                ", subjectName='" + subjectName + '\'' +
                 '}';
     }
 }

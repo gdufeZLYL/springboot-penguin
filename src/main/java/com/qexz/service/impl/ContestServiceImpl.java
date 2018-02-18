@@ -67,9 +67,9 @@ public class ContestServiceImpl implements ContestService{
             data.put("contests", new ArrayList<>());
             return data;
         }
+        List<Subject> subjects = subjectMapper.getSubjects();
         PageHelper.startPage(pageNum, pageSize);
         List<Contest> contests = contestMapper.getContests();
-        List<Subject> subjects = subjectMapper.getSubjects();
         Map<Integer, String> subjectId2name = subjects.stream().
                 collect(Collectors.toMap(Subject::getId, Subject::getName));
         for (Contest contest : contests) {

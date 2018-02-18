@@ -17,6 +17,7 @@ public class QexzConst {
 
     public static final int subjectPageSize = 16;
     public static final int contestPageSize = 10;
+    public static final int questionPageSize = 10;
 
     //MD5加盐
     public static final String MD5_SALT = "qexz";

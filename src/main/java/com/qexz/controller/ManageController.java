@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(value = "/manage")
@@ -99,6 +100,38 @@ public class ManageController {
             data.put("contest", contest);
             model.addAttribute(QexzConst.DATA, data);
             return "/manage/manage-editContestProblem";
+        }
+    }
+
+    /**
+     * 題目管理
+     */
+    @RequestMapping(value="/question/list", method= RequestMethod.GET)
+    public String questionList(HttpServletRequest request,
+                               @RequestParam(value = "page", defaultValue = "1") int page,
+                               @RequestParam(value = "content", defaultValue = "") String content,
+                               Model model) {
+        Account currentAccount = (Account) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
+        //TODO::处理
+        currentAccount = accountService.getAccountByUsername("admin");
+        model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentAccount);
+        if (currentAccount == null) {
+            return "redirect:/";
+        } else {
+            Map<String, Object> data = questionService.getQuestionsByContent(page,
+                    QexzConst.questionPageSize, content);
+            List<Question> questions = (List<Question>) data.get("questions");
+            List<Subject> subjects = subjectService.getSubjects();
+            Map<Integer, String> subjectId2name = subjects.stream().
+                    collect(Collectors.toMap(Subject::getId, Subject::getName));
+            for (Question question : questions) {
+                question.setSubjectName(subjectId2name.
+                        getOrDefault(question.getSubjectId(), "未知科目"));
+            }
+            data.put("subjects", subjects);
+            data.put("content", content);
+            model.addAttribute("data", data);
+            return "/manage/manage-questionBoard";
         }
     }
 }
