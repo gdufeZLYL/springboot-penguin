@@ -40,6 +40,15 @@ var app = {
         deleteContestUrl: function () {
             return "/contest/api/deleteContest/";
         },
+        addQuestionUrl: function () {
+            return "/question/api/addQuestion";
+        },
+        updateQuestionUrl: function () {
+            return "/question/api/updateQuestion"
+        },
+        deleteQuestionUrl: function () {
+            return "/question/api/deleteQuestion/";
+        },
     },
     /**
      * 全局初始化:服务器时间获取,登录功能,退出登录

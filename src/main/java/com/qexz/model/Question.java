@@ -16,10 +16,11 @@ public class Question {
     private String parse;
     private int subjectId;
     private int contestId;
-    private int value;
+    private int score;
     private int difficulty;
     private Date createTime;
     private Date updateTime;
+    private int state;
 
     public int getId() {
         return id;
@@ -117,12 +118,12 @@ public class Question {
         this.contestId = contestId;
     }
 
-    public int getValue() {
-        return value;
+    public int getScore() {
+        return score;
     }
 
-    public void setValue(int value) {
-        this.value = value;
+    public void setScore(int score) {
+        this.score = score;
     }
 
     public Date getCreateTime() {
@@ -149,6 +150,14 @@ public class Question {
         this.difficulty = difficulty;
     }
 
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+    }
+
     @Override
     public String toString() {
         return "Question{" +
@@ -164,10 +173,11 @@ public class Question {
                 ", parse='" + parse + '\'' +
                 ", subjectId=" + subjectId +
                 ", contestId=" + contestId +
-                ", value=" + value +
+                ", score=" + score +
                 ", difficulty=" + difficulty +
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
+                ", state=" + state +
                 '}';
     }
 }

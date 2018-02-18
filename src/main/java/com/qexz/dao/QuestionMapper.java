@@ -11,13 +11,17 @@ import java.util.List;
 @Mapper
 public interface QuestionMapper {
 
-    int insertQuestion(Question question);
+    int insertQuestion(@Param("question") Question question);
 
-    int updateQuestionById(Question question);
+    int deleteQuestion(@Param("id") int id);
+
+    int updateQuestionById(@Param("question") Question question);
 
     Question getQuestionById(@Param("id") int id);
 
     int getCountByContentAndDifficulty(@Param("content") String content, @Param("difficulty") int difficulty);
 
     List<Question> getQuestionsByContentAndDifficulty(@Param("content") String content, @Param("difficulty") int difficulty);
+
+    List<Question> getQuestionByContestId(@Param("contestId") int contestId);
 }
