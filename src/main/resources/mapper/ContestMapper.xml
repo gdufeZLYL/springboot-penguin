@@ -55,5 +55,6 @@
         SELECT
         *
         FROM t_penguin_contest
+        ORDER BY start_time DESC
     </select>
 </mapper>

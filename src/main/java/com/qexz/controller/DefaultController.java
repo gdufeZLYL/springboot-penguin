@@ -3,8 +3,12 @@ package com.qexz.controller;
 import com.qexz.common.QexzConst;
 import com.qexz.dto.AjaxResult;
 import com.qexz.model.Account;
+import com.qexz.model.Contest;
+import com.qexz.model.Question;
 import com.qexz.model.Subject;
 import com.qexz.service.AccountService;
+import com.qexz.service.ContestService;
+import com.qexz.service.QuestionService;
 import com.qexz.service.SubjectService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -15,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +33,10 @@ public class DefaultController {
     private AccountService accountService;
     @Autowired
     private SubjectService subjectService;
+    @Autowired
+    private ContestService contestService;
+    @Autowired
+    private QuestionService questionService;
 
     /**
      * 首页
@@ -43,13 +52,39 @@ public class DefaultController {
      * 在线考试列表页
      */
     @RequestMapping(value="/contest/index", method= RequestMethod.GET)
-    public String contestIndex(HttpServletRequest request, Model model) {
+    public String contestIndex(HttpServletRequest request,
+                               @RequestParam(value = "page", defaultValue = "1") int page,
+                               Model model) {
         Account currentAccount = (Account) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
-        //TODO::处理
-        currentAccount = accountService.getAccountByUsername("14251104208");
-        LOG.info("currentAccount = " + currentAccount);
         model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentAccount);
+        Map<String, Object> data = contestService.getContests(page, QexzConst.contestPageSize);
+        model.addAttribute(QexzConst.DATA, data);
         return "/contest/index";
+    }
+
+    /**
+     * 在线考试页
+     */
+    @RequestMapping(value="/contest/{contestId}", method= RequestMethod.GET)
+    public String contestDetail(HttpServletRequest request,
+                               @PathVariable("contestId") int contestId,
+                               Model model) {
+        Account currentAccount = (Account) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
+        model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentAccount);
+        Contest contest = contestService.getContestById(contestId);
+        if (currentAccount == null || contest.getStartTime().getTime() > System.currentTimeMillis()
+                || contest.getEndTime().getTime() < System.currentTimeMillis()) {
+            return "redirect:/contest/index";
+        }
+        List<Question> questions = questionService.getQuestionsByContestId(contestId);
+        for (Question question : questions) {
+            question.setAnswer("");
+        }
+        Map<String, Object> data = new HashMap<>();
+        data.put("contest", contest);
+        data.put("questions", questions);
+        model.addAttribute(QexzConst.DATA, data);
+        return "/contest/detail";
     }
 
     /**

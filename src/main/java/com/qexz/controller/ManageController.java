@@ -46,8 +46,6 @@ public class ManageController {
     @RequestMapping(value="/login", method= RequestMethod.GET)
     public String login(HttpServletRequest request, Model model) {
         Account currentAccount = (Account) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
-        //TODO::处理
-        //currentAccount = accountService.getAccountByUsername("manage");
         model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentAccount);
 
         if (currentAccount == null) {

@@ -9,6 +9,7 @@
     <script type="text/javascript" th:src="@{https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js}"></script>
     <script type="text/javascript" th:src="@{https://cdn.bootcss.com/semantic-ui/2.2.13/semantic.min.js}"></script>
     <script type="text/javascript" th:src="@{https://cdn.bootcss.com/jquery.countdown/2.2.0/jquery.countdown.min.js}"></script>
+    <script type="text/javascript" th:src="@{https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/app.js}"></script>
     <script type="text/javascript" th:src="@{/js/contest/index.js}"></script>
 </head>
@@ -27,10 +28,10 @@
     <a th:href="@{/}" class="item">
         <i class="talk icon"></i>讨论区
     </a>
-    <a th:href="@{/}" class="right item" th:if="${current_account == null}">
+    <a th:onclick="'app.showLogin()'"  class="right item" th:if="${current_account == null}">
         <i class="sign in icon"></i>登录
     </a>
-    <div class="ui simple dropdown right item" th:href="${current_account != null}">
+    <div class="ui simple dropdown right item" th:if="${current_account != null}">
         <img class="ui avatar image" th:src="@{'/upload/images/'+${current_account.avatarImgUrl}}" />
         <span th:text="${current_account.name}"></span> <i class="dropdown icon"></i>
         <div class="menu">
@@ -70,6 +71,28 @@
             <th class="second wide">操作</th>
         </tr></thead>
         <tbody>
+        <tr th:each="item,itemStats : ${data['contests']}">
+            <td>
+                <span th:if="${item.state == 0}" class="ui yellow ribbon label">未开始</span>
+                <span th:if="${item.state == 1}" class="ui green ribbon label">进行中</span>
+                <span th:if="${item.state == 2}" class="ui red ribbon label">已结束</span>
+                <span class="ui header" th:text="${item.title}">
+                    广东财经大学2017年数据库原理与应用考试试题
+                </span>
+            </td>
+            <td><span th:text="${#dates.format(item.startTime, 'yyyy-MM-dd HH:mm:ss')}">2018-1-11 09:00:00</span></td>
+            <td><span th:text="${#dates.format(item.endTime, 'yyyy-MM-dd HH:mm:ss')}">2018-1-11 11:00:00</span></td>
+            <td><span th:text="${item.subjectName}">
+                数据库原理与应用
+            </span></td>
+            <td>
+                <a th:if="${item.state == 0}" class="small disabled positive ui button">进入考试</a>
+                <a th:if="${item.state == 1 and current_account == null}" th:onclick="'app.showLogin()'" class="small positive ui button">进入考试</a>
+                <a th:if="${item.state == 1 and current_account != null}" class="small positive ui button">进入考试</a>
+                <a th:if="${item.state == 2}" class="small disabled grey ui button">进入考试</a>
+            </td>
+        </tr>
+        <!--
         <tr>
             <td>
                 <span class="ui green ribbon label">进行中</span>
@@ -131,12 +154,14 @@
         <tr>
             <td colspan="9" style="padding: 0px;"><div class="ui icon message" style="margin: 0px; box-shadow: none;"><i class="info circle icon"></i><div class="content"><p>当前还没有考试呢！_(:зゝ∠)_</p></div></div></td>
         </tr>
+        -->
         </tbody>
     </table>
 </div>
 <!-- 分页 -->
 <div class="ui subPage container">
-    <div class="ui pagination menu">
+    <div class="ui pagination menu" id="subPageMenu">
+        <!--
         <a class="item">
             首页
         </a>
@@ -173,6 +198,7 @@
         <a class="item">
             末页
         </a>
+        -->
     </div>
 </div>
 <!-- 不可抗力元素 -->
@@ -210,8 +236,54 @@
         </div>
     </div>
 </div>
-<script>
+<!-- 登录模态框 -->
+<div class="ui mini modal" id="loginModal">
+    <div class="header">登录</div>
+    <div class="content">
+        <form class="ui form" id="loginModalForm">
+            <div class="ui hidden negative message" id="loginModalErrorMessage">
+                <!--
+                <div class="header">错误提示</div>
+                <p></p>
+                -->
+            </div>
+            <div class="field required">
+                <label>账号</label>
+                <div class="ui left icon input">
+                    <input id="username" type="text" placeholder="请输入学号或教工号或指定账号" />
+                    <i class="user icon"></i>
+                </div>
+            </div>
+            <div class="field required">
+                <label>密码</label>
+                <div class="ui left icon input">
+                    <input id="password" type="password" />
+                    <i class="lock icon"></i>
+                </div>
+            </div>
+            <div class="field">
+                <div class="ui toggle checkbox">
+                    <input type="checkbox" id="rememberMe" name="rememberMe" tabindex="0" class="hidden" />
+                    <label>记住登录</label>
+                </div>
+            </div>
+            <div class="ui button" id="loginModalCloseButton">关闭</div>
+            <div class="ui primary button" id="loginModalSubmitButton">登录</div>
+        </form>
+    </div>
+</div>
+<script th:inline="javascript">
     /*<![CDATA[*/
+    var pageNum = /*[[${data['pageNum']}]]*/;
+    var pageSize = /*[[${data['pageSize']}]]*/;
+    var totalPageNum = /*[[${data['totalPageNum']}]]*/;
+    var totalPageSize = /*[[${data['totalPageSize']}]]*/;
+    var contests = /*[[${data['contests']}]]*/;
+
+    $(function(){
+        app.init();
+        contestIndexPage.init(pageNum, pageSize, totalPageNum, totalPageSize, contests);
+    });
     /*]]>*/
 </script>
 </body>

@@ -22,6 +22,9 @@ var app = {
         problemsetUrl: function () {
             return "/problemset/list";
         },
+        contestIndexUrl: function () {
+            return "/contest/index";
+        },
         updateAccountUrl: function () {
             return "/account/api/updateAccount";
         },
