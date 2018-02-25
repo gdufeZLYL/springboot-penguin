@@ -24,4 +24,6 @@ public class QexzConst {
     //分页数据
     public final static String DATA = "data";
 
+    public final static String SPLIT_CHAR = "_~_";
+
 }
