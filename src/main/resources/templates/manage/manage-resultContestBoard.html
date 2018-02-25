@@ -90,10 +90,10 @@
                         <td th:if="${item.state == 2}"><span class="label label-info">批卷中</span></td>
                         <td th:if="${item.state == 3}"><span class="label label-danger">已结束</span></td>
                         <td>
-                            <button type="button" th:if="${item.state ge 3}" class="btn btn-info btn-xs"><i class="fa fa-search"></i>查看成绩</button>
+                            <button type="button" th:if="${item.state ge 3}" class="btn btn-info btn-xs" th:onclick="'manageResultContestBoardPage.targetResultStudentBoardAction('+${item.id}+')'"><i class="fa fa-search"></i>查看成绩</button>
                             <button type="button" th:if="${item.state lt 3}" class="btn btn-xs disabled"><i class="fa fa-search"></i>查看成绩</button>
-                            <button type="button" th:if="${item.state == 2}" class="btn btn-primary btn-xs" th:onclick="'manageContestBoardPage.updateContestModalAction('+${itemStats.index}+')'"><i class="fa fa-check-square"></i>批改试卷</button>
-                            <button type="button" th:if="${item.state != 2}" class="btn btn-xs disabled" th:onclick="'manageContestBoardPage.updateContestModalAction('+${itemStats.index}+')'"><i class="fa fa-check-square"></i>批改试卷</button>
+                            <button type="button" th:if="${item.state == 2}" class="btn btn-primary btn-xs" th:onclick="'manageResultContestBoardPage.targetResultStudentBoardAction('+${item.id}+')'"><i class="fa fa-check-square"></i>批改试卷</button>
+                            <button type="button" th:if="${item.state != 2}" class="btn btn-xs disabled"><i class="fa fa-check-square"></i>批改试卷</button>
                         </td>
                     </tr>
                     </tbody>

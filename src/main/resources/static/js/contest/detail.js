@@ -21,7 +21,7 @@ var contestDetailPage = {
             $("#contestTimeCountdown").html(format);
         }).on('finish.countdown', function () {
             // TODO::交卷事件触发
-
+            contestDetailPage.finishContestAction();
         });
 
         if (contestDetailPage.data.questions[0].questionType == 0) {
@@ -227,7 +227,79 @@ var contestDetailPage = {
     },
     //交卷事假触发
     finishContestAction: function () {
+        var index = contestDetailPage.data.currentQuestionIndex;
+        //记录答案
+        if (contestDetailPage.data.questions[index].questionType == 0) {
+            contestDetailPage.data.questions[index].answer = '';
+            $.each($("input[name='questionAnswer']:checked"),function(){
+                contestDetailPage.data.questions[index].answer += $(this).val();
+            });
+        } else if (contestDetailPage.data.questions[index].questionType == 1) {
+            contestDetailPage.data.questions[index].answer = '';
+            $.each($("input[name='questionAnswer']:checked"),function(){
+                //console.log($(this).val());
+                contestDetailPage.data.questions[index].answer += $(this).val();
+            });
+        } else {
+            //console.log($("#questionAnswer").val());
+            contestDetailPage.data.questions[index].answer = $("#questionAnswer").val();
+        }
         //TODO::交卷
+        contestDetailPage.submittingContestAction();
+    },
+    //正在交卷
+    submittingContestAction: function () {
+        $('#waitSubmitModal').modal({
+            /**
+             * 必须点击相关按钮才能关闭
+             */
+            closable  : false,
+            /**
+             * 模糊背景
+             */
+            blurring: true,
+        }).modal('show');
+        for (var i = 0; i < contestDetailPage.data.questions.length; i++) {
+            console.log(contestDetailPage.data.questions[i].answer);
+        }
+
+        var answerJsonStr = '';
+        for (var i = 0; i < contestDetailPage.data.questions.length; i++) {
+            answerJsonStr += contestDetailPage.data.questions[i].answer;
+            if (i < contestDetailPage.data.questions.length-1) {
+                answerJsonStr += '_~_';
+            }
+        }
+        console.log("answerJson = " + answerJsonStr);
+
+        //向后端API发送答题卡
+        $.ajax({
+            url : app.URL.submitGradeUrl(),
+            type : "POST",
+            dataType: "json",
+            contentType : "application/json;charset=UTF-8",
+            <!-- 向后端传输的数据 -->
+            data : JSON.stringify({
+                contestId: contestDetailPage.data.contest.id,
+                answerJson: answerJsonStr,
+            }),
+            success:function(result) {
+                if (result && result['success']) {
+                } else {
+                    //TODO::发送答题卡出错处理
+                    console.log(result.message);
+                }
+            },
+            error:function(result){
+                //TODO::发送答题卡出错处理
+                console.log(result.message);
+            }
+        });
+
+        setTimeout(function () {
+            $("#waitSubmitModal").modal("hide");
+            window.location.href = app.URL.contestIndexUrl();
+        }, 5000);
     },
 
 };

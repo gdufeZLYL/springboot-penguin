@@ -55,6 +55,9 @@ var app = {
         manageResultContestListUrl: function () {
             return "/manage/result/contest/list";
         },
+        manageResultStudentListUrl: function (contestId) {
+            return "/manage/result/contest/"+contestId+"/list";
+        },
     },
     /**
      * 全局初始化:服务器时间获取,登录功能,退出登录

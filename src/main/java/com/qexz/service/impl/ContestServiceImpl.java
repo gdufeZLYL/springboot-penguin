@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @Service("contestService")
 public class ContestServiceImpl implements ContestService{
 
-    private static Log LOG = LogFactory.getLog(SubjectServiceImpl.class);
+    private static Log LOG = LogFactory.getLog(ContestServiceImpl.class);
 
     @Autowired
     private ContestMapper contestMapper;

@@ -1,6 +1,6 @@
 package com.qexz.exception;
 
-public enum  QexzWebError {
+public enum QexzWebError {
 
     COMMON("服务器端出错", 3000),
     WRONG_USERNAME_OR_PASSWORD("账号或密码错误", 3001),

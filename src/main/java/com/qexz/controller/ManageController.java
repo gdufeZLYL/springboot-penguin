@@ -1,14 +1,8 @@
 package com.qexz.controller;
 
 import com.qexz.common.QexzConst;
-import com.qexz.model.Account;
-import com.qexz.model.Contest;
-import com.qexz.model.Question;
-import com.qexz.model.Subject;
-import com.qexz.service.AccountService;
-import com.qexz.service.ContestService;
-import com.qexz.service.QuestionService;
-import com.qexz.service.SubjectService;
+import com.qexz.model.*;
+import com.qexz.service.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +33,8 @@ public class ManageController {
     private ContestService contestService;
     @Autowired
     private QuestionService questionService;
+    @Autowired
+    private GradeService gradeService;
 
     /**
      * 管理员登录页
@@ -152,6 +148,41 @@ public class ManageController {
             data.put("subjects", subjects);
             model.addAttribute(QexzConst.DATA, data);
             return "/manage/manage-resultContestBoard";
+        }
+    }
+
+    /**
+     * 成绩管理-考试列表-学生成绩列表
+     */
+    @RequestMapping(value="/result/contest/{contestId}/list", method= RequestMethod.GET)
+    public String resultStudentList(HttpServletRequest request,
+                                    @PathVariable("contestId") int contestId,
+                                    @RequestParam(value = "page", defaultValue = "1") int page,
+                                    Model model) {
+        Account currentAccount = (Account) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
+        //TODO::处理
+        currentAccount = accountService.getAccountByUsername("admin");
+        model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentAccount);
+        if (currentAccount == null) {
+            return "redirect:/";
+        } else {
+            Map<String, Object> data = new HashMap<>();
+            List<Grade> grades = gradeService.getGradesByContestId(contestId);
+            Contest contest = contestService.getContestById(contestId);
+            List<Question> questions = questionService.getQuestionsByContestId(contestId);
+            List<Integer> studentIds = grades.stream().map(Grade::getStudentId).collect(Collectors.toList());
+            List<Account> students = accountService.getAccountsByStudentIds(studentIds);
+            Map<Integer, Account> id2student = students.stream().
+                    collect(Collectors.toMap(Account::getId, account -> account));
+            for (Grade grade : grades) {
+                Account student = id2student.get(grade.getStudentId());
+                grade.setStudent(student);
+            }
+            data.put("grades", grades);
+            data.put("contest", contest);
+            data.put("questions", questions);
+            model.addAttribute(QexzConst.DATA, data);
+            return "/manage/manage-resultStudentBoard";
         }
     }
 }

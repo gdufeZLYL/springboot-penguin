@@ -215,7 +215,11 @@ var manageResultContestBoardPage = {
                 $('#loginModalErrorMessage').removeClass('hidden');
             }
         });
-    }
+    },
+    targetResultStudentBoardAction: function (contestId) {
+        window.location.href = app.URL.manageResultStudentListUrl(
+            contestId);
+    },
 
 
 };

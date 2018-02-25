@@ -2,6 +2,8 @@ package com.qexz.service;
 
 import com.qexz.model.Account;
 
+import java.util.List;
+
 public interface AccountService {
 
     int addAccount(Account account);
@@ -11,4 +13,6 @@ public interface AccountService {
     boolean updateAvatarImgUrlById(String avatarImgUrl, int id);
 
     Account getAccountByUsername(String username);
+
+    List<Account> getAccountsByStudentIds(List<Integer> studentIds);
 }

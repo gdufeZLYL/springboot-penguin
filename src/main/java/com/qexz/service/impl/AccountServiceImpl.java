@@ -7,6 +7,8 @@ import com.qexz.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service("accountService")
 public class AccountServiceImpl implements AccountService {
 
@@ -32,5 +34,10 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Account getAccountByUsername(String username) {
         return accountMapper.getAccountByUsername(username);
+    }
+
+    @Override
+    public List<Account> getAccountsByStudentIds(List<Integer> studentIds) {
+        return accountMapper.getAccountsByIds(studentIds);
     }
 }

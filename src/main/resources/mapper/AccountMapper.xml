@@ -54,4 +54,17 @@
         where username = #{username}
     </select>
 
+    <select id="getAccountsByIds" resultMap="BaseResultMap">
+        SELECT
+         *
+        FROM t_penguin_account
+        WHERE 1 = 1
+        <if test="studentIds != null and studentIds.size > 0">
+            AND id IN
+            <foreach collection="studentIds" item="studentId" open="(" separator="," close=")">
+                #{studentId}
+            </foreach>
+        </if>
+    </select>
+
 </mapper>
