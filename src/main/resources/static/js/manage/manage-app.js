@@ -40,6 +40,9 @@ var app = {
         deleteContestUrl: function () {
             return "/contest/api/deleteContest/";
         },
+        finishContestUrl: function () {
+            return "/contest/api/finishContest/";
+        },
         addQuestionUrl: function () {
             return "/question/api/addQuestion";
         },
@@ -58,6 +61,10 @@ var app = {
         manageResultStudentListUrl: function (contestId) {
             return "/manage/result/contest/"+contestId+"/list";
         },
+        finishGradeUrl: function () {
+            return "/grade/api/finishGrade"
+        },
+
     },
     /**
      * 全局初始化:服务器时间获取,登录功能,退出登录

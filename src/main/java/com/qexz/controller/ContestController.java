@@ -44,5 +44,18 @@ public class ContestController {
         return new AjaxResult().setData(result);
     }
 
+    //完成考试批改
+    @RequestMapping(value="/api/finishContest/{id}", method= RequestMethod.POST)
+    @ResponseBody
+    public AjaxResult finishContest(@PathVariable int id) {
+        AjaxResult ajaxResult = new AjaxResult();
+        Contest contest = contestService.getContestById(id);
+        contest.setState(3);
+        boolean result = contestService.updateContest(contest);
+        return new AjaxResult().setData(result);
+    }
+
+
+
 
 }
