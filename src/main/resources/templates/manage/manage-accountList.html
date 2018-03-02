@@ -81,7 +81,7 @@
     </thead>
     <tbody>
     <tr th:each="item,itemStats : ${data['accounts']}">
-    <td><img th:src="@{'/upload/images/'+${current_account.avatarImgUrl}}" style="width: 32px;height: 32px;" class="img-circle" /></td>
+    <td><img th:src="@{'/upload/images/'+${item.avatarImgUrl}}" style="width: 32px;height: 32px;" class="img-circle" /></td>
     <td th:text="${item.name}"></td>
     <td th:text="${item.username}"></td>
     <td th:text="${item.qq}"></td>
