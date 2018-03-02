@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/contest")
 public class ContestController {
 
-    private static Log LOG = LogFactory.getLog(ManageController.class);
+    private static Log LOG = LogFactory.getLog(ContestController.class);
 
     @Autowired
     private ContestService contestService;

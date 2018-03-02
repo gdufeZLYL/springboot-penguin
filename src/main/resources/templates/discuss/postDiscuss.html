@@ -115,11 +115,13 @@
         </div>
     </div>
 </div>
-<script>
+<script th:inline="javascript">
     /*<![CDATA[*/
+    var authorId = /*[[${data['authorId']}]]*/;
+
     $(function(){
         app.init();
-        postDiscussPage.init();
+        postDiscussPage.init(authorId);
     });
     /*]]>*/
 </script>

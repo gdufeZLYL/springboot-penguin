@@ -3,28 +3,13 @@
  */
 var postDiscussPage = {
     data:{
+        authorId: 0,
         E: null,
         editor: null,
     },
-    init: function () {
-        /**
-         TODO::代码规范,折叠菜单效果
-         */
-        $('.ui.accordion').accordion(
-            {
-                exclusive: true,/*不可打开多节*/
-            }
-        );
-        /**
-         TODO::代码规范,难度系数
-         */
-        $('.ui.star.rating')
-            .rating({
-                initialRating: 0,
-                maxRating: 5,
-                disable: true,
-            })
-        ;
+    init: function (authorId) {
+        postDiscussPage.data.authorId = authorId;
+
         $('#postDiscussSubmitButton').click(function (e) {
             postDiscussPage.postDiscuss();
         });
@@ -36,8 +21,32 @@ var postDiscussPage = {
         postDiscussPage.data.editor.create();
     },
     postDiscuss: function () {
-        var E = window.wangEditor;
-        var editor = new postDiscussPage.data.E('#editor');
-        alert(editor.txt.text());
+        var authorId = postDiscussPage.data.authorId;
+        var editor = postDiscussPage.data.editor;
+        //alert(editor.txt.text());
+        $.ajax({
+            url : app.URL.addPostUrl(),
+            type : "POST",
+            dataType: "json",
+            contentType : "application/json;charset=UTF-8",
+            <!-- 向后端传输的数据 -->
+            data : JSON.stringify({
+                authorId: authorId,
+                htmlContent: editor.txt.html(),
+                textContent: editor.txt.text(),
+            }),
+            success:function(result) {
+                if (result && result['success']) {
+                    // 验证通过 刷新页面
+                    //window.location.reload();
+                    window.location.href = app.URL.discussUrl();
+                } else {
+                    console.log(result.message);
+                }
+            },
+            error:function(result){
+                console.log(result.message);
+            }
+        });
     },
 };

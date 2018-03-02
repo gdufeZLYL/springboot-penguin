@@ -34,6 +34,18 @@ var app = {
         submitGradeUrl: function () {
             return "/grade/api/submitContest"
         },
+        addPostUrl: function () {
+            return "/post/api/addPost"
+        },
+        updatePostUrl: function () {
+            return "/post/api/updatePost"
+        },
+        deletePostUrl: function () {
+            return "/post/api/deletePost/";
+        },
+        discussUrl: function () {
+            return "/discuss";
+        },
     },
     /**
      * 全局初始化:服务器时间获取,登录功能,退出登录

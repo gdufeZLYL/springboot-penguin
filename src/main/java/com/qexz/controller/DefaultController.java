@@ -166,12 +166,12 @@ public class DefaultController {
         Account currentAccount = (Account) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
         //TODO::处理
         currentAccount = accountService.getAccountByUsername("14251104208");
-        LOG.info("currentAccount = " + currentAccount);
+        Map<String, Object> data = new HashMap<>();
+        data.put("authorId", currentAccount.getId());
         model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentAccount);
+        model.addAttribute(QexzConst.DATA, data);
         return "/discuss/postDiscuss";
     }
-
-
 
     /**
      * 获取服务器端时间,防止用户篡改客户端时间提前参与考试
