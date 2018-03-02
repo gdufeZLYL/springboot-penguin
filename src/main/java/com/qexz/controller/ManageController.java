@@ -52,6 +52,26 @@ public class ManageController {
     }
 
     /**
+     * 用户管理
+     */
+    @RequestMapping(value="/account/list", method= RequestMethod.GET)
+    public String accountList(HttpServletRequest request,
+                              @RequestParam(value = "page", defaultValue = "1") int page,
+                              Model model) {
+        Account currentAccount = (Account) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
+        //TODO::处理
+        currentAccount = accountService.getAccountByUsername("admin");
+        model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentAccount);
+        if (currentAccount == null) {
+            return "redirect:/";
+        } else {
+            Map<String, Object> data = accountService.getAccounts(page, QexzConst.accountPageSize);
+            model.addAttribute(QexzConst.DATA, data);
+            return "/manage/manage-accountList";
+        }
+    }
+
+    /**
      * 考试管理
      */
     @RequestMapping(value="/contest/list", method= RequestMethod.GET)

@@ -64,6 +64,24 @@ var app = {
         finishGradeUrl: function () {
             return "/grade/api/finishGrade"
         },
+        manageAccountListUrl: function () {
+            return "/manage/account/list";
+        },
+        addAccountUrl: function () {
+            return "/account/api/addAccount";
+        },
+        updateAccountUrl: function () {
+            return "/account/api/updateManegeAccount";
+        },
+        deleteAccountUrl: function () {
+            return "/account/api/deleteAccount/";
+        },
+        abledAccountUrl: function () {
+            return "/account/api/abledAccount/";
+        },
+        disabledAccountUrl: function () {
+            return "/account/api/disabledAccount/";
+        },
 
     },
     /**

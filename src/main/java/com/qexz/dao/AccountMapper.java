@@ -20,4 +20,12 @@ public interface AccountMapper {
     Account getAccountByUsername(@Param("username") String username);
 
     List<Account> getAccountsByIds(@Param("studentIds") List<Integer> studentIds);
+
+    int getCount();
+
+    List<Account> getAccounts();
+
+    int deleteAccount(@Param("id") int id);
+
+    int updateState(@Param("id") int id, @Param("state") int state);
 }

@@ -67,4 +67,28 @@
         </if>
     </select>
 
+    <select id="getCount" resultType="int">
+        SELECT
+        COUNT(1)
+        FROM t_penguin_account
+    </select>
+
+    <select id="getAccounts" resultMap="BaseResultMap" >
+        SELECT
+        *
+        FROM t_penguin_account
+        ORDER BY create_time DESC
+    </select>
+
+    <delete id="deleteAccount" parameterType="int" >
+        delete from t_penguin_account
+        where id = #{id}
+    </delete>
+
+    <update id="updateState" >
+        update t_penguin_account set
+        state = #{state}
+        where id = #{id}
+    </update>
+
 </mapper>
