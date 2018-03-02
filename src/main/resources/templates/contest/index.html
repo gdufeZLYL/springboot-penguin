@@ -19,13 +19,13 @@
         <!--<img class="ui" th:src="@{/img/logo_flat.png}" width="104" height="24" alt="" />-->
         <img class="ui" th:src="@{/img/logo.png}" width="156" height="32" alt="" />
     </a>
-    <a th:href="@{/}" href="#" class="active item">
+    <a th:href="@{/contest/index}" href="#" class="active item">
         <i class="desktop icon"></i>在线考试
     </a>
-    <a th:href="@{/}" class="item">
+    <a th:href="@{/problemset/list}" class="item">
         <i class="list layout icon"></i>题库中心
     </a>
-    <a th:href="@{/}" class="item">
+    <a th:href="@{/discuss}" class="item">
         <i class="talk icon"></i>讨论区
     </a>
     <a th:onclick="'app.showLogin()'"  class="right item" th:if="${current_account == null}">
