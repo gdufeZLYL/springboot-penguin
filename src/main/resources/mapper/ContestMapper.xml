@@ -57,4 +57,20 @@
         FROM t_penguin_contest
         ORDER BY start_time DESC
     </select>
+
+    <update id="updateStateToStart">
+        UPDATE t_penguin_contest
+        SET
+          state = 1
+        WHERE
+        state <![CDATA[ = ]]> 0 AND start_time <![CDATA[ <= ]]> #{currentTime} AND end_time <![CDATA[ > ]]> #{currentTime}
+    </update>
+
+    <update id="updateStateToEnd">
+        UPDATE t_penguin_contest
+        SET
+          state = 2
+        WHERE
+        state <![CDATA[ <= ]]> 2 AND end_time <![CDATA[ <= ]]> #{currentTime}
+    </update>
 </mapper>

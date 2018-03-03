@@ -15,4 +15,8 @@ public interface ContestService {
     Map<String, Object> getContests(int pageNum, int pageSize);
 
     boolean deleteContest(int id);
+
+    boolean updateStateToStart();
+
+    boolean updateStateToEnd();
 }

@@ -54,6 +54,8 @@ public class DefaultController {
     public String contestIndex(HttpServletRequest request,
                                @RequestParam(value = "page", defaultValue = "1") int page,
                                Model model) {
+        contestService.updateStateToStart();
+        contestService.updateStateToEnd();
         Account currentAccount = (Account) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
         model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentAccount);
         Map<String, Object> data = contestService.getContests(page, QexzConst.contestPageSize);

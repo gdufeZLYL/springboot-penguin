@@ -13,10 +13,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service("contestService")
@@ -87,5 +84,15 @@ public class ContestServiceImpl implements ContestService{
     @Override
     public boolean deleteContest(int id) {
         return contestMapper.deleteContest(id) > 0;
+    }
+
+    @Override
+    public boolean updateStateToStart() {
+        return contestMapper.updateStateToStart(new Date()) > 0;
+    }
+
+    @Override
+    public boolean updateStateToEnd() {
+        return contestMapper.updateStateToEnd(new Date()) > 0;
     }
 }

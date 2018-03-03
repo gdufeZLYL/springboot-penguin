@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.List;
 
 @Component
@@ -22,4 +23,8 @@ public interface ContestMapper {
     List<Contest> getContests();
 
     int deleteContest(@Param("id") int id);
+
+    int updateStateToStart(@Param("currentTime") Date currentTime);
+
+    int updateStateToEnd(@Param("currentTime") Date currentTime);
 }

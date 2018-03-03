@@ -25,6 +25,9 @@ var app = {
         contestIndexUrl: function () {
             return "/contest/index";
         },
+        contestDetailUrl: function () {
+            return "/contest/";
+        },
         updateAccountUrl: function () {
             return "/account/api/updateAccount";
         },
