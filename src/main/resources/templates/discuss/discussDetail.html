@@ -48,7 +48,7 @@
         <i class="right chevron icon divider"></i>
         <a class="section">讨论区</a>
         <i class="right chevron icon divider"></i>
-        <div class="active section">某保险公司多年的资料表明，在索赔户中，被盗索赔户占20%，以 表示在随机抽查100个索赔户中因被盗而向保险公司索赔的户数，求 . x 0 0.5 1 1.5 2 2.5 3 Ф (x) 0.500 0.691 0.841 0.933 0.977 0.994 0.999</div>
+        <div class="active section" th:text="${data['post'].title}">某保险公司多年的资料表明，在索赔户中，被盗索赔户占20%，以 表示在随机抽查100个索赔户中因被盗而向保险公司索赔的户数，求 . x 0 0.5 1 1.5 2 2.5 3 Ф (x) 0.500 0.691 0.841 0.933 0.977 0.994 0.999</div>
     </div>
 </div>
 
@@ -57,19 +57,19 @@
         <div class="eleven wide column">
             <h2 class="ui header discuss-title" style="font-size: 16px;">
                 <i class="talk outline icon"></i>
-                <div class="content">校招结束回顾：第一份工作的选择有多重要？应该考虑清楚些什么？</div>
+                <div class="content" th:text="${data['post'].title}">校招结束回顾：第一份工作的选择有多重要？应该考虑清楚些什么？</div>
             </h2>
             <h2 class="ui header">
-                <img class="ui avatar image discuss-author-avatar" style="height: 50px;width: 50px;" th:src="@{'/upload/images/'+${current_account.avatarImgUrl}}" />
+                <img class="ui avatar image discuss-author-avatar" style="height: 50px;width: 50px;" th:src="@{'/upload/images/'+${data['post'].author.avatarImgUrl}}" />
                 <div class="content">
-                    <a href="#" class="header discuss-author-name">
+                    <a href="#" class="header discuss-author-name" th:text="${data['post'].author.name}">
                         曾庆熙
                     </a>
                     <div class="extra discuss-author-edit-info">
-                        <span>编辑于 2018-01-13 11:33:51</span>
+                        <span th:text="'编辑于 '+${#dates.format(data['post'].updateTime, 'yyyy-MM-dd HH:mm:ss')}">编辑于 2018-01-13 11:33:51</span>
                         <span style="margin-left: 28em;">
                                 <i class="talk outline icon"></i>
-                                <span>23</span>
+                                <span th:text="${data['post'].replyNum}">23</span>
                                 |
                                 <i class="thumbs outline up icon"></i>
                                 <span>17</span>
@@ -80,7 +80,8 @@
                     </div>
                 </div>
             </h2>
-            <div class="ui piled segment">
+            <div class="ui piled segment" id="postContent">
+                <!--
                 <h3>
                     <strong>一面</strong>
                 </h3>
@@ -117,6 +118,7 @@
                     <strong>PS：金山WPS的服务端开发主要是GO语言</strong>
                 </h3>
                 </li></ol>
+                -->
             </div>
             <div class="ui vertical right aligned segment">
                 <a><i class="edit icon"></i>编辑</a>
@@ -277,8 +279,14 @@
         </div>
     </div>
 </div>
-<script>
+<script th:inline="javascript">
     /*<![CDATA[*/
+    var post = /*[[${data['post']}]]*/;
+
+    $(function(){
+        app.init();
+        discussDetailPage.init(post);
+    });
     /*]]>*/
 </script>
 </body>

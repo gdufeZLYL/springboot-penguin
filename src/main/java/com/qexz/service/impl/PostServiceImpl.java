@@ -67,4 +67,9 @@ public class PostServiceImpl implements PostService {
         data.put("posts", posts);
         return data;
     }
+
+    @Override
+    public Post getPostById(int id) {
+        return postMapper.getPostById(id);
+    }
 }

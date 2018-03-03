@@ -93,4 +93,9 @@ public class AccountServiceImpl implements AccountService {
     public List<Account> getAccountsByIds(Set<Integer> ids) {
         return accountMapper.getAccountsByIdSets(ids);
     }
+
+    @Override
+    public Account getAccountById(int id) {
+        return accountMapper.getAccountById(id);
+    }
 }

@@ -13,4 +13,6 @@ public interface PostService {
     boolean deletePostById(int id);
 
     Map<String, Object> getPosts(int pageNum, int pageSize);
+
+    Post getPostById(int id);
 }

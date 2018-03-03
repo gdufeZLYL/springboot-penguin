@@ -27,4 +27,6 @@ public interface AccountService {
     boolean abledAccount(int id);
 
     List<Account> getAccountsByIds(Set<Integer> ids);
+
+    Account getAccountById(int id);
 }

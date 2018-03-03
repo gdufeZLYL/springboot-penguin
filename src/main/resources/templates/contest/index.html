@@ -75,7 +75,7 @@
             <td>
                 <span th:if="${item.state == 0}" class="ui yellow ribbon label">未开始</span>
                 <span th:if="${item.state == 1}" class="ui green ribbon label">进行中</span>
-                <span th:if="${item.state == 2}" class="ui red ribbon label">已结束</span>
+                <span th:if="${item.state == 2 or item.state == 3}" class="ui red ribbon label">已结束</span>
                 <span class="ui header" th:text="${item.title}">
                     广东财经大学2017年数据库原理与应用考试试题
                 </span>
@@ -89,7 +89,7 @@
                 <a th:if="${item.state == 0}" class="small disabled positive ui button">进入考试</a>
                 <a th:if="${item.state == 1 and current_account == null}" th:onclick="'app.showLogin()'" class="small positive ui button">进入考试</a>
                 <a th:if="${item.state == 1 and current_account != null}" class="small positive ui button">进入考试</a>
-                <a th:if="${item.state == 2}" class="small disabled grey ui button">进入考试</a>
+                <a th:if="${item.state == 2 or item.state == 3}" class="small disabled grey ui button">进入考试</a>
             </td>
         </tr>
         <!--

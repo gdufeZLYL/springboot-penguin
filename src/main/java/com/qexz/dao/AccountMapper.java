@@ -31,4 +31,6 @@ public interface AccountMapper {
     int updateState(@Param("id") int id, @Param("state") int state);
 
     List<Account> getAccountsByIdSets(@Param("ids") Set<Integer> ids);
+
+    Account getAccountById(@Param("id") int id);
 }

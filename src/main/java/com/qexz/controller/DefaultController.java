@@ -152,14 +152,20 @@ public class DefaultController {
     /**
      * 帖子详情页
      */
-    @RequestMapping(value="/discuss/{discussId}", method= RequestMethod.GET)
-    public String discussDetail(HttpServletRequest request, @PathVariable("discussId") Integer discussId, Model model) {
+    @RequestMapping(value="/discuss/{postId}", method= RequestMethod.GET)
+    public String discussDetail(HttpServletRequest request, @PathVariable("postId") Integer postId, Model model) {
         Account currentAccount = (Account) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
         //TODO::处理
         currentAccount = accountService.getAccountByUsername("14251104208");
-        LOG.info("discussId = " + discussId);
+        LOG.info("postId = " + postId);
         LOG.info("currentAccount = " + currentAccount);
+        Map<String, Object> data = new HashMap<>();
+        Post post = postService.getPostById(postId);
+        Account author = accountService.getAccountById(post.getAuthorId());
+        post.setAuthor(author);
+        data.put("post", post);
         model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentAccount);
+        model.addAttribute(QexzConst.DATA, data);
         return "/discuss/discussDetail";
     }
 
