@@ -23,6 +23,7 @@ var postDiscussPage = {
     postDiscuss: function () {
         var authorId = postDiscussPage.data.authorId;
         var editor = postDiscussPage.data.editor;
+        var title = $('#postTitle').val();
         //alert(editor.txt.text());
         $.ajax({
             url : app.URL.addPostUrl(),
@@ -32,6 +33,7 @@ var postDiscussPage = {
             <!-- 向后端传输的数据 -->
             data : JSON.stringify({
                 authorId: authorId,
+                title: title,
                 htmlContent: editor.txt.html(),
                 textContent: editor.txt.text(),
             }),

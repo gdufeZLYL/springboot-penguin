@@ -4,6 +4,7 @@ import com.qexz.model.Account;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public interface AccountService {
 
@@ -24,4 +25,6 @@ public interface AccountService {
     boolean disabledAccount(int id);
 
     boolean abledAccount(int id);
+
+    List<Account> getAccountsByIds(Set<Integer> ids);
 }

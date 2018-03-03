@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Set;
 
 @Component
 @Mapper
@@ -28,4 +29,6 @@ public interface AccountMapper {
     int deleteAccount(@Param("id") int id);
 
     int updateState(@Param("id") int id, @Param("state") int state);
+
+    List<Account> getAccountsByIdSets(@Param("ids") Set<Integer> ids);
 }

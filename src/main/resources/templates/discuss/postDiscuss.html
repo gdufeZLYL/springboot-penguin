@@ -70,7 +70,7 @@
                     </select>
                 </div>
                 <div class="twelve wide field">
-                    <input placeholder="标题：一句话说明你遇到的问题或想分享的经验" type="text" />
+                    <input id="postTitle" placeholder="标题：一句话说明你遇到的问题或想分享的经验" type="text" />
                 </div>
             </div>
         </div>
@@ -117,11 +117,11 @@
 </div>
 <script th:inline="javascript">
     /*<![CDATA[*/
-    var authorId = /*[[${data['authorId']}]]*/;
+    var posts = /*[[${data['posts']}]]*/;
 
     $(function(){
         app.init();
-        postDiscussPage.init(authorId);
+        postDiscussPage.init(posts);
     });
     /*]]>*/
 </script>

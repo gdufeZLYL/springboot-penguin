@@ -8,21 +8,25 @@
         <result column="text_content" property="textContent" jdbcType="LONGVARCHAR" />
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
         <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+        <result column="last_reply_time" property="lastReplyTime" jdbcType="TIMESTAMP" />
+        <result column="reply_num" property="replyNum" jdbcType="INTEGER" />
+        <result column="title" property="title" jdbcType="VARCHAR" />
     </resultMap>
     <sql id="Base_Column_List" >
-        id, author_id, html_content, text_content, create_time, update_time
+        id, author_id, html_content, text_content, create_time,
+        update_time, last_reply_time, reply_num, title
     </sql>
 
     <insert id="insertPost" parameterType="com.qexz.model.Post" >
         insert into t_penguin_post
-        (author_id, html_content, text_content)
-        values (#{post.authorId}, #{post.htmlContent}, #{post.textContent})
+        (author_id, title, html_content, text_content)
+        values (#{post.authorId}, #{post.title}, #{post.htmlContent}, #{post.textContent})
     </insert>
 
     <update id="updatePostById" parameterType="com.qexz.model.Post">
         UPDATE t_penguin_post
         SET
-          html_content = #{post.htmlContent}, text_content = #{post.textContent}
+          title = #{title}, html_content = #{post.htmlContent}, text_content = #{post.textContent}
         WHERE
         id = #{post.id}
     </update>
@@ -49,7 +53,7 @@
         SELECT
         *
         FROM t_penguin_post
-        ORDER BY update_time DESC
+        ORDER BY last_reply_time, update_time, create_time DESC
     </select>
 
 </mapper>

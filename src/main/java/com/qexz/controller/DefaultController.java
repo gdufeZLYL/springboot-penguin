@@ -2,14 +2,8 @@ package com.qexz.controller;
 
 import com.qexz.common.QexzConst;
 import com.qexz.dto.AjaxResult;
-import com.qexz.model.Account;
-import com.qexz.model.Contest;
-import com.qexz.model.Question;
-import com.qexz.model.Subject;
-import com.qexz.service.AccountService;
-import com.qexz.service.ContestService;
-import com.qexz.service.QuestionService;
-import com.qexz.service.SubjectService;
+import com.qexz.model.*;
+import com.qexz.service.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +13,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(value = "/")
@@ -37,6 +30,8 @@ public class DefaultController {
     private ContestService contestService;
     @Autowired
     private QuestionService questionService;
+    @Autowired
+    private PostService postService;
 
     /**
      * 首页
@@ -135,12 +130,22 @@ public class DefaultController {
      * 讨论区首页
      */
     @RequestMapping(value="/discuss", method= RequestMethod.GET)
-    public String discuss(HttpServletRequest request, Model model) {
+    public String discuss(HttpServletRequest request, @RequestParam(value = "page", defaultValue = "1") int page, Model model) {
         Account currentAccount = (Account) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
         //TODO::处理
         currentAccount = accountService.getAccountByUsername("14251104208");
         LOG.info("currentAccount = " + currentAccount);
+        Map<String, Object> data = postService.getPosts(page, QexzConst.postPageSize);
+        List<Post> posts = (List<Post>) data.get("posts");
+        Set<Integer> authorIds = posts.stream().map(Post::getAuthorId).collect(Collectors.toCollection(HashSet::new));
+        List<Account> authors = accountService.getAccountsByIds(authorIds);
+        Map<Integer, Account> id2author = authors.stream().
+                collect(Collectors.toMap(Account::getId, account -> account));
+        for (Post post : posts) {
+            post.setAuthor(id2author.get(post.getAuthorId()));
+        }
         model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentAccount);
+        model.addAttribute(QexzConst.DATA, data);
         return "/discuss/discuss";
     }
 

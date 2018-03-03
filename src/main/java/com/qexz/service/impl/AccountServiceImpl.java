@@ -8,10 +8,7 @@ import com.qexz.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service("accountService")
@@ -90,5 +87,10 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public boolean abledAccount(int id) {
         return accountMapper.updateState(id, 0) > 0;
+    }
+
+    @Override
+    public List<Account> getAccountsByIds(Set<Integer> ids) {
+        return accountMapper.getAccountsByIdSets(ids);
     }
 }

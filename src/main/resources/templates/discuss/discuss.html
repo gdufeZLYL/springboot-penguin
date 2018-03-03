@@ -17,16 +17,16 @@
         <!--<img class="ui" th:src="@{/img/logo_flat.png}" width="104" height="24" alt="" />-->
         <img class="ui" th:src="@{/img/logo.png}" width="156" height="32" alt="" />
     </a>
-    <a th:href="@{/}" href="#" class="item">
+    <a th:href="@{/contest/index}" href="#" class="item">
         <i class="desktop icon"></i>在线考试
     </a>
-    <a th:href="@{/}" class="item">
+    <a th:href="@{/problemset/list}" class="item">
         <i class="list layout icon"></i>题库中心
     </a>
-    <a th:href="@{/}" class="active item">
+    <a th:href="@{/discuss}" class="active item">
         <i class="talk icon"></i>讨论区
     </a>
-    <a th:href="@{/}" class="right item" th:if="${current_account == null}">
+    <a th:onclick="'app.showLogin()'" class="right item" th:if="${current_account == null}">
         <i class="sign in icon"></i>登录
     </a>
     <div class="ui simple dropdown right item" th:href="${current_account != null}">
@@ -74,10 +74,38 @@
                 <a class="item">最热</a>
                 <a class="item">精华</a>
                 <div class="right item">
-                    <a class="positive ui button"><i class="write icon"></i>我要发布</a>
+                    <a th:if="${current_account != null}" th:href="@{/discuss/post}" class="positive ui button"><i class="write icon"></i>我要发布</a>
+                    <a th:if="${current_account == null}" th:onclick="'app.showLogin()'" class="positive ui button"><i class="write icon"></i>我要发布</a>
                 </div>
             </div>
             <div class="ui divided items">
+                <div class="item" th:each="item,itemStats : ${data['posts']}">
+                    <div class="ui avatar image mini">
+                        <img th:src="@{'/upload/images/'+${item.author.avatarImgUrl}}" />
+                    </div>
+                    <div class="content">
+                        <a th:href="@{'/discuss/'+${item.id}}" class="header" style="font-size: 15px;">
+                            <p th:text="${item.title}">校招结束回顾：第一份工作的选择有多重要？应该考虑清楚些什么？</p>
+                        </a>
+                        <div class="extra" style="font-size: 13px;">
+                            <span class="right floated">
+                                <i class="talk outline icon"></i>
+                                <span th:text="${item.replyNum}">23</span>
+                                |
+                                <i class="thumbs outline up icon"></i>
+                                <span>17</span>
+                                |
+                                <i class="unhide icon"></i>
+                                <span>400</span>
+                            </span>
+                            <span th:text="${item.author.name}">曾庆熙</span>
+                            <span th:text="${#dates.format(item.createTime, 'yyyy-MM-dd HH:mm:ss')} + '发表在 [我要提问]'">2018-01-13 11:33:51 发表在 [职业发展]</span>
+                            <span th:if="${item.lastReplyTime != null}" th:text="'最后回复:'+${item.lastReplyTime}">最后回复:2018-01-13 11:33:52</span>
+                            <span th:if="${item.lastReplyTime == null}">最后回复:--</span>
+                        </div>
+                    </div>
+                </div>
+                <!--
                 <div class="item">
                     <div class="ui avatar image mini">
                         <img th:src="@{'/upload/images/'+${current_account.avatarImgUrl}}" />
@@ -253,31 +281,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="item">
-                    <div class="ui avatar image mini">
-                        <img th:src="@{'/upload/images/'+${current_account.avatarImgUrl}}" />
-                    </div>
-                    <div class="content">
-                        <a href="#" class="header" style="font-size: 15px;">
-                            <p>校招结束回顾：第一份工作的选择有多重要？应该考虑清楚些什么？</p>
-                        </a>
-                        <div class="extra" style="font-size: 13px;">
-                            <span class="right floated">
-                                <i class="talk outline icon"></i>
-                                <span>23</span>
-                                |
-                                <i class="thumbs outline up icon"></i>
-                                <span>17</span>
-                                |
-                                <i class="unhide icon"></i>
-                                <span>400</span>
-                            </span>
-                            <span>曾庆熙</span>
-                            <span>2018-01-13 11:33:51 发表在 [职业发展]</span>
-                            <span>最后回复:2018-01-13 11:33:52</span>
-                        </div>
-                    </div>
-                </div>
+                -->
             </div>
         </div>
         <div class="five wide column">
@@ -326,7 +330,8 @@
 </div>
 <!-- 分页 -->
 <div class="ui subPage container">
-    <div class="ui pagination menu">
+    <div class="ui pagination menu" id="subPageMenu">
+        <!--
         <a class="item">
             首页
         </a>
@@ -363,6 +368,7 @@
         <a class="item">
             末页
         </a>
+        -->
     </div>
 </div>
 <!-- 不可抗力元素 -->
@@ -400,8 +406,20 @@
         </div>
     </div>
 </div>
-<script>
+<script th:inline="javascript">
     /*<![CDATA[*/
+    var pageNum = /*[[${data['pageNum']}]]*/;
+    var pageSize = /*[[${data['pageSize']}]]*/;
+    var totalPageNum = /*[[${data['totalPageNum']}]]*/;
+    var totalPageSize = /*[[${data['totalPageSize']}]]*/;
+    var posts = /*[[${data['posts']}]]*/;
+
+    $(function(){
+        app.init();
+        discussPage.init(pageNum, pageSize, totalPageNum, totalPageSize, posts);
+    });
+    app.init();
+    discussPage.init();
     /*]]>*/
 </script>
 </body>
