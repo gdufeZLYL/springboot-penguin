@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.List;
 
 @Component
@@ -22,4 +23,6 @@ public interface PostMapper {
     int getCount();
 
     List<Post> getPosts();
+
+    int updateReplyNumById(@Param("id") int id, @Param("lastReplyTime") Date lastReplyTime);
 }

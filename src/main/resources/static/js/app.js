@@ -46,6 +46,12 @@ var app = {
         discussUrl: function () {
             return "/discuss";
         },
+        addCommentUrl: function () {
+            return "/comment/api/addComment";
+        },
+        addReplyUrl: function () {
+            return "/reply/api/addReply";
+        },
     },
     /**
      * 全局初始化:服务器时间获取,登录功能,退出登录

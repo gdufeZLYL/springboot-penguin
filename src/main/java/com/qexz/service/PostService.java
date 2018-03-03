@@ -15,4 +15,6 @@ public interface PostService {
     Map<String, Object> getPosts(int pageNum, int pageSize);
 
     Post getPostById(int id);
+
+    boolean updateReplyNumById(int id);
 }

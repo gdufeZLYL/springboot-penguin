@@ -53,7 +53,15 @@
         SELECT
         *
         FROM t_penguin_post
-        ORDER BY last_reply_time, update_time, create_time DESC
+        ORDER BY last_reply_time DESC, update_time DESC, create_time DESC
     </select>
+
+    <update id="updateReplyNumById">
+        UPDATE t_penguin_post
+        SET
+         reply_num = reply_num + 1, last_reply_time = #{lastReplyTime}
+        WHERE
+        id = #{id}
+    </update>
 
 </mapper>

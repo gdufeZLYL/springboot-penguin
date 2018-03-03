@@ -32,6 +32,10 @@ public class DefaultController {
     private QuestionService questionService;
     @Autowired
     private PostService postService;
+    @Autowired
+    private CommentService commentService;
+    @Autowired
+    private ReplyService replyService;
 
     /**
      * 首页
@@ -89,9 +93,7 @@ public class DefaultController {
     public String problemSet(HttpServletRequest request, @RequestParam(value = "page", defaultValue = "1") int page, Model model) {
         Account currentAccount = (Account) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
         Map<String, Object> data = subjectService.getSubjects(page, QexzConst.subjectPageSize);
-        //TODO::处理
-//        currentAccount = accountService.getAccountByUsername("14251104208");
-//        LOG.info("currentAccount = " + currentAccount);
+
         model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentAccount);
         model.addAttribute(QexzConst.DATA, data);
         return "/problem/problemset";
@@ -103,8 +105,7 @@ public class DefaultController {
     @RequestMapping(value="/problemset/{problemsetId}/problems", method= RequestMethod.GET)
     public String problemList(HttpServletRequest request, @PathVariable("problemsetId") Integer problemsetId, Model model) {
         Account currentAccount = (Account) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
-        //TODO::处理
-        currentAccount = accountService.getAccountByUsername("14251104208");
+
         LOG.info("problemsetId = " + problemsetId);
         LOG.info("currentAccount = " + currentAccount);
         model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentAccount);
@@ -117,8 +118,7 @@ public class DefaultController {
     @RequestMapping(value="/problemset/{problemsetId}/problem/{problemId}", method= RequestMethod.GET)
     public String problemDetail(HttpServletRequest request, @PathVariable("problemsetId") Integer problemsetId, @PathVariable("problemId") Integer problemId, Model model) {
         Account currentAccount = (Account) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
-        //TODO::处理
-        currentAccount = accountService.getAccountByUsername("14251104208");
+
         LOG.info("problemsetId = " + problemsetId);
         LOG.info("problemId = " + problemId);
         LOG.info("currentAccount = " + currentAccount);
@@ -132,9 +132,7 @@ public class DefaultController {
     @RequestMapping(value="/discuss", method= RequestMethod.GET)
     public String discuss(HttpServletRequest request, @RequestParam(value = "page", defaultValue = "1") int page, Model model) {
         Account currentAccount = (Account) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
-        //TODO::处理
-        currentAccount = accountService.getAccountByUsername("14251104208");
-        LOG.info("currentAccount = " + currentAccount);
+
         Map<String, Object> data = postService.getPosts(page, QexzConst.postPageSize);
         List<Post> posts = (List<Post>) data.get("posts");
         Set<Integer> authorIds = posts.stream().map(Post::getAuthorId).collect(Collectors.toCollection(HashSet::new));
@@ -155,15 +153,49 @@ public class DefaultController {
     @RequestMapping(value="/discuss/{postId}", method= RequestMethod.GET)
     public String discussDetail(HttpServletRequest request, @PathVariable("postId") Integer postId, Model model) {
         Account currentAccount = (Account) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
-        //TODO::处理
-        currentAccount = accountService.getAccountByUsername("14251104208");
-        LOG.info("postId = " + postId);
-        LOG.info("currentAccount = " + currentAccount);
+
         Map<String, Object> data = new HashMap<>();
         Post post = postService.getPostById(postId);
         Account author = accountService.getAccountById(post.getAuthorId());
         post.setAuthor(author);
         data.put("post", post);
+
+        List<Comment> comments = commentService.getCommentsByPostId(postId);
+        List<Reply> replies = replyService.getReliesByPostId(postId);
+        Set<Integer> userIds = new HashSet<>();
+        for (Comment comment : comments) {
+            comment.setReplies(new ArrayList<>());
+            userIds.add(comment.getUserId());
+        }
+        for (Reply reply : replies) {
+            userIds.add(reply.getUserId());
+            userIds.add(reply.getAtuserId());
+        }
+        List<Account> users = accountService.getAccountsByIds(userIds);
+        Map<Integer, Account> id2user = users.stream().
+                collect(Collectors.toMap(Account::getId, account -> account));
+        for (Comment comment : comments) {
+            comment.setUser(id2user.get(comment.getUserId()));
+        }
+        for (Reply reply : replies) {
+            reply.setUser(id2user.get(reply.getUserId()));
+            if (reply.getAtuserId() != 0) {
+                reply.setAtuser(id2user.get(reply.getAtuserId()));
+            }
+        }
+        Map<Integer, Comment> id2comment = comments.stream().
+                collect(Collectors.toMap(Comment::getId, comment -> comment));
+        for (Reply reply : replies) {
+            Comment comment = id2comment.get(reply.getCommentId());
+            comment.getReplies().add(reply);
+        }
+        data.put("comments", comments);
+        if (currentAccount != null){
+            data.put("userId", currentAccount.getId());
+        } else {
+            data.put("userId", 0);
+        }
+
         model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentAccount);
         model.addAttribute(QexzConst.DATA, data);
         return "/discuss/discussDetail";
