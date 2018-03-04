@@ -17,4 +17,6 @@ public interface PostService {
     Post getPostById(int id);
 
     boolean updateReplyNumById(int id);
+
+    Map<String, Object> getPostsByAuthorId(int pageNum, int pageSize, int authorId);
 }

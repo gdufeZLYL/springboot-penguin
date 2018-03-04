@@ -63,22 +63,22 @@
             <div class="row" style="margin-top: 1em;">
                 <div class="ui card">
                     <div class="content">
-                        <a href="#">
+                        <a th:href="@{/account/profile}">
                             <i class="user icon"></i>个人信息
                         </a>
                     </div>
                     <div class="content">
-                        <a href="#">
+                        <a th:href="@{/account/password}">
                             <i class="edit icon"></i>更改密码
                         </a>
                     </div>
                     <div class="content">
-                        <a href="#">
+                        <a th:href="@{/account/myExam}">
                             <i class="history icon"></i>考试记录
                         </a>
                     </div>
                     <div class="content">
-                        <a href="#">
+                        <a th:href="@{/account/myDiscussPost}">
                             <i class="talk icon"></i>我的发帖
                         </a>
                         <i class="pointing left icon"></i>
@@ -91,6 +91,21 @@
                 <h4 class="ui dividing header">我的发帖</h4>
                 <!-- 列表项 -->
                 <div class="ui divided items">
+                    <div class="item" th:each="item,itemStats : ${data['posts']}">
+                        <div class="content">
+                            <a th:href="@{'/discuss/'+${item.id}}" class="header" th:text="${item.title}">各位拿到机器学习、数据挖掘Offer的大佬们,是怎么学习的？</a>
+                            <!--
+                            <div class="description">
+                                <p th:text="${item.textContent}">各位拿到机器学习、数据挖掘Offer的大佬们,是怎么学习的？我看了一下，网上有很多都提到了要学习各种机器学习算法之类的，感觉要学好多的算法啊，你们都把这些常见的机器学习算法编程实践过吗？ 。 。 。 。 。 。 。 。 。 你们都看过什么书</p>
+                            </div>
+                            -->
+                            <div class="extra">
+                                <span class="right floated" th:text="'发布于: '+${#dates.format(item.createTime, 'yyyy-MM-dd HH:mm:ss')}">发布于: 2018-01-11 15:30:09</span>
+                                <div class="ui label"><i class="talk outline icon"></i><span th:text="${item.replyNum}">23</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--
                     <div class="item">
                         <div class="content">
                             <a class="header">各位拿到机器学习、数据挖掘Offer的大佬们,是怎么学习的？</a>
@@ -115,10 +130,12 @@
                             </div>
                         </div>
                     </div>
+                    -->
                 </div>
                 <!-- 分页 -->
                 <div class="ui container">
-                    <div class="ui pagination menu">
+                    <div class="ui pagination menu" id="subPageMenu">
+                        <!--
                         <a class="item">
                             首页
                         </a>
@@ -155,6 +172,7 @@
                         <a class="item">
                             末页
                         </a>
+                        -->
                     </div>
                 </div>
             </div>
@@ -191,8 +209,18 @@
         </div>
     </div>
 </div>
-<script>
+<script th:inline="javascript">
     /*<![CDATA[*/
+    var pageNum = /*[[${data['pageNum']}]]*/;
+    var pageSize = /*[[${data['pageSize']}]]*/;
+    var totalPageNum = /*[[${data['totalPageNum']}]]*/;
+    var totalPageSize = /*[[${data['totalPageSize']}]]*/;
+    var posts = /*[[${data['posts']}]]*/;
+
+    $(function(){
+        app.init();
+        myDiscussPostPage.init(pageNum, pageSize, totalPageNum, totalPageSize, posts);
+    });
     /*]]>*/
 </script>
 </body>

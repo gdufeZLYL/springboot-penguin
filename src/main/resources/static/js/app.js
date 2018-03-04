@@ -55,6 +55,12 @@ var app = {
         addReplyUrl: function () {
             return "/reply/api/addReply";
         },
+        myDiscussPostUrl: function () {
+            return "/account/myDiscussPost";
+        },
+        myExamUrl: function () {
+            return "/account/myExam";
+        },
     },
     /**
      * 全局初始化:服务器时间获取,登录功能,退出登录

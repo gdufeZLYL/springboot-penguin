@@ -25,4 +25,8 @@ public interface PostMapper {
     List<Post> getPosts();
 
     int updateReplyNumById(@Param("id") int id, @Param("lastReplyTime") Date lastReplyTime);
+
+    int getCountByAuthorId(@Param("authorId") int authorId);
+
+    List<Post> getPostsByAuthorId(@Param("authorId") int authorId);
 }

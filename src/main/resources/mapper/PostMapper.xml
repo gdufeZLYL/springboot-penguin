@@ -64,4 +64,19 @@
         id = #{id}
     </update>
 
+    <select id="getCountByAuthorId" resultType="int">
+        SELECT
+        COUNT(1)
+        FROM t_penguin_post
+        WHERE author_id = #{authorId}
+    </select>
+
+    <select id="getPostsByAuthorId" resultMap="BaseResultMap" >
+        SELECT
+        *
+        FROM t_penguin_post
+        WHERE author_id = #{authorId}
+        ORDER BY last_reply_time DESC, update_time DESC, create_time DESC
+    </select>
+
 </mapper>

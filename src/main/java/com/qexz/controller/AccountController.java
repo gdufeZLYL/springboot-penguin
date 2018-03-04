@@ -5,6 +5,7 @@ import com.qexz.dto.AjaxResult;
 import com.qexz.exception.QexzWebError;
 import com.qexz.model.Account;
 import com.qexz.service.AccountService;
+import com.qexz.service.PostService;
 import com.qexz.util.MD5;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -34,6 +35,8 @@ public class AccountController {
 
     @Autowired
     private AccountService accountService;
+    @Autowired
+    private PostService postService;
 
     /**
      * 个人信息页面
@@ -84,13 +87,15 @@ public class AccountController {
      * 我的发帖页面
      */
     @RequestMapping(value="/myDiscussPost", method= RequestMethod.GET)
-    public String myDiscussPost(HttpServletRequest request, Model model) {
+    public String myDiscussPost(HttpServletRequest request, @RequestParam(value = "page", defaultValue = "1") int page, Model model) {
         Account currentAccount = (Account) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
         //TODO::拦截器过滤处理
         if (currentAccount == null) {
             //用户未登录直接返回首页面
             return "redirect:/";
         }
+        Map<String, Object> data = postService.getPostsByAuthorId(page, QexzConst.postPageSize, currentAccount.getId());
+        model.addAttribute(QexzConst.DATA, data);
         model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentAccount);
         return "/user/myDiscussPost";
     }
