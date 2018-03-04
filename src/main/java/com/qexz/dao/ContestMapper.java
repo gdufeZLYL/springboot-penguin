@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Component
 @Mapper
@@ -27,4 +28,6 @@ public interface ContestMapper {
     int updateStateToStart(@Param("currentTime") Date currentTime);
 
     int updateStateToEnd(@Param("currentTime") Date currentTime);
+
+    List<Contest> getContestsByContestIds(@Param("contestIds") Set<Integer> contestIds);
 }

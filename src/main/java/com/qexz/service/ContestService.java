@@ -2,7 +2,9 @@ package com.qexz.service;
 
 import com.qexz.model.Contest;
 
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public interface ContestService {
 
@@ -19,4 +21,6 @@ public interface ContestService {
     boolean updateStateToStart();
 
     boolean updateStateToEnd();
+
+    List<Contest> getContestsByContestIds(Set<Integer> contestIds);
 }

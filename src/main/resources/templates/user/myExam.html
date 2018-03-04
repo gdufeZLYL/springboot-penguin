@@ -89,8 +89,35 @@
         <div class="twelve wide column">
             <div class="ui segment">
                 <h4 class="ui dividing header">考试记录</h4>
-                <!-- 第一排 -->
                 <div class="ui three cards">
+                    <div class="ui card paper" th:each="item,itemStats : ${data['grades']}">
+                        <div class="content">
+                            <div class="header paper-title" th:text="${item.contest.title}">顺丰2017校招研发工程师笔试试卷</div>
+                        </div>
+                        <div class="extra content paper-type" style="background-color: #9ED5C9;color: #FFFFFF;" th:text="${item.contest.subjectName}">
+                            计算机网络
+                        </div>
+                        <div class="content">
+                            <div class="ui small feed">
+                                <div class="event">
+                                    <div class="content">
+                                        <div class="summary"><a><i class="wait icon"></i>完成时间&nbsp;:&nbsp;</a><span class="paper-finish-time" th:text="${#dates.format(item.createTime, 'yyyy-MM-dd HH:mm:ss')}">2018-1-11 11:15:27</span></div>
+                                    </div>
+                                </div>
+                                <div class="event">
+                                    <div class="content">
+                                        <div class="summary"><a><i class="database icon"></i>得分&nbsp;:&nbsp;</a><span th:text="${item.result}">100</span></div>
+                                    </div>
+                                </div>
+                                <div class="event">
+                                    <div class="content">
+                                        <div class="summary"><a><i class="trophy icon"></i>排名&nbsp;:&nbsp;</a><span>--</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--
                     <div class="ui card paper">
                         <div class="content">
                             <div class="header paper-title">顺丰2017校招研发工程师笔试试卷</div>
@@ -172,9 +199,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <!-- 第二排 -->
-                <div class="ui three cards">
                     <div class="ui card paper">
                         <div class="content">
                             <div class="header paper-title">顺丰2017校招研发工程师笔试试卷</div>
@@ -202,232 +226,12 @@
                             </div>
                         </div>
                     </div>
-                    <div class="ui card paper">
-                        <div class="content">
-                            <div class="header paper-title">顺丰2017校招研发工程师笔试试卷</div>
-                        </div>
-                        <div class="extra content paper-type" style="background-color: #9ED5C9;color: #FFFFFF;">
-                            计算机网络
-                        </div>
-                        <div class="content">
-                            <div class="ui small feed">
-                                <div class="event">
-                                    <div class="content">
-                                        <div class="summary"><a><i class="wait icon"></i>完成时间&nbsp;:&nbsp;</a><span class="paper-finish-time">2018-1-11 11:15:27</span></div>
-                                    </div>
-                                </div>
-                                <div class="event">
-                                    <div class="content">
-                                        <div class="summary"><a><i class="database icon"></i>得分&nbsp;:&nbsp;</a><span>100</span></div>
-                                    </div>
-                                </div>
-                                <div class="event">
-                                    <div class="content">
-                                        <div class="summary"><a><i class="trophy icon"></i>排名&nbsp;:&nbsp;</a><span>100</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="ui card paper">
-                        <div class="content">
-                            <div class="header paper-title">顺丰2017校招研发工程师笔试试卷</div>
-                        </div>
-                        <div class="extra content paper-type" style="background-color: #9ED5C9;color: #FFFFFF;">
-                            计算机网络
-                        </div>
-                        <div class="content">
-                            <div class="ui small feed">
-                                <div class="event">
-                                    <div class="content">
-                                        <div class="summary"><a><i class="wait icon"></i>完成时间&nbsp;:&nbsp;</a><span class="paper-finish-time">2018-1-11 11:15:27</span></div>
-                                    </div>
-                                </div>
-                                <div class="event">
-                                    <div class="content">
-                                        <div class="summary"><a><i class="database icon"></i>得分&nbsp;:&nbsp;</a><span>100</span></div>
-                                    </div>
-                                </div>
-                                <div class="event">
-                                    <div class="content">
-                                        <div class="summary"><a><i class="trophy icon"></i>排名&nbsp;:&nbsp;</a><span>100</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- 第三排 -->
-                <div class="ui three cards">
-                    <div class="ui card paper">
-                        <div class="content">
-                            <div class="header paper-title">顺丰2017校招研发工程师笔试试卷</div>
-                        </div>
-                        <div class="extra content paper-type" style="background-color: #9ED5C9;color: #FFFFFF;">
-                            计算机网络
-                        </div>
-                        <div class="content">
-                            <div class="ui small feed">
-                                <div class="event">
-                                    <div class="content">
-                                        <div class="summary"><a><i class="wait icon"></i>完成时间&nbsp;:&nbsp;</a><span class="paper-finish-time">2018-1-11 11:15:27</span></div>
-                                    </div>
-                                </div>
-                                <div class="event">
-                                    <div class="content">
-                                        <div class="summary"><a><i class="database icon"></i>得分&nbsp;:&nbsp;</a><span>100</span></div>
-                                    </div>
-                                </div>
-                                <div class="event">
-                                    <div class="content">
-                                        <div class="summary"><a><i class="trophy icon"></i>排名&nbsp;:&nbsp;</a><span>100</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="ui card paper">
-                        <div class="content">
-                            <div class="header paper-title">顺丰2017校招研发工程师笔试试卷</div>
-                        </div>
-                        <div class="extra content paper-type" style="background-color: #9ED5C9;color: #FFFFFF;">
-                            计算机网络
-                        </div>
-                        <div class="content">
-                            <div class="ui small feed">
-                                <div class="event">
-                                    <div class="content">
-                                        <div class="summary"><a><i class="wait icon"></i>完成时间&nbsp;:&nbsp;</a><span class="paper-finish-time">2018-1-11 11:15:27</span></div>
-                                    </div>
-                                </div>
-                                <div class="event">
-                                    <div class="content">
-                                        <div class="summary"><a><i class="database icon"></i>得分&nbsp;:&nbsp;</a><span>100</span></div>
-                                    </div>
-                                </div>
-                                <div class="event">
-                                    <div class="content">
-                                        <div class="summary"><a><i class="trophy icon"></i>排名&nbsp;:&nbsp;</a><span>100</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="ui card paper">
-                        <div class="content">
-                            <div class="header paper-title">顺丰2017校招研发工程师笔试试卷</div>
-                        </div>
-                        <div class="extra content paper-type" style="background-color: #9ED5C9;color: #FFFFFF;">
-                            计算机网络
-                        </div>
-                        <div class="content">
-                            <div class="ui small feed">
-                                <div class="event">
-                                    <div class="content">
-                                        <div class="summary"><a><i class="wait icon"></i>完成时间&nbsp;:&nbsp;</a><span class="paper-finish-time">2018-1-11 11:15:27</span></div>
-                                    </div>
-                                </div>
-                                <div class="event">
-                                    <div class="content">
-                                        <div class="summary"><a><i class="database icon"></i>得分&nbsp;:&nbsp;</a><span>100</span></div>
-                                    </div>
-                                </div>
-                                <div class="event">
-                                    <div class="content">
-                                        <div class="summary"><a><i class="trophy icon"></i>排名&nbsp;:&nbsp;</a><span>100</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- 第四排 -->
-                <div class="ui three cards">
-                    <div class="ui card paper">
-                        <div class="content">
-                            <div class="header paper-title">顺丰2017校招研发工程师笔试试卷</div>
-                        </div>
-                        <div class="extra content paper-type" style="background-color: #9ED5C9;color: #FFFFFF;">
-                            计算机网络
-                        </div>
-                        <div class="content">
-                            <div class="ui small feed">
-                                <div class="event">
-                                    <div class="content">
-                                        <div class="summary"><a><i class="wait icon"></i>完成时间&nbsp;:&nbsp;</a><span class="paper-finish-time">2018-1-11 11:15:27</span></div>
-                                    </div>
-                                </div>
-                                <div class="event">
-                                    <div class="content">
-                                        <div class="summary"><a><i class="database icon"></i>得分&nbsp;:&nbsp;</a><span>100</span></div>
-                                    </div>
-                                </div>
-                                <div class="event">
-                                    <div class="content">
-                                        <div class="summary"><a><i class="trophy icon"></i>排名&nbsp;:&nbsp;</a><span>100</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="ui card paper">
-                        <div class="content">
-                            <div class="header paper-title">顺丰2017校招研发工程师笔试试卷</div>
-                        </div>
-                        <div class="extra content paper-type" style="background-color: #9ED5C9;color: #FFFFFF;">
-                            计算机网络
-                        </div>
-                        <div class="content">
-                            <div class="ui small feed">
-                                <div class="event">
-                                    <div class="content">
-                                        <div class="summary"><a><i class="wait icon"></i>完成时间&nbsp;:&nbsp;</a><span class="paper-finish-time">2018-1-11 11:15:27</span></div>
-                                    </div>
-                                </div>
-                                <div class="event">
-                                    <div class="content">
-                                        <div class="summary"><a><i class="database icon"></i>得分&nbsp;:&nbsp;</a><span>100</span></div>
-                                    </div>
-                                </div>
-                                <div class="event">
-                                    <div class="content">
-                                        <div class="summary"><a><i class="trophy icon"></i>排名&nbsp;:&nbsp;</a><span>100</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="ui card paper">
-                        <div class="content">
-                            <div class="header paper-title">顺丰2017校招研发工程师笔试试卷</div>
-                        </div>
-                        <div class="extra content paper-type" style="background-color: #9ED5C9;color: #FFFFFF;">
-                            计算机网络
-                        </div>
-                        <div class="content">
-                            <div class="ui small feed">
-                                <div class="event">
-                                    <div class="content">
-                                        <div class="summary"><a><i class="wait icon"></i>完成时间&nbsp;:&nbsp;</a><span class="paper-finish-time">2018-1-11 11:15:27</span></div>
-                                    </div>
-                                </div>
-                                <div class="event">
-                                    <div class="content">
-                                        <div class="summary"><a><i class="database icon"></i>得分&nbsp;:&nbsp;</a><span>100</span></div>
-                                    </div>
-                                </div>
-                                <div class="event">
-                                    <div class="content">
-                                        <div class="summary"><a><i class="trophy icon"></i>排名&nbsp;:&nbsp;</a><span>100</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    -->
                 </div>
                 <!-- 分页 -->
                 <div class="ui container">
-                    <div class="ui pagination menu">
+                    <div class="ui pagination menu" id="subPageMenu">
+                        <!--
                         <a class="item">
                             首页
                         </a>
@@ -464,6 +268,7 @@
                         <a class="item">
                             末页
                         </a>
+                        -->
                     </div>
                 </div>
             </div>
@@ -500,8 +305,18 @@
         </div>
     </div>
 </div>
-<script>
+<script th:inline="javascript">
     /*<![CDATA[*/
+    var pageNum = /*[[${data['pageNum']}]]*/;
+    var pageSize = /*[[${data['pageSize']}]]*/;
+    var totalPageNum = /*[[${data['totalPageNum']}]]*/;
+    var totalPageSize = /*[[${data['totalPageSize']}]]*/;
+    var grades = /*[[${data['grades']}]]*/;
+
+    $(function(){
+        app.init();
+        myExamPage.init(pageNum, pageSize, totalPageNum, totalPageSize, grades);
+    });
     /*]]>*/
 </script>
 </body>

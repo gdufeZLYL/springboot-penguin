@@ -4,8 +4,10 @@ import com.qexz.common.QexzConst;
 import com.qexz.dto.AjaxResult;
 import com.qexz.exception.QexzWebError;
 import com.qexz.model.Account;
-import com.qexz.service.AccountService;
-import com.qexz.service.PostService;
+import com.qexz.model.Contest;
+import com.qexz.model.Grade;
+import com.qexz.model.Subject;
+import com.qexz.service.*;
 import com.qexz.util.MD5;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -23,9 +25,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(value = "/account")
@@ -37,6 +38,12 @@ public class AccountController {
     private AccountService accountService;
     @Autowired
     private PostService postService;
+    @Autowired
+    private GradeService gradeService;
+    @Autowired
+    private ContestService contestService;
+    @Autowired
+    private SubjectService subjectService;
 
     /**
      * 个人信息页面
@@ -72,13 +79,30 @@ public class AccountController {
      * 考试记录页面
      */
     @RequestMapping(value="/myExam", method= RequestMethod.GET)
-    public String myExam(HttpServletRequest request, Model model) {
+    public String myExam(HttpServletRequest request, @RequestParam(value = "page", defaultValue = "1") int page, Model model) {
         Account currentAccount = (Account) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
         //TODO::拦截器过滤处理
         if (currentAccount == null) {
             //用户未登录直接返回首页面
             return "redirect:/";
         }
+        Map<String, Object> data = gradeService.getGradesByStudentId(page, QexzConst.gradePageSize, currentAccount.getId());
+        List<Grade> grades = (List<Grade>) data.get("grades");
+        Set<Integer> contestIds = grades.stream().map(Grade::getContestId).collect(Collectors.toCollection(HashSet::new));
+        List<Contest> contests = contestService.getContestsByContestIds(contestIds);
+        List<Subject> subjects = subjectService.getSubjects();
+        Map<Integer, String> subjectId2name = subjects.stream().
+                collect(Collectors.toMap(Subject::getId, Subject::getName));
+        for (Contest contest : contests) {
+            contest.setSubjectName(subjectId2name.
+                    getOrDefault(contest.getSubjectId(), "未知科目"));
+        }
+        Map<Integer, Contest> id2contest = contests.stream().
+                collect(Collectors.toMap(Contest::getId, contest -> contest));
+        for (Grade grade : grades) {
+            grade.setContest(id2contest.get(grade.getContestId()));
+        }
+        model.addAttribute(QexzConst.DATA, data);
         model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentAccount);
         return "/user/myExam";
     }

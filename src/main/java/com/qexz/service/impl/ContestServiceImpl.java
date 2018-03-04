@@ -95,4 +95,9 @@ public class ContestServiceImpl implements ContestService{
     public boolean updateStateToEnd() {
         return contestMapper.updateStateToEnd(new Date()) > 0;
     }
+
+    @Override
+    public List<Contest> getContestsByContestIds(Set<Integer> contestIds) {
+        return contestMapper.getContestsByContestIds(contestIds);
+    }
 }

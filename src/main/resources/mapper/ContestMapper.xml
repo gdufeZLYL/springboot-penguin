@@ -73,4 +73,17 @@
         WHERE
         state <![CDATA[ <= ]]> 2 AND end_time <![CDATA[ <= ]]> #{currentTime}
     </update>
+
+    <select id="getContestsByContestIds" resultMap="BaseResultMap">
+        SELECT
+        *
+        FROM t_penguin_contest
+        WHERE 1 = 1
+        <if test="contestIds != null and contestIds.size > 0">
+            AND id IN
+            <foreach collection="contestIds" item="contestId" open="(" separator="," close=")">
+                #{contestId}
+            </foreach>
+        </if>
+    </select>
 </mapper>
