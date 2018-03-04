@@ -94,6 +94,15 @@ var app = {
         deleteSubjectUrl: function () {
             return "/subject/api/deleteSubject/";
         },
+        managePostListUrl: function () {
+            return "/manage/post/list"
+        },
+        updatePostUrl: function () {
+            return "/post/api/updatePost"
+        },
+        deletePostUrl: function () {
+            return "/post/api/deletePost/";
+        },
 
     },
     /**

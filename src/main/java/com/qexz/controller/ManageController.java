@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -35,6 +33,8 @@ public class ManageController {
     private QuestionService questionService;
     @Autowired
     private GradeService gradeService;
+    @Autowired
+    private PostService postService;
 
     /**
      * 管理员登录页
@@ -223,6 +223,34 @@ public class ManageController {
             Map<String, Object> data = subjectService.getSubjects(page, QexzConst.subjectPageSize);
             model.addAttribute(QexzConst.DATA, data);
             return "/manage/manage-subjectBoard";
+        }
+    }
+
+    /**
+     * 帖子管理
+     */
+    @RequestMapping(value="/post/list", method= RequestMethod.GET)
+    public String postList(HttpServletRequest request,
+                              @RequestParam(value = "page", defaultValue = "1") int page,
+                              Model model) {
+        Account currentAccount = (Account) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
+        //TODO::处理
+        currentAccount = accountService.getAccountByUsername("admin");
+        model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentAccount);
+        if (currentAccount == null) {
+            return "redirect:/";
+        } else {
+            Map<String, Object> data = postService.getPosts(page, QexzConst.postPageSize);
+            List<Post> posts = (List<Post>) data.get("posts");
+            Set<Integer> authorIds = posts.stream().map(Post::getAuthorId).collect(Collectors.toCollection(HashSet::new));
+            List<Account> authors = accountService.getAccountsByIds(authorIds);
+            Map<Integer, Account> id2author = authors.stream().
+                    collect(Collectors.toMap(Account::getId, account -> account));
+            for (Post post : posts) {
+                post.setAuthor(id2author.get(post.getAuthorId()));
+            }
+            model.addAttribute(QexzConst.DATA, data);
+            return "/manage/manage-postBoard";
         }
     }
 }
