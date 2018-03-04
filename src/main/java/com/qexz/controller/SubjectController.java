@@ -1,27 +1,55 @@
 package com.qexz.controller;
 
+import com.qexz.common.QexzConst;
 import com.qexz.dto.AjaxResult;
+import com.qexz.model.Subject;
 import com.qexz.service.AccountService;
 import com.qexz.service.SubjectService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@Controller
-@RequestMapping(value = "/account")
+@RestController
+@RequestMapping(value = "/subject")
 public class SubjectController {
 
-    private static Log LOG = LogFactory.getLog(DefaultController.class);
+    private static Log LOG = LogFactory.getLog(SubjectController.class);
 
     @Autowired
     private SubjectService subjectService;
+
+    //添加课程
+    @RequestMapping(value="/api/addSubject", method= RequestMethod.POST)
+    @ResponseBody
+    public AjaxResult addSubject(@RequestBody Subject subject) {
+        AjaxResult ajaxResult = new AjaxResult();
+        subject.setImgUrl(QexzConst.DEFAULT_SUBJECT_IMG_URL);
+        subject.setQuestionNum(0);
+        int subjectId = subjectService.addSubject(subject);
+        return new AjaxResult().setData(subjectId);
+    }
+
+    //更新课程
+    @RequestMapping(value="/api/updateSubject", method= RequestMethod.POST)
+    @ResponseBody
+    public AjaxResult updateSubject(@RequestBody Subject subject) {
+        AjaxResult ajaxResult = new AjaxResult();
+        boolean result = subjectService.updateSubject(subject);
+        return new AjaxResult().setData(result);
+    }
+
+    //删除课程
+    @DeleteMapping("/api/deleteSubject/{id}")
+    public AjaxResult deleteSubject(@PathVariable int id) {
+        AjaxResult ajaxResult = new AjaxResult();
+        boolean result = subjectService.deleteSubjectById(id);
+        return new AjaxResult().setData(result);
+    }
 
     /**
      * 分页获取所有课程列表

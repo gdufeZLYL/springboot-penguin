@@ -79,4 +79,9 @@ public class SubjectServiceImpl implements SubjectService {
     public List<Subject> getSubjects() {
         return subjectMapper.getSubjects();
     }
+
+    @Override
+    public boolean deleteSubjectById(int id) {
+        return subjectMapper.deleteSubjectById(id) > 0;
+    }
 }

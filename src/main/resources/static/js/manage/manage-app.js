@@ -82,6 +82,18 @@ var app = {
         disabledAccountUrl: function () {
             return "/account/api/disabledAccount/";
         },
+        manageSubjectListUrl: function () {
+            return "/manage/subject/list"
+        },
+        addSubjectUrl: function () {
+            return "/subject/api/addSubject";
+        },
+        updateSubjectUrl: function () {
+            return "/subject/api/updateSubject"
+        },
+        deleteSubjectUrl: function () {
+            return "/subject/api/deleteSubject/";
+        },
 
     },
     /**

@@ -20,4 +20,6 @@ public interface SubjectMapper {
     int getCount();
 
     List<Subject> getSubjects();
+
+    int deleteSubjectById(@Param("id") int id);
 }

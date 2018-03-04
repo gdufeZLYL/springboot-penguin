@@ -47,4 +47,9 @@
         *
         FROM t_penguin_subject
     </select>
+
+    <delete id="deleteSubjectById" parameterType="int">
+        DELETE FROM t_penguin_subject
+        where id = #{id}
+    </delete>
 </mapper>

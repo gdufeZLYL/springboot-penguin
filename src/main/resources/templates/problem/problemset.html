@@ -38,7 +38,7 @@
             <a class="item" th:href="@{/account/profile}">
                 <i class="user icon"></i>我的主页
             </a>
-            <a class="item" th:href="@{/}">
+            <a class="item" id="logout">
                 <i class="sign out icon"></i>退出
             </a>
         </div>
@@ -66,7 +66,7 @@
                 <div class="content">
                     <div class="header">
                         <!-- TODO::跳转处理 -->
-                        <a th:if="${current_account != null}" href="javascript:void(0)" th:text="${item.name}">计算机组成原理</a>
+                        <a th:if="${current_account != null}" th:href="@{'/problemset/'+${item.id}+'/problems'}" th:text="${item.name}">计算机组成原理</a>
                         <a th:if="${current_account == null}" th:onclick="'app.showLogin()'" th:text="${item.name}">计算机组成原理</a>
                     </div>
                     <p class="meta">

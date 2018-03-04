@@ -16,4 +16,6 @@ public interface SubjectService {
     Map<String, Object> getSubjects(int pageNum, int pageSize);
 
     List<Subject> getSubjects();
+
+    boolean deleteSubjectById(int id);
 }
