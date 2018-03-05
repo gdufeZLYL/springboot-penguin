@@ -25,4 +25,22 @@
         WHERE post_id = #{postId}
         ORDER BY create_time ASC
     </select>
+
+    <select id="getCount" resultType="int">
+        SELECT
+        COUNT(1)
+        FROM t_penguin_comment
+    </select>
+
+    <select id="getComments" resultMap="BaseResultMap">
+        SELECT
+        *
+        FROM t_penguin_comment
+        ORDER BY create_time ASC
+    </select>
+
+    <delete id="deleteCommentById" parameterType="int" >
+        delete from t_penguin_comment
+        where id = #{id}
+    </delete>
 </mapper>

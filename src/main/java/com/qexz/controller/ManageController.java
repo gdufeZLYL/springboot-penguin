@@ -35,6 +35,8 @@ public class ManageController {
     private GradeService gradeService;
     @Autowired
     private PostService postService;
+    @Autowired
+    private CommentService commentService;
 
     /**
      * 管理员登录页
@@ -251,6 +253,34 @@ public class ManageController {
             }
             model.addAttribute(QexzConst.DATA, data);
             return "/manage/manage-postBoard";
+        }
+    }
+
+    /**
+     * 评论管理
+     */
+    @RequestMapping(value="/comment/list", method= RequestMethod.GET)
+    public String commentList(HttpServletRequest request,
+                           @RequestParam(value = "page", defaultValue = "1") int page,
+                           Model model) {
+        Account currentAccount = (Account) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
+        //TODO::处理
+        currentAccount = accountService.getAccountByUsername("admin");
+        model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentAccount);
+        if (currentAccount == null) {
+            return "redirect:/";
+        } else {
+            Map<String, Object> data = commentService.getComments(page, QexzConst.commentPageSize);
+            List<Comment> comments = (List<Comment>) data.get("comments");
+            Set<Integer> userIds = comments.stream().map(Comment::getUserId).collect(Collectors.toCollection(HashSet::new));
+            List<Account> users = accountService.getAccountsByIds(userIds);
+            Map<Integer, Account> id2user = users.stream().
+                    collect(Collectors.toMap(Account::getId, account -> account));
+            for (Comment comment : comments) {
+                comment.setUser(id2user.get(comment.getUserId()));
+            }
+            model.addAttribute(QexzConst.DATA, data);
+            return "/manage/manage-commentBoard";
         }
     }
 }

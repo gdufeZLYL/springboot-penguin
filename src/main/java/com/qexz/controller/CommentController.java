@@ -29,4 +29,12 @@ public class CommentController {
         int commentId = commentService.addComment(comment);
         return new AjaxResult().setData(commentId);
     }
+
+    //删除评论
+    @DeleteMapping("/api/deleteComment/{id}")
+    public AjaxResult deleteComment(@PathVariable int id) {
+        AjaxResult ajaxResult = new AjaxResult();
+        boolean result = commentService.deleteCommentById(id);
+        return new AjaxResult().setData(result);
+    }
 }

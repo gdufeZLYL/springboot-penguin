@@ -103,6 +103,12 @@ var app = {
         deletePostUrl: function () {
             return "/post/api/deletePost/";
         },
+        manageCommentListUrl: function () {
+            return "/manage/comment/list"
+        },
+        deleteCommentUrl: function () {
+            return "/comment/api/deleteComment/";
+        },
 
     },
     /**
