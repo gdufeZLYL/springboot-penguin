@@ -49,7 +49,7 @@
         <i class="right chevron icon divider"></i>
         <a class="section">题库中心</a>
         <i class="right chevron icon divider"></i>
-        <div class="active section">数据结构与算法</div>
+        <div class="active section" th:text="${data['subject'].name}">数据结构与算法</div>
     </div>
 </div>
 
@@ -87,11 +87,28 @@
             <th class="second wide">操作</th>
         </tr></thead>
         <tbody>
+        <tr th:each="item,itemStats : ${data['questions']}">
+            <td><span th:text="${item.content}">一个作业的完成要经过若干加工步骤,每个步骤称为( )</span></td>
+            <td>
+                <div th:if="${item.difficulty == 1}" class="ui star rating" data-rating="1"></div>
+                <div th:if="${item.difficulty == 2}" class="ui star rating" data-rating="2"></div>
+                <div th:if="${item.difficulty == 3}" class="ui star rating" data-rating="3"></div>
+                <div th:if="${item.difficulty == 4}" class="ui star rating" data-rating="4"></div>
+                <div th:if="${item.difficulty == 5}" class="ui star rating" data-rating="5"></div>
+            </td>
+            <td>
+                <span th:if="${item.questionType == 0}">单选题</span>
+                <span th:if="${item.questionType == 1}">多选题</span>
+                <span th:if="${item.questionType == 2}">问答题</span>
+                <span th:if="${item.questionType == 3}">编程题</span>
+            </td>
+            <td><a th:href="@{'/problemset/'+${item.subjectId}+'/problem/'+${item.id}}" class="tiny blue ui button">详情</a></td>
+        </tr>
+        <!--
         <tr>
             <td><span>一个作业的完成要经过若干加工步骤,每个步骤称为( )</span></td>
             <td>
                 <div class="ui star rating" data-rating="3"></div>
-                <!--<div class="ui star rating disabled" data-rating="3" data-max-rating="5" data-min-rating="1"></div>-->
             </td>
             <td><span>单选题</span></td>
             <td><a class="tiny blue ui button">详情</a></td>
@@ -100,7 +117,6 @@
             <td><span>某保险公司多年的资料表明，在索赔户中，被盗索赔户占20%，以 表示在随机抽查100个索赔户中因被盗而向保险公司索赔的户数，求 . x 0 0.5 1 1.5 2 2.5 3 Ф (x) 0.500 0.691 0.841 0.933 0.977 0.994 0.999</span></td>
             <td>
                 <div class="ui star rating" data-rating="3"></div>
-                <!--<div class="ui star rating disabled" data-rating="3" data-max-rating="5" data-min-rating="1"></div>-->
             </td>
             <td><span>问答题</span></td>
             <td><a class="tiny blue ui button">详情</a></td>
@@ -109,7 +125,6 @@
             <td><span>写一个算法，逐层遍历一棵二叉树（从上到下，从左到右）</span></td>
             <td>
                 <div class="ui star rating" data-rating="3"></div>
-                <!--<div class="ui star rating disabled" data-rating="3" data-max-rating="5" data-min-rating="1"></div>-->
             </td>
             <td><span>编程题</span></td>
             <td><a class="tiny blue ui button">详情</a></td>
@@ -117,12 +132,14 @@
         <tr>
             <td colspan="9" style="padding: 0px;"><div class="ui icon message" style="margin: 0px; box-shadow: none;"><i class="info circle icon"></i><div class="content"><p>当前还没有题目呢！_(:зゝ∠)_</p></div></div></td>
         </tr>
+        -->
         </tbody>
     </table>
 </div>
 <!-- 分页 -->
 <div class="ui subPage container">
-    <div class="ui pagination menu">
+    <div class="ui pagination menu" id="subPageMenu">
+        <!--
         <a class="item">
             首页
         </a>
@@ -159,6 +176,7 @@
         <a class="item">
             末页
         </a>
+        -->
     </div>
 </div>
 <!-- 不可抗力元素 -->
@@ -232,9 +250,20 @@
         </form>
     </div>
 </div>
-<script>
+<script th:inline="javascript">
     /*<![CDATA[*/
-    /*]]>*/
+    var pageNum = /*[[${data['pageNum']}]]*/;
+    var pageSize = /*[[${data['pageSize']}]]*/;
+    var totalPageNum = /*[[${data['totalPageNum']}]]*/;
+    var totalPageSize = /*[[${data['totalPageSize']}]]*/;
+    var problemsetId = /*[[${data['problemsetId']}]]*/;
+    var questions = /*[[${data['questions']}]]*/;
+
+    $(function(){
+        app.init();
+        problemListPage.init(pageNum, pageSize, totalPageNum, totalPageSize,problemsetId, questions);
+    });
+     /*]]>*/
 </script>
 </body>
 </html>

@@ -15,5 +15,12 @@ public interface QuestionService {
 
     Map<String, Object> getQuestionsByContent(int pageNum, int pageSize, String content);
 
+    Map<String, Object> getQuestionsByProblemsetIdAndContentAndDiffculty(int pageNum, int pageSize,
+                                                                         int problemsetId,
+                                                                         String content,
+                                                                         int diffcult);
+
     boolean deleteQuestion(int id);
+
+    Question getQuestionById(int id);
 }

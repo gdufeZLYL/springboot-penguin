@@ -90,4 +90,30 @@
         WHERE
         contest_id = #{contestId}
     </select>
+
+    <select id="getCountByProblemsetIdAndContentAndDiffculty" resultType="int">
+        SELECT
+        COUNT(1)
+        FROM t_penguin_question
+        WHERE state = 1 AND subject_id = #{problemsetId}
+        <if test="content != null and content != ''">
+            AND content LIKE CONCAT(CONCAT('%', #{content}), '%')
+        </if>
+        <if test='difficulty != "0"'>
+            AND difficulty = #{difficulty}
+        </if>
+    </select>
+
+    <select id="getQuestionsByProblemsetIdAndContentAndDiffculty" resultMap="BaseResultMap">
+        SELECT
+        *
+        FROM t_penguin_question
+        WHERE state = 1 AND subject_id = #{problemsetId}
+        <if test="content != null and content != ''">
+            AND content LIKE CONCAT(CONCAT('%', #{content}), '%')
+        </if>
+        <if test='difficulty != "0"'>
+            AND difficulty = #{difficulty}
+        </if>
+    </select>
 </mapper>

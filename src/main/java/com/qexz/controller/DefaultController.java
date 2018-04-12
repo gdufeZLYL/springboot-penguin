@@ -105,12 +105,19 @@ public class DefaultController {
      * 题目列表页
      */
     @RequestMapping(value="/problemset/{problemsetId}/problems", method= RequestMethod.GET)
-    public String problemList(HttpServletRequest request, @PathVariable("problemsetId") Integer problemsetId, Model model) {
+    public String problemList(HttpServletRequest request,
+                              @PathVariable("problemsetId") Integer problemsetId,
+                              @RequestParam(value = "page", defaultValue = "1") int page,
+                              @RequestParam(value = "content", defaultValue = "") String content,
+                              @RequestParam(value = "difficulty", defaultValue = "0") int difficulty,
+                              Model model) {
         Account currentAccount = (Account) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
-
-        LOG.info("problemsetId = " + problemsetId);
-        LOG.info("currentAccount = " + currentAccount);
+        Map<String, Object> data = questionService.getQuestionsByProblemsetIdAndContentAndDiffculty(page, QexzConst.questionPageSize,
+                problemsetId, content, difficulty);
+        Subject subject = subjectService.getSubjectById(problemsetId);
+        data.put("subject", subject);
         model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentAccount);
+        model.addAttribute(QexzConst.DATA, data);
         return "/problem/problemlist";
     }
 
@@ -118,13 +125,16 @@ public class DefaultController {
      * 题目详情页
      */
     @RequestMapping(value="/problemset/{problemsetId}/problem/{problemId}", method= RequestMethod.GET)
-    public String problemDetail(HttpServletRequest request, @PathVariable("problemsetId") Integer problemsetId, @PathVariable("problemId") Integer problemId, Model model) {
+    public String problemDetail(HttpServletRequest request,
+                                @PathVariable("problemsetId") Integer problemsetId,
+                                @PathVariable("problemId") Integer problemId,
+                                Model model) {
         Account currentAccount = (Account) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
-
-        LOG.info("problemsetId = " + problemsetId);
-        LOG.info("problemId = " + problemId);
-        LOG.info("currentAccount = " + currentAccount);
+        Map<String, Object> data = new HashMap<>();
+        Question question = questionService.getQuestionById(problemId);
+        data.put("question", question);
         model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentAccount);
+        model.addAttribute(QexzConst.DATA, data);
         return "/problem/problemdetail";
     }
 
@@ -209,8 +219,6 @@ public class DefaultController {
     @RequestMapping(value="/discuss/post", method= RequestMethod.GET)
     public String postDiscuss(HttpServletRequest request, Model model) {
         Account currentAccount = (Account) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
-        //TODO::处理
-        currentAccount = accountService.getAccountByUsername("14251104208");
         Map<String, Object> data = new HashMap<>();
         data.put("authorId", currentAccount.getId());
         model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentAccount);
