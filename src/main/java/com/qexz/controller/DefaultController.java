@@ -132,7 +132,9 @@ public class DefaultController {
         Account currentAccount = (Account) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
         Map<String, Object> data = new HashMap<>();
         Question question = questionService.getQuestionById(problemId);
+        Subject subject = subjectService.getSubjectById(problemsetId);
         data.put("question", question);
+        data.put("subject", subject);
         model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentAccount);
         model.addAttribute(QexzConst.DATA, data);
         return "/problem/problemdetail";

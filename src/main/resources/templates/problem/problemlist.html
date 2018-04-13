@@ -47,7 +47,7 @@
     <div class="ui large breadcrumb">
         <a class="section"><i class="home icon"></i>首页</a>
         <i class="right chevron icon divider"></i>
-        <a class="section">题库中心</a>
+        <a class="section" th:href="@{/problemset/list}">题库中心</a>
         <i class="right chevron icon divider"></i>
         <div class="active section" th:text="${data['subject'].name}">数据结构与算法</div>
     </div>
@@ -88,7 +88,7 @@
         </tr></thead>
         <tbody>
         <tr th:each="item,itemStats : ${data['questions']}">
-            <td><span th:text="${item.content}">一个作业的完成要经过若干加工步骤,每个步骤称为( )</span></td>
+            <td><span th:text="${item.title}">一个作业的完成要经过若干加工步骤,每个步骤称为( )</span></td>
             <td>
                 <div th:if="${item.difficulty == 1}" class="ui star rating" data-rating="1"></div>
                 <div th:if="${item.difficulty == 2}" class="ui star rating" data-rating="2"></div>
