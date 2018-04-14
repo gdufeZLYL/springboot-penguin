@@ -3,72 +3,80 @@
  */
 var app = {
     data:{
-        nowTime: null
+        nowTime: null,
+        contextPath: null,
     },
     // 封装相关的ajax的url
     URL: {
         now: function () {
-            return "/time/now";
+            return app.data.contextPath+"/time/now";
         },
         checkLoginUrl: function () {
-            return "/account/api/login";
+            return app.data.contextPath+"/account/api/login";
         },
         logoutUrl: function () {
-            return "/account/logout";
+            return app.data.contextPath+"/account/logout";
         },
         homeUrl: function () {
-            return "/";
+            return app.data.contextPath+"/";
         },
         problemsetUrl: function () {
-            return "/problemset/list";
+            return app.data.contextPath+"/problemset/list";
         },
         problemListUrl: function (problemsetId) {
-            return "/problemset/"+problemsetId+"/problems";
+            return app.data.contextPath+"/problemset/"+problemsetId+"/problems";
         },
         contestIndexUrl: function () {
-            return "/contest/index";
+            return app.data.contextPath+"/contest/index";
         },
         contestDetailUrl: function () {
-            return "/contest/";
+            return app.data.contextPath+"/contest/";
         },
         updateAccountUrl: function () {
-            return "/account/api/updateAccount";
+            return app.data.contextPath+"/account/api/updateAccount";
         },
         updatePasswordUrl: function () {
-            return "/account/api/updatePassword";
+            return app.data.contextPath+"/account/api/updatePassword";
         },
         submitGradeUrl: function () {
-            return "/grade/api/submitContest"
+            return app.data.contextPath+"/grade/api/submitContest"
         },
         addPostUrl: function () {
-            return "/post/api/addPost"
+            return app.data.contextPath+"/post/api/addPost"
         },
         updatePostUrl: function () {
-            return "/post/api/updatePost"
+            return app.data.contextPath+"/post/api/updatePost"
         },
         deletePostUrl: function () {
-            return "/post/api/deletePost/";
+            return app.data.contextPath+"/post/api/deletePost/";
         },
         discussUrl: function () {
-            return "/discuss";
+            return app.data.contextPath+"/discuss";
         },
         addCommentUrl: function () {
-            return "/comment/api/addComment";
+            return app.data.contextPath+"/comment/api/addComment";
         },
         addReplyUrl: function () {
-            return "/reply/api/addReply";
+            return app.data.contextPath+"/reply/api/addReply";
         },
         myDiscussPostUrl: function () {
-            return "/account/myDiscussPost";
+            return app.data.contextPath+"/account/myDiscussPost";
         },
         myExamUrl: function () {
-            return "/account/myExam";
+            return app.data.contextPath+"/account/myExam";
+        },
+        uploadAvatarUrl: function () {
+            return app.data.contextPath+'/account/api/uploadAvatar' ;
+        },
+        uploadImageUrl: function () {
+            return app.data.contextPath+'/upload/images/';
         },
     },
     /**
      * 全局初始化:服务器时间获取,登录功能,退出登录
      */
-    init: function () {
+    init: function (contextPath) {
+        app.data.contextPath = contextPath;
         $.get(app.URL.now(), {}, function (result) {
             if (result && result['success']) {
                 //console.log(result['data']);

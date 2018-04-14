@@ -46,7 +46,7 @@
 </div>
 <div class="ui header container">
     <div class="ui large breadcrumb">
-        <a class="section"><i class="home icon"></i>首页</a>
+        <a class="section" th:href="@{/}"><i class="home icon"></i>首页</a>
         <i class="right chevron icon divider"></i>
         <div class="active section">题库中心</div>
     </div>
@@ -219,10 +219,12 @@
     var totalPageNum = /*[[${data['totalPageNum']}]]*/;
     var totalPageSize = /*[[${data['totalPageSize']}]]*/;
     var subjects = /*[[${data['subjects']}]]*/;
+    var contextPath = /*[[${#httpServletRequest.getContextPath()}]]*/;
 
     $(function(){
-        app.init();
-        problemSetPage.init(pageNum, pageSize, totalPageNum, totalPageSize, subjects);
+        app.init(contextPath);
+        //console.log(contextPath);
+        problemSetPage.init(contextPath, pageNum, pageSize, totalPageNum, totalPageSize, subjects);
     });
     /*]]>*/
 </script>

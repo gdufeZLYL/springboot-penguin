@@ -187,10 +187,12 @@
         </div>
     </div>
 </div>
-<script>
+<script th:inline="javascript">
     /*<![CDATA[*/
+    var contextPath = /*[[${#httpServletRequest.getContextPath()}]]*/;
+
     $(function(){
-        app.init();
+        app.init(contextPath);
         profilePage.init();
     });
     /*]]>*/

@@ -45,9 +45,9 @@
 </div>
 <div class="ui header container">
     <div class="ui large breadcrumb">
-        <a class="section"><i class="home icon"></i>首页</a>
+        <a class="section" th:href="@{/}"><i class="home icon"></i>首页</a>
         <i class="right chevron icon divider"></i>
-        <a class="section">讨论区</a>
+        <a class="section" th:href="@{/discuss}">讨论区</a>
         <i class="right chevron icon divider"></i>
         <div class="active section" th:text="${data['post'].title}">某保险公司多年的资料表明，在索赔户中，被盗索赔户占20%，以 表示在随机抽查100个索赔户中因被盗而向保险公司索赔的户数，求 . x 0 0.5 1 1.5 2 2.5 3 Ф (x) 0.500 0.691 0.841 0.933 0.977 0.994 0.999</div>
     </div>
@@ -397,9 +397,10 @@
     var post = /*[[${data['post']}]]*/;
     var comments = /*[[${data['comments']}]]*/;
     var userId = /*[[${data['userId']}]]*/;
+    var contextPath = /*[[${#httpServletRequest.getContextPath()}]]*/;
 
     $(function(){
-        app.init();
+        app.init(contextPath);
         discussDetailPage.init(post, comments, userId);
     });
     /*]]>*/

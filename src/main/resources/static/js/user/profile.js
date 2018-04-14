@@ -114,7 +114,7 @@ var profilePage = {
             var formData = new FormData();
             formData.append('file', $('#myfile')[0].files[0]);
             $.ajax({
-                url: '/account/api/uploadAvatar',　　　　　　　　　　//上传地址
+                url: app.URL.uploadAvatarUrl(),　　　　　　　　　　//上传地址
                 type: 'POST',
                 cache: false,
                 data: formData,　　　　　　　　　　　　　//表单数据
@@ -125,7 +125,7 @@ var profilePage = {
                     // $('#avatarImgPreview').attr("src", '/upload/images/'+result.response.imgUrl);
                     if (result && result['success']) {
                         $('#myAvatarImgUrl').val(result.data);
-                        $('#avatarImgPreview').attr("src", '/upload/images/'+result.data);
+                        $('#avatarImgPreview').attr("src", app.URL.uploadImageUrl()+result.data);
                     } else {
                         $('#updateAccountErrorMessage').html('<i class="close icon"></i><div class="header">错误提示</div>\n' +
                             '                <p>'+result.message+'</p>');

@@ -32,10 +32,12 @@
         <button class="btn btn-lg btn-primary btn-block" type="button" th:onclick="'adminLoginPage.checkLogin()'">登录</button>
     </form>
 </div> <!-- /container -->
-<script type="text/javascript">
+<script th:inline="javascript">
     /*<![CDATA[*/
+    var contextPath = /*[[${#httpServletRequest.getContextPath()}]]*/;
+
     $(function(){
-        app.init();
+        app.init(contextPath);
         adminLoginPage.init();
     });
     /*]]>*/

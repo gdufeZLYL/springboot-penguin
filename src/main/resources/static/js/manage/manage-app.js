@@ -3,118 +3,120 @@
  */
 var app = {
     data:{
-        nowTime: null
+        nowTime: null,
+        contextPath: null,
     },
     // 封装相关的ajax的url
     URL: {
         now: function () {
-            return "/time/now";
+            return app.data.contextPath+"/time/now";
         },
         checkLoginUrl: function () {
-            return "/account/api/login";
+            return app.data.contextPath+"/account/api/login";
         },
         logoutUrl: function () {
-            return "/account/logout";
+            return app.data.contextPath+"/account/logout";
         },
         homeUrl: function () {
-            return "/";
+            return app.data.contextPath+"/";
         },
         problemsetUrl: function () {
-            return "/problemset/list";
+            return app.data.contextPath+"/problemset/list";
         },
         updateAccountUrl: function () {
-            return "/account/api/updateAccount";
+            return app.data.contextPath+"/account/api/updateAccount";
         },
         updatePasswordUrl: function () {
-            return "/account/api/updatePassword";
+            return app.data.contextPath+"/account/api/updatePassword";
         },
         manageContestListUrl: function () {
-            return "/manage/contest/list";
+            return app.data.contextPath+"/manage/contest/list";
         },
         addContestUrl: function () {
-            return "/contest/api/addContest"
+            return app.data.contextPath+"/contest/api/addContest"
         },
         updateContestUrl: function () {
-            return "/contest/api/updateContest"
+            return app.data.contextPath+"/contest/api/updateContest"
         },
         deleteContestUrl: function () {
-            return "/contest/api/deleteContest/";
+            return app.data.contextPath+"/contest/api/deleteContest/";
         },
         finishContestUrl: function () {
-            return "/contest/api/finishContest/";
+            return app.data.contextPath+"/contest/api/finishContest/";
         },
         addQuestionUrl: function () {
-            return "/question/api/addQuestion";
+            return app.data.contextPath+"/question/api/addQuestion";
         },
         updateQuestionUrl: function () {
-            return "/question/api/updateQuestion"
+            return app.data.contextPath+"/question/api/updateQuestion"
         },
         deleteQuestionUrl: function () {
-            return "/question/api/deleteQuestion/";
+            return app.data.contextPath+"/question/api/deleteQuestion/";
         },
         manageQuestionUrl: function () {
-            return "/manage/question/list"
+            return app.data.contextPath+"/manage/question/list"
         },
         manageResultContestListUrl: function () {
-            return "/manage/result/contest/list";
+            return app.data.contextPath+"/manage/result/contest/list";
         },
         manageResultStudentListUrl: function (contestId) {
-            return "/manage/result/contest/"+contestId+"/list";
+            return app.data.contextPath+"/manage/result/contest/"+contestId+"/list";
         },
         finishGradeUrl: function () {
-            return "/grade/api/finishGrade"
+            return app.data.contextPath+"/grade/api/finishGrade"
         },
         manageAccountListUrl: function () {
-            return "/manage/account/list";
+            return app.data.contextPath+"/manage/account/list";
         },
         addAccountUrl: function () {
-            return "/account/api/addAccount";
+            return app.data.contextPath+"/account/api/addAccount";
         },
         updateAccountUrl: function () {
-            return "/account/api/updateManegeAccount";
+            return app.data.contextPath+"/account/api/updateManegeAccount";
         },
         deleteAccountUrl: function () {
-            return "/account/api/deleteAccount/";
+            return app.data.contextPath+"/account/api/deleteAccount/";
         },
         abledAccountUrl: function () {
-            return "/account/api/abledAccount/";
+            return app.data.contextPath+"/account/api/abledAccount/";
         },
         disabledAccountUrl: function () {
-            return "/account/api/disabledAccount/";
+            return app.data.contextPath+"/account/api/disabledAccount/";
         },
         manageSubjectListUrl: function () {
-            return "/manage/subject/list"
+            return app.data.contextPath+"/manage/subject/list"
         },
         addSubjectUrl: function () {
-            return "/subject/api/addSubject";
+            return app.data.contextPath+"/subject/api/addSubject";
         },
         updateSubjectUrl: function () {
-            return "/subject/api/updateSubject"
+            return app.data.contextPath+"/subject/api/updateSubject"
         },
         deleteSubjectUrl: function () {
-            return "/subject/api/deleteSubject/";
+            return app.data.contextPath+"/subject/api/deleteSubject/";
         },
         managePostListUrl: function () {
-            return "/manage/post/list"
+            return app.data.contextPath+"/manage/post/list"
         },
         updatePostUrl: function () {
-            return "/post/api/updatePost"
+            return app.data.contextPath+"/post/api/updatePost"
         },
         deletePostUrl: function () {
-            return "/post/api/deletePost/";
+            return app.data.contextPath+"/post/api/deletePost/";
         },
         manageCommentListUrl: function () {
-            return "/manage/comment/list"
+            return app.data.contextPath+"/manage/comment/list"
         },
         deleteCommentUrl: function () {
-            return "/comment/api/deleteComment/";
+            return app.data.contextPath+"/comment/api/deleteComment/";
         },
 
     },
     /**
      * 全局初始化:服务器时间获取,登录功能,退出登录
      */
-    init: function () {
+    init: function (contextPath) {
+        app.data.contextPath = contextPath;
         /**
          * 退出登录
          */

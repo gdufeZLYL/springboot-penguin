@@ -62,10 +62,11 @@ public class ManageController {
                               Model model) {
         Account currentAccount = (Account) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
         //TODO::处理
-        currentAccount = accountService.getAccountByUsername("admin");
+        //currentAccount = accountService.getAccountByUsername("admin");
         model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentAccount);
-        if (currentAccount == null) {
-            return "redirect:/";
+        if (currentAccount == null || currentAccount.getLevel() < 1) {
+            //return "redirect:/";
+            return "/error/404";
         } else {
             Map<String, Object> data = accountService.getAccounts(page, QexzConst.accountPageSize);
             model.addAttribute(QexzConst.DATA, data);
@@ -82,10 +83,11 @@ public class ManageController {
                               Model model) {
         Account currentAccount = (Account) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
         //TODO::处理
-        currentAccount = accountService.getAccountByUsername("admin");
+        //currentAccount = accountService.getAccountByUsername("admin");
         model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentAccount);
-        if (currentAccount == null) {
-            return "redirect:/";
+        if (currentAccount == null || currentAccount.getLevel() < 1) {
+            //return "redirect:/";
+            return "/error/404";
         } else {
             Map<String, Object> data = contestService.getContests(page, QexzConst.contestPageSize);
             List<Subject> subjects = subjectService.getSubjects();
@@ -103,10 +105,11 @@ public class ManageController {
                                      @PathVariable("contestId") Integer contestId, Model model) {
         Account currentAccount = (Account) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
         //TODO::处理
-        currentAccount = accountService.getAccountByUsername("admin");
+        //currentAccount = accountService.getAccountByUsername("admin");
         model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentAccount);
-        if (currentAccount == null) {
-            return "redirect:/";
+        if (currentAccount == null || currentAccount.getLevel() < 1) {
+            //return "redirect:/";
+            return "/error/404";
         } else {
             Map<String, Object> data = new HashMap<>();
             List<Question> questions = questionService.getQuestionsByContestId(contestId);
@@ -129,10 +132,11 @@ public class ManageController {
                                Model model) {
         Account currentAccount = (Account) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
         //TODO::处理
-        currentAccount = accountService.getAccountByUsername("admin");
+        //currentAccount = accountService.getAccountByUsername("admin");
         model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentAccount);
-        if (currentAccount == null) {
-            return "redirect:/";
+        if (currentAccount == null || currentAccount.getLevel() < 1) {
+            //return "redirect:/";
+            return "/error/404";
         } else {
             Map<String, Object> data = questionService.getQuestionsByContent(page,
                     QexzConst.questionPageSize, content);
@@ -160,10 +164,11 @@ public class ManageController {
                               Model model) {
         Account currentAccount = (Account) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
         //TODO::处理
-        currentAccount = accountService.getAccountByUsername("admin");
+        //currentAccount = accountService.getAccountByUsername("admin");
         model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentAccount);
-        if (currentAccount == null) {
-            return "redirect:/";
+        if (currentAccount == null || currentAccount.getLevel() < 1) {
+            //return "redirect:/";
+            return "/error/404";
         } else {
             Map<String, Object> data = contestService.getContests(page, QexzConst.contestPageSize);
             List<Subject> subjects = subjectService.getSubjects();
@@ -183,10 +188,11 @@ public class ManageController {
                                     Model model) {
         Account currentAccount = (Account) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
         //TODO::处理
-        currentAccount = accountService.getAccountByUsername("admin");
+        //currentAccount = accountService.getAccountByUsername("admin");
         model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentAccount);
-        if (currentAccount == null) {
-            return "redirect:/";
+        if (currentAccount == null || currentAccount.getLevel() < 1) {
+            //return "redirect:/";
+            return "/error/404";
         } else {
             Map<String, Object> data = new HashMap<>();
             List<Grade> grades = gradeService.getGradesByContestId(contestId);
@@ -217,10 +223,11 @@ public class ManageController {
                               Model model) {
         Account currentAccount = (Account) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
         //TODO::处理
-        currentAccount = accountService.getAccountByUsername("admin");
+        //currentAccount = accountService.getAccountByUsername("admin");
         model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentAccount);
-        if (currentAccount == null) {
-            return "redirect:/";
+        if (currentAccount == null || currentAccount.getLevel() < 1) {
+            //return "redirect:/";
+            return "/error/404";
         } else {
             Map<String, Object> data = subjectService.getSubjects(page, QexzConst.subjectPageSize);
             model.addAttribute(QexzConst.DATA, data);
@@ -237,10 +244,11 @@ public class ManageController {
                               Model model) {
         Account currentAccount = (Account) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
         //TODO::处理
-        currentAccount = accountService.getAccountByUsername("admin");
+        //currentAccount = accountService.getAccountByUsername("admin");
         model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentAccount);
-        if (currentAccount == null) {
-            return "redirect:/";
+        if (currentAccount == null || currentAccount.getLevel() < 1) {
+            //return "redirect:/";
+            return "/error/404";
         } else {
             Map<String, Object> data = postService.getPosts(page, QexzConst.postPageSize);
             List<Post> posts = (List<Post>) data.get("posts");
@@ -265,10 +273,11 @@ public class ManageController {
                            Model model) {
         Account currentAccount = (Account) request.getSession().getAttribute(QexzConst.CURRENT_ACCOUNT);
         //TODO::处理
-        currentAccount = accountService.getAccountByUsername("admin");
+        //currentAccount = accountService.getAccountByUsername("admin");
         model.addAttribute(QexzConst.CURRENT_ACCOUNT, currentAccount);
-        if (currentAccount == null) {
-            return "redirect:/";
+        if (currentAccount == null || currentAccount.getLevel() < 1) {
+            //return "redirect:/";
+            return "/error/404";
         } else {
             Map<String, Object> data = commentService.getComments(page, QexzConst.commentPageSize);
             List<Comment> comments = (List<Comment>) data.get("comments");

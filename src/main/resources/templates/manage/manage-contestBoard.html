@@ -60,7 +60,7 @@
         </a>
         <ul class="dropdown-menu">
         <li><a href="javascript:void(0);">修改密码</a></li>
-        <li><a href="javascript:void(0);">退出系统</a></li>
+        <li><a id="logout">退出系统</a></li>
         </ul>
         </li>
         </ul>
@@ -86,12 +86,12 @@
     <div class="col-sm-3 col-md-2 sidebar">
     <ul class="nav nav-sidebar">
     <li class="active"><a href="#"><i class="fa fa-tv"></i>&nbsp;考试管理 <span class="sr-only">(current)</span></a></li>
-    <li><a href="/manage/question/list"><span class="glyphicon glyphicon-list-alt"></span>&nbsp;题目管理</a></li>
-    <li><a href="/manage/subject/list"><span class="glyphicon glyphicon-book"></span>&nbsp;课程管理</a></li>
-    <li><a href="/manage/result/contest/list"><span class="glyphicon glyphicon-signal"></span>&nbsp;成绩管理</a></li>
-    <li><a href="/manage/account/list"><span class="glyphicon glyphicon-user"></span>&nbsp;用户管理</a></li>
-    <li><a href="/manage/post/list"><i class="fa fa-paper-plane"></i>&nbsp;帖子管理</a></li>
-    <li><a href="/manage/comment/list"><i class="fa fa-commenting-o"></i>&nbsp;评论管理</a></li>
+    <li><a th:href="@{/manage/question/list}"><span class="glyphicon glyphicon-list-alt"></span>&nbsp;题目管理</a></li>
+    <li><a th:href="@{/manage/subject/list}"><span class="glyphicon glyphicon-book"></span>&nbsp;课程管理</a></li>
+    <li><a th:href="@{/manage/result/contest/list}"><span class="glyphicon glyphicon-signal"></span>&nbsp;成绩管理</a></li>
+    <li><a th:href="@{/manage/account/list}"><span class="glyphicon glyphicon-user"></span>&nbsp;用户管理</a></li>
+    <li><a th:href="@{/manage/post/list}"><i class="fa fa-paper-plane"></i>&nbsp;帖子管理</a></li>
+    <li><a th:href="@{/manage/comment/list}"><i class="fa fa-commenting-o"></i>&nbsp;评论管理</a></li>
     </ul>
     <!--
     <ul class="nav nav-sidebar">
@@ -165,7 +165,7 @@
     <td th:if="${item.state == 1}"><span class="label label-success">进行中</span></td>
     <td th:if="${item.state == 2 or item.state == 3}"><span class="label label-danger">已结束</span></td>
     <td>
-        <button type="button" class="btn btn-info btn-xs"><i class="fa fa-search"></i>查看试题</button>
+        <a class="btn btn-info btn-xs" th:href="@{'/manage/contest/'+${item.id}+'/problems'}"><i class="fa fa-search"></i>查看试题</a>
         <button type="button" class="btn btn-primary btn-xs" th:onclick="'manageContestBoardPage.updateContestModalAction('+${itemStats.index}+')'"><i class="fa fa-edit"></i>编辑</button>
         <button type="button" class="btn btn-danger btn-xs" th:onclick="'manageContestBoardPage.deleteContestAction('+${item.id}+')'"><i class="fa fa-trash"></i>删除</button>
     </td>
@@ -474,9 +474,10 @@
     var totalPageNum = /*[[${data['totalPageNum']}]]*/;
     var totalPageSize = /*[[${data['totalPageSize']}]]*/;
     var contests = /*[[${data['contests']}]]*/;
+    var contextPath = /*[[${#httpServletRequest.getContextPath()}]]*/;
 
     $(function(){
-        app.init();
+        app.init(contextPath);
         manageContestBoardPage.init(pageNum, pageSize, totalPageNum, totalPageSize, contests);
     });
     /*]]>*/

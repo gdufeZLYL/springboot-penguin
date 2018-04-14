@@ -46,9 +46,9 @@
 </div>
 <div class="ui header container">
     <div class="ui large breadcrumb">
-        <a class="section"><i class="home icon"></i>首页</a>
+        <a class="section" th:href="@{/}"><i class="home icon"></i>首页</a>
         <i class="right chevron icon divider"></i>
-        <a class="section">讨论区</a>
+        <a class="section" th:href="@{/discuss}">讨论区</a>
         <i class="right chevron icon divider"></i>
         <div class="active section">话题发布</div>
     </div>
@@ -155,9 +155,10 @@
 <script th:inline="javascript">
     /*<![CDATA[*/
     var authorId = /*[[${data['authorId']}]]*/;
+    var contextPath = /*[[${#httpServletRequest.getContextPath()}]]*/;
 
     $(function(){
-        app.init();
+        app.init(contextPath);
         postDiscussPage.init(authorId);
     });
     /*]]>*/

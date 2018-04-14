@@ -44,7 +44,7 @@
     </div>
 </div>
 <div class="pg_page_container">
-    <div id="main_background">
+    <div id="main_background" th:style="'background-image: url('+${#httpServletRequest.getContextPath()}+'/img/bg.jpg);'">
         <div class="logo_panel">
             <br/><br/><br/><br/><br/><br/>
             <!--<img th:src="@{/img/logo_flat.png}" style="max-height: 80px; height:80px;" /><br />-->
@@ -148,10 +148,12 @@
         </form>
     </div>
 </div>
-<script>
+<script th:inline="javascript">
     /*<![CDATA[*/
+    var contextPath = /*[[${#httpServletRequest.getContextPath()}]]*/;
+
     $(function(){
-        app.init();
+        app.init(contextPath);
         home.init();
     });
     /*]]>*/

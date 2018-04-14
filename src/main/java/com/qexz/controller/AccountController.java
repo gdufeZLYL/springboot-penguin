@@ -198,6 +198,8 @@ public class AccountController {
             if(current_account != null) {
                 String pwd = MD5.md5(QexzConst.MD5_SALT+password);
                 if(pwd.equals(current_account.getPassword())) {
+                    //设置单位为秒，设置为-1永不过期
+                    request.getSession().setMaxInactiveInterval(180*60);    //3小时
                     request.getSession().setAttribute(QexzConst.CURRENT_ACCOUNT,current_account);
                     ajaxResult.setData(current_account);
                 } else {

@@ -312,9 +312,10 @@
     var totalPageNum = /*[[${data['totalPageNum']}]]*/;
     var totalPageSize = /*[[${data['totalPageSize']}]]*/;
     var grades = /*[[${data['grades']}]]*/;
+    var contextPath = /*[[${#httpServletRequest.getContextPath()}]]*/;
 
     $(function(){
-        app.init();
+        app.init(contextPath);
         myExamPage.init(pageNum, pageSize, totalPageNum, totalPageSize, grades);
     });
     /*]]>*/

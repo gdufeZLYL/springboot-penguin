@@ -216,9 +216,10 @@
     var totalPageNum = /*[[${data['totalPageNum']}]]*/;
     var totalPageSize = /*[[${data['totalPageSize']}]]*/;
     var posts = /*[[${data['posts']}]]*/;
+    var contextPath = /*[[${#httpServletRequest.getContextPath()}]]*/;
 
     $(function(){
-        app.init();
+        app.init(contextPath);
         myDiscussPostPage.init(pageNum, pageSize, totalPageNum, totalPageSize, posts);
     });
     /*]]>*/

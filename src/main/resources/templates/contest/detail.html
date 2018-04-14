@@ -181,9 +181,10 @@
     /*<![CDATA[*/
     var contest = /*[[${data['contest']}]]*/;
     var questions = /*[[${data['questions']}]]*/;
+    var contextPath = /*[[${#httpServletRequest.getContextPath()}]]*/;
 
     $(function(){
-        app.init();
+        app.init(contextPath);
         contestDetailPage.init(contest, questions);
     });
     /*]]>*/
