@@ -32,4 +32,7 @@ public interface QuestionMapper {
     List<Question> getQuestionsByProblemsetIdAndContentAndDiffculty(@Param("problemsetId") int problemsetId,
                                                                     @Param("content") String content,
                                                                     @Param("difficulty") int diffculty);
+
+    int updateQuestionsStateByContestId(@Param("contestId") int contestId,
+                                        @Param("state") int state);
 }

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>404错误，您所访问的页面不存在！</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <link rel="stylesheet" th:href="@{/css/base.css}"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+
+<body>
+<div id="errorpage">
+    <div class="tfans_error">
+        <div class="logo"></div>
+        <div class="errortans clearfix">
+            <div class="e404"></div>
+            <p><b>出错啦！</b></p>
+            <p>您访问的页面不存在</p>
+            <div class="bt" ><a th:href="@{/}">返回首页</a></div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

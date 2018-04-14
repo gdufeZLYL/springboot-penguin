@@ -23,4 +23,6 @@ public interface QuestionService {
     boolean deleteQuestion(int id);
 
     Question getQuestionById(int id);
+
+    boolean updateQuestionsStateByContestId(int contestId, int state);
 }

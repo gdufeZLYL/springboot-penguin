@@ -116,4 +116,12 @@
             AND difficulty = #{difficulty}
         </if>
     </select>
+
+    <update id="updateQuestionsStateByContestId">
+        UPDATE t_penguin_question
+        SET
+          state = #{state}
+        WHERE
+        contest_id = #{contestId}
+    </update>
 </mapper>

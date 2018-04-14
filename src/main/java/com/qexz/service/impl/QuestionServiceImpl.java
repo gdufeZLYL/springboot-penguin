@@ -140,4 +140,9 @@ public class QuestionServiceImpl implements QuestionService {
         data.put("questions", questions);
         return data;
     }
+
+    @Override
+    public boolean updateQuestionsStateByContestId(int contestId, int state) {
+        return questionMapper.updateQuestionsStateByContestId(contestId, state) > 0;
+    }
 }

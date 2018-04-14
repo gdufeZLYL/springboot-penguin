@@ -3,6 +3,7 @@ package com.qexz.controller;
 import com.qexz.dto.AjaxResult;
 import com.qexz.model.Contest;
 import com.qexz.service.ContestService;
+import com.qexz.service.QuestionService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,8 @@ public class ContestController {
 
     @Autowired
     private ContestService contestService;
+    @Autowired
+    private QuestionService questionService;
 
     //添加考试
     @RequestMapping(value="/api/addContest", method= RequestMethod.POST)
@@ -51,7 +54,7 @@ public class ContestController {
         AjaxResult ajaxResult = new AjaxResult();
         Contest contest = contestService.getContestById(id);
         contest.setState(3);
-
+        questionService.updateQuestionsStateByContestId(id, 1);
         boolean result = contestService.updateContest(contest);
         return new AjaxResult().setData(result);
     }
