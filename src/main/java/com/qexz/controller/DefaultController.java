@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -238,5 +239,20 @@ public class DefaultController {
     public AjaxResult time() {
         LocalDateTime localDateTime = LocalDateTime.now();
         return new AjaxResult().setData(localDateTime);
+    }
+
+    /**
+     * 测试分布式一致性session
+     * @param session
+     * @return
+     */
+    @RequestMapping("/uid")
+    String uid(HttpSession session) {
+        UUID uid = (UUID) session.getAttribute("uid");
+        if (uid == null) {
+            uid = UUID.randomUUID();
+        }
+        session.setAttribute("uid", uid);
+        return session.getId();
     }
 }
