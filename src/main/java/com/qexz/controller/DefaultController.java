@@ -247,6 +247,7 @@ public class DefaultController {
      * @return
      */
     @RequestMapping(value = "/uid", method = RequestMethod.GET)
+    @ResponseBody
     public AjaxResult uid(HttpSession session) {
         UUID uid = (UUID) session.getAttribute("uid");
         if (uid == null) {
