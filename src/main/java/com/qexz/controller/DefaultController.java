@@ -246,13 +246,13 @@ public class DefaultController {
      * @param session
      * @return
      */
-    @RequestMapping("/uid")
-    String uid(HttpSession session) {
+    @RequestMapping(value = "/uid", method = RequestMethod.GET)
+    public AjaxResult uid(HttpSession session) {
         UUID uid = (UUID) session.getAttribute("uid");
         if (uid == null) {
             uid = UUID.randomUUID();
         }
         session.setAttribute("uid", uid);
-        return session.getId();
+        return new AjaxResult().setData(session.getId());
     }
 }
