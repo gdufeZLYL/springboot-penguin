@@ -1,0 +1,34 @@
+body {
+    background-color: #FFFFFF;
+}
+.main.container {
+    margin-top: 7em;
+}
+.ui.footer.segment {
+    margin: 5em 0em 0em;
+    padding: 5em 0em;
+}
+
+.pg_page_container{
+    width: 100% !important;
+    height: 100% !important;
+}
+.ui.menu{
+    margin: 0 !important;
+}
+#main_background{
+    /*background-image: url(/img/bg.jpg);*/
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    height: 100%;
+}
+.logo_panel{
+    /*width: 350px;*/
+    width: 700px;
+    height: 300px;
+    position: relative;
+    top:15%;
+    margin: 0 auto;
+    text-align: center;
+}
+

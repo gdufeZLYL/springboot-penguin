@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <title>GDUFE在线考试系统</title>
+    <link rel="stylesheet" th:href="@{https://cdn.bootcss.com/semantic-ui/2.2.13/semantic.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/app.css}" />
+    <link rel="stylesheet" th:href="@{/css/contest/index.css}" />
+    <script type="text/javascript" th:src="@{https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{https://cdn.bootcss.com/semantic-ui/2.2.13/semantic.min.js}"></script>
+    <script type="text/javascript" th:src="@{https://cdn.bootcss.com/jquery.countdown/2.2.0/jquery.countdown.min.js}"></script>
+    <script type="text/javascript" th:src="@{https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/app.js}"></script>
+    <script type="text/javascript" th:src="@{/js/contest/index.js}"></script>
+</head>
+<body>
+<div class="ui fixed inverted menu">
+    <a th:href="@{/}" class="header item">
+        <!--<img class="ui" th:src="@{/img/logo_flat.png}" width="104" height="24" alt="" />-->
+        <img class="ui" th:src="@{/img/logo.png}" width="156" height="32" alt="" />
+    </a>
+    <a th:href="@{/contest/index}" href="#" class="active item">
+        <i class="desktop icon"></i>在线考试
+    </a>
+    <a th:href="@{/problemset/list}" class="item">
+        <i class="list layout icon"></i>题库中心
+    </a>
+    <a th:href="@{/discuss}" class="item">
+        <i class="talk icon"></i>讨论区
+    </a>
+    <a th:onclick="'app.showLogin()'"  class="right item" th:if="${current_account == null}">
+        <i class="sign in icon"></i>登录
+    </a>
+    <div class="ui simple dropdown right item" th:if="${current_account != null}">
+        <img class="ui avatar image" th:src="@{'/upload/images/'+${current_account.avatarImgUrl}}" />
+        <span th:text="${current_account.name}"></span> <i class="dropdown icon"></i>
+        <div class="menu">
+            <a class="item" th:href="@{/account/profile}">
+                <i class="user icon"></i>我的主页
+            </a>
+            <a class="item" id="logout">
+                <i class="sign out icon"></i>退出
+            </a>
+        </div>
+    </div>
+</div>
+<div class="ui header container">
+    <div class="ui large breadcrumb">
+        <a class="section" th:href="@{/}"><i class="home icon"></i>首页</a>
+        <i class="right chevron icon divider"></i>
+        <div class="active section">在线考试</div>
+    </div>
+</div>
+
+<div class="ui countdownTime container">
+    <div class="red ui tiny horizontal statistic">
+        <div class="value">
+            <i class="wait icon"></i>
+            <span id="contest-time-countdown"></span>
+        </div>
+    </div>
+</div>
+
+<div class="ui contestList container">
+    <table class="ui table">
+        <thead><tr>
+            <th class="eight wide">考试名称</th>
+            <th class="second wide">开始时间</th>
+            <th class="second wide">结束时间</th>
+            <th class="second wide">考试科目</th>
+            <th class="second wide">操作</th>
+        </tr></thead>
+        <tbody>
+        <tr th:each="item,itemStats : ${data['contests']}">
+            <td>
+                <span th:if="${item.state == 0}" class="ui yellow ribbon label">未开始</span>
+                <span th:if="${item.state == 1}" class="ui green ribbon label">进行中</span>
+                <span th:if="${item.state == 2 or item.state == 3}" class="ui red ribbon label">已结束</span>
+                <span class="ui header" th:text="${item.title}">
+                    广东财经大学2017年数据库原理与应用考试试题
+                </span>
+            </td>
+            <td><span th:text="${#dates.format(item.startTime, 'yyyy-MM-dd HH:mm:ss')}">2018-1-11 09:00:00</span></td>
+            <td><span th:text="${#dates.format(item.endTime, 'yyyy-MM-dd HH:mm:ss')}">2018-1-11 11:00:00</span></td>
+            <td><span th:text="${item.subjectName}">
+                数据库原理与应用
+            </span></td>
+            <td>
+                <a th:if="${item.state == 0}" class="small disabled positive ui button">进入考试</a>
+                <a th:if="${item.state == 1 and current_account == null}" th:onclick="'app.showLogin()'" class="small positive ui button">进入考试</a>
+                <a th:if="${item.state == 1 and current_account != null}" th:onclick="'contestIndexPage.startToContestAction('+${item.id}+')'" class="small positive ui button">进入考试</a>
+                <a th:if="${item.state == 2 or item.state == 3}" class="small disabled grey ui button">进入考试</a>
+            </td>
+        </tr>
+        <!--
+        <tr>
+            <td>
+                <span class="ui green ribbon label">进行中</span>
+                <span class="ui header">
+                    广东财经大学2017年数据库原理与应用考试试题
+                </span>
+            </td>
+            <td><span>2018-1-11 09:00:00</span></td>
+            <td><span>2018-1-11 11:00:00</span></td>
+            <td><span>
+                数据库原理与应用
+            </span></td>
+            <td><a class="small positive ui button">进入考试</a></td>
+        </tr>
+        <tr>
+            <td>
+                <span class="ui green ribbon label">进行中</span>
+                <span class="ui header">
+                    广东财经大学2017年数据库原理与应用考试试题
+                </span>
+            </td>
+            <td><span>2018-1-11 09:00:00</span></td>
+            <td><span>2018-1-11 11:00:00</span></td>
+            <td><span>
+                数据库原理与应用
+            </span></td>
+            <td><a class="small positive ui button">进入考试</a></td>
+        </tr>
+        <tr>
+            <td>
+                <span class="ui yellow ribbon label">未开始</span>
+                <span class="ui header">
+                    广东财经大学2017年数据库原理与应用考试试题
+                </span>
+            </td>
+            <td><span>2018-1-11 09:00:00</span></td>
+            <td><span>2018-1-11 11:00:00</span></td>
+            <td><span>
+                数据库原理与应用
+            </span></td>
+            <td><a class="small disabled positive ui button">进入考试</a></td>
+        </tr>
+        <tr>
+            <td>
+                <span class="ui red ribbon label">已结束</span>
+                <span class="ui header">
+                    广东财经大学2017年数据库原理与应用考试试题
+                </span>
+            </td>
+            <td><span>2018-1-11 09:00:00</span></td>
+            <td><span>2018-1-11 11:00:00</span></td>
+            <td><span>
+                数据库原理与应用
+            </span></td>
+            <td>
+                <a class="small disabled grey ui button">进入考试</a>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="9" style="padding: 0px;"><div class="ui icon message" style="margin: 0px; box-shadow: none;"><i class="info circle icon"></i><div class="content"><p>当前还没有考试呢！_(:зゝ∠)_</p></div></div></td>
+        </tr>
+        -->
+        </tbody>
+    </table>
+</div>
+<!-- 分页 -->
+<div class="ui subPage container">
+    <div class="ui pagination menu" id="subPageMenu">
+        <!--
+        <a class="item">
+            首页
+        </a>
+        <a class="item">
+            上一页
+        </a>
+        <a class="active item">
+            1
+        </a>
+        <a class="item">
+            2
+        </a>
+        <a class="item">
+            3
+        </a>
+        <a class="item">
+            4
+        </a>
+        <a class="item">
+            5
+        </a>
+        <a class="item">
+            6
+        </a>
+        <a class="item">
+            7
+        </a>
+        <a class="item">
+            8
+        </a>
+        <a class="item">
+            下一页
+        </a>
+        <a class="item">
+            末页
+        </a>
+        -->
+    </div>
+</div>
+<!-- 不可抗力元素 -->
+<div class="second-footer">
+</div>
+<div id="footer">
+    <div class="ui container">
+        <div class="ui stackable two columns grid">
+            <div class="column">
+                <div class="ui two columns grid">
+                    <div class="column">
+                        <h3>项目介绍</h3>
+                        在线考试系统是一个在线测试学习系统，并用于辅助课程教学和学生学习。
+                    </div>
+                    <div class="column">
+                        <h3>联系我们</h3>
+                        如有问题请发邮件到
+                        zzqnxx@foxmail.com
+                    </div>
+                </div>
+            </div>
+            <div class="right aligned column">
+                &copy; 2018 GDUFE All Rights Reserved &nbsp;&nbsp;
+                <br />
+                网站版本：<a href="#">v1.0.0 Beta #20180109</a>&nbsp;&nbsp;
+                服务器时间：<span id="current_server_timer"></span>
+                <br />
+                站长统计 | 今日IP[91] | 今日PV[4511] | 昨日IP[133] | 昨日PV[10109] | 当前在线[1]
+                <!--
+                TODO::pv,uv统计
+                <span id='cnzz_stat_icon_1261763113'></span>
+                <script th:src='@{//s95.cnzz.com/stat.php?id=1261763113&amp;online=1&amp;show=line}' type='text/javascript'></script>
+                -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 登录模态框 -->
+<div class="ui mini modal" id="loginModal">
+    <div class="header">登录</div>
+    <div class="content">
+        <form class="ui form" id="loginModalForm">
+            <div class="ui hidden negative message" id="loginModalErrorMessage">
+                <!--
+                <div class="header">错误提示</div>
+                <p></p>
+                -->
+            </div>
+            <div class="field required">
+                <label>账号</label>
+                <div class="ui left icon input">
+                    <input id="username" type="text" placeholder="请输入学号或教工号或指定账号" />
+                    <i class="user icon"></i>
+                </div>
+            </div>
+            <div class="field required">
+                <label>密码</label>
+                <div class="ui left icon input">
+                    <input id="password" type="password" />
+                    <i class="lock icon"></i>
+                </div>
+            </div>
+            <div class="field">
+                <div class="ui toggle checkbox">
+                    <input type="checkbox" id="rememberMe" name="rememberMe" tabindex="0" class="hidden" />
+                    <label>记住登录</label>
+                </div>
+            </div>
+            <div class="ui button" id="loginModalCloseButton">关闭</div>
+            <div class="ui primary button" id="loginModalSubmitButton">登录</div>
+        </form>
+    </div>
+</div>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var pageNum = /*[[${data['pageNum']}]]*/;
+    var pageSize = /*[[${data['pageSize']}]]*/;
+    var totalPageNum = /*[[${data['totalPageNum']}]]*/;
+    var totalPageSize = /*[[${data['totalPageSize']}]]*/;
+    var contests = /*[[${data['contests']}]]*/;
+    var contextPath = /*[[${#httpServletRequest.getContextPath()}]]*/;
+
+    $(function(){
+        app.init(contextPath);
+        contestIndexPage.init(pageNum, pageSize, totalPageNum, totalPageSize, contests);
+    });
+    /*]]>*/
+</script>
+</body>
+</html>

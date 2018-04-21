@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <title>GDUFE在线考试系统</title>
+    <link rel="stylesheet" th:href="@{https://cdn.bootcss.com/semantic-ui/2.2.13/semantic.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/app.css}" />
+    <link rel="stylesheet" th:href="@{/css/discuss/discuss.css}" />
+    <script type="text/javascript" th:src="@{https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{https://cdn.bootcss.com/semantic-ui/2.2.13/semantic.min.js}"></script>
+    <script type="text/javascript" th:src="@{https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/app.js}"></script>
+    <script type="text/javascript" th:src="@{/js/discuss/discuss.js}"></script>
+</head>
+<body>
+<div class="ui fixed inverted menu">
+    <a th:href="@{/}" class="header item">
+        <!--<img class="ui" th:src="@{/img/logo_flat.png}" width="104" height="24" alt="" />-->
+        <img class="ui" th:src="@{/img/logo.png}" width="156" height="32" alt="" />
+    </a>
+    <a th:href="@{/contest/index}" href="#" class="item">
+        <i class="desktop icon"></i>在线考试
+    </a>
+    <a th:href="@{/problemset/list}" class="item">
+        <i class="list layout icon"></i>题库中心
+    </a>
+    <a th:href="@{/discuss}" class="active item">
+        <i class="talk icon"></i>讨论区
+    </a>
+    <a th:onclick="'app.showLogin()'" class="right item" th:if="${current_account == null}">
+        <i class="sign in icon"></i>登录
+    </a>
+    <div class="ui simple dropdown right item" th:if="${current_account != null}">
+        <img class="ui avatar image" th:src="@{'/upload/images/'+${current_account.avatarImgUrl}}" />
+        <span th:text="${current_account.name}"></span> <i class="dropdown icon"></i>
+        <div class="menu">
+            <a class="item" th:href="@{/account/profile}">
+                <i class="user icon"></i>我的主页
+            </a>
+            <a class="item" id="logout">
+                <i class="sign out icon"></i>退出
+            </a>
+        </div>
+    </div>
+</div>
+<div class="ui header container">
+    <div class="ui large breadcrumb">
+        <a class="section" th:href="@{/}"><i class="home icon"></i>首页</a>
+        <i class="right chevron icon divider"></i>
+        <div class="active section">讨论区</div>
+    </div>
+</div>
+
+<div class="ui discussList container">
+    <div class="ui grid">
+        <div class="eleven wide column">
+            <div class="ui green secondary menu">
+                <a class="item active">全部</a>
+                <a class="item ">站内公告</a>
+                <a class="item ">笔经面经</a>
+                <a class="item ">我要提问</a>
+                <a class="item ">技术交流</a>
+                <a class="item ">产品运营</a>
+                <a class="item ">留学生</a>
+                <a class="item ">职业发展</a>
+            </div>
+            <div class="ui secondary menu">
+                <a class="item ">招聘信息</a>
+                <a class="item ">资源分享</a>
+                <a class="item ">猿生活</a>
+            </div>
+            <div class="ui green secondary pointing menu" style="margin-top: 1em;">
+                <a class="active item">最新回复</a>
+                <a class="item">最新发表</a>
+                <a class="item">最热</a>
+                <a class="item">精华</a>
+                <div class="right item">
+                    <a th:if="${current_account != null}" th:href="@{/discuss/post}" class="positive ui button"><i class="write icon"></i>我要发布</a>
+                    <a th:if="${current_account == null}" th:onclick="'app.showLogin()'" class="positive ui button"><i class="write icon"></i>我要发布</a>
+                </div>
+            </div>
+            <div class="ui divided items">
+                <div class="item" th:each="item,itemStats : ${data['posts']}">
+                    <div class="ui avatar image mini">
+                        <img th:src="@{'/upload/images/'+${item.author.avatarImgUrl}}" />
+                    </div>
+                    <div class="content">
+                        <a th:href="@{'/discuss/'+${item.id}}" class="header" style="font-size: 15px;">
+                            <p th:text="${item.title}">校招结束回顾：第一份工作的选择有多重要？应该考虑清楚些什么？</p>
+                        </a>
+                        <div class="extra" style="font-size: 13px;">
+                            <span class="right floated">
+                                <i class="talk outline icon"></i>
+                                <span th:text="${item.replyNum}">23</span>
+                                |
+                                <i class="thumbs outline up icon"></i>
+                                <span>17</span>
+                                |
+                                <i class="unhide icon"></i>
+                                <span>400</span>
+                            </span>
+                            <span th:text="${item.author.name}">曾庆熙</span>
+                            <span th:text="${#dates.format(item.createTime, 'yyyy-MM-dd HH:mm:ss')} + '发表在 [我要提问]'">2018-01-13 11:33:51 发表在 [职业发展]</span>
+                            <span th:if="${item.lastReplyTime != null}" th:text="'最后回复:'+${#dates.format(item.lastReplyTime, 'yyyy-MM-dd HH:mm:ss')}">最后回复:2018-01-13 11:33:52</span>
+                            <span th:if="${item.lastReplyTime == null}">最后回复:--</span>
+                        </div>
+                    </div>
+                </div>
+                <!--
+                <div class="item">
+                    <div class="ui avatar image mini">
+                        <img th:src="@{'/upload/images/'+${current_account.avatarImgUrl}}" />
+                    </div>
+                    <div class="content">
+                        <a href="#" class="header" style="font-size: 15px;">
+                            <p>校招结束回顾：第一份工作的选择有多重要？应该考虑清楚些什么？</p>
+                        </a>
+                        <div class="extra" style="font-size: 13px;">
+                            <span class="right floated">
+                                <i class="talk outline icon"></i>
+                                <span>23</span>
+                                |
+                                <i class="thumbs outline up icon"></i>
+                                <span>17</span>
+                                |
+                                <i class="unhide icon"></i>
+                                <span>400</span>
+                            </span>
+                            <span>曾庆熙</span>
+                            <span>2018-01-13 11:33:51 发表在 [职业发展]</span>
+                            <span>最后回复:2018-01-13 11:33:52</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="ui avatar image mini">
+                        <img th:src="@{'/upload/images/'+${current_account.avatarImgUrl}}" />
+                    </div>
+                    <div class="content">
+                        <a href="#" class="header" style="font-size: 15px;">
+                            <p>校招结束回顾：第一份工作的选择有多重要？应该考虑清楚些什么？</p>
+                        </a>
+                        <div class="extra" style="font-size: 13px;">
+                            <span class="right floated">
+                                <i class="talk outline icon"></i>
+                                <span>23</span>
+                                |
+                                <i class="thumbs outline up icon"></i>
+                                <span>17</span>
+                                |
+                                <i class="unhide icon"></i>
+                                <span>400</span>
+                            </span>
+                            <span>曾庆熙</span>
+                            <span>2018-01-13 11:33:51 发表在 [职业发展]</span>
+                            <span>最后回复:2018-01-13 11:33:52</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="ui avatar image mini">
+                        <img th:src="@{'/upload/images/'+${current_account.avatarImgUrl}}" />
+                    </div>
+                    <div class="content">
+                        <a href="#" class="header" style="font-size: 15px;">
+                            <p>校招结束回顾：第一份工作的选择有多重要？应该考虑清楚些什么？</p>
+                        </a>
+                        <div class="extra" style="font-size: 13px;">
+                            <span class="right floated">
+                                <i class="talk outline icon"></i>
+                                <span>23</span>
+                                |
+                                <i class="thumbs outline up icon"></i>
+                                <span>17</span>
+                                |
+                                <i class="unhide icon"></i>
+                                <span>400</span>
+                            </span>
+                            <span>曾庆熙</span>
+                            <span>2018-01-13 11:33:51 发表在 [职业发展]</span>
+                            <span>最后回复:2018-01-13 11:33:52</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="ui avatar image mini">
+                        <img th:src="@{'/upload/images/'+${current_account.avatarImgUrl}}" />
+                    </div>
+                    <div class="content">
+                        <a href="#" class="header" style="font-size: 15px;">
+                            <p>校招结束回顾：第一份工作的选择有多重要？应该考虑清楚些什么？</p>
+                        </a>
+                        <div class="extra" style="font-size: 13px;">
+                            <span class="right floated">
+                                <i class="talk outline icon"></i>
+                                <span>23</span>
+                                |
+                                <i class="thumbs outline up icon"></i>
+                                <span>17</span>
+                                |
+                                <i class="unhide icon"></i>
+                                <span>400</span>
+                            </span>
+                            <span>曾庆熙</span>
+                            <span>2018-01-13 11:33:51 发表在 [职业发展]</span>
+                            <span>最后回复:2018-01-13 11:33:52</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="ui avatar image mini">
+                        <img th:src="@{'/upload/images/'+${current_account.avatarImgUrl}}" />
+                    </div>
+                    <div class="content">
+                        <a href="#" class="header" style="font-size: 15px;">
+                            <p>校招结束回顾：第一份工作的选择有多重要？应该考虑清楚些什么？</p>
+                        </a>
+                        <div class="extra" style="font-size: 13px;">
+                            <span class="right floated">
+                                <i class="talk outline icon"></i>
+                                <span>23</span>
+                                |
+                                <i class="thumbs outline up icon"></i>
+                                <span>17</span>
+                                |
+                                <i class="unhide icon"></i>
+                                <span>400</span>
+                            </span>
+                            <span>曾庆熙</span>
+                            <span>2018-01-13 11:33:51 发表在 [职业发展]</span>
+                            <span>最后回复:2018-01-13 11:33:52</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="ui avatar image mini">
+                        <img th:src="@{'/upload/images/'+${current_account.avatarImgUrl}}" />
+                    </div>
+                    <div class="content">
+                        <a href="#" class="header" style="font-size: 15px;">
+                            <p>校招结束回顾：第一份工作的选择有多重要？应该考虑清楚些什么？</p>
+                        </a>
+                        <div class="extra" style="font-size: 13px;">
+                            <span class="right floated">
+                                <i class="talk outline icon"></i>
+                                <span>23</span>
+                                |
+                                <i class="thumbs outline up icon"></i>
+                                <span>17</span>
+                                |
+                                <i class="unhide icon"></i>
+                                <span>400</span>
+                            </span>
+                            <span>曾庆熙</span>
+                            <span>2018-01-13 11:33:51 发表在 [职业发展]</span>
+                            <span>最后回复:2018-01-13 11:33:52</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="ui avatar image mini">
+                        <img th:src="@{'/upload/images/'+${current_account.avatarImgUrl}}" />
+                    </div>
+                    <div class="content">
+                        <a href="#" class="header" style="font-size: 15px;">
+                            <p>校招结束回顾：第一份工作的选择有多重要？应该考虑清楚些什么？</p>
+                        </a>
+                        <div class="extra" style="font-size: 13px;">
+                            <span class="right floated">
+                                <i class="talk outline icon"></i>
+                                <span>23</span>
+                                |
+                                <i class="thumbs outline up icon"></i>
+                                <span>17</span>
+                                |
+                                <i class="unhide icon"></i>
+                                <span>400</span>
+                            </span>
+                            <span>曾庆熙</span>
+                            <span>2018-01-13 11:33:51 发表在 [职业发展]</span>
+                            <span>最后回复:2018-01-13 11:33:52</span>
+                        </div>
+                    </div>
+                </div>
+                -->
+            </div>
+        </div>
+        <div class="five wide column">
+            <div class="ui segment">
+                <div class="ui dividing header">
+                    <i class="world icon"></i>传送门
+                </div>
+                <div class="ui four images">
+                    <a data-inverted="" data-tooltip="ACM" data-position="top center" class="image" target="_blank" onclick="this.blur();" th:href="@{http://acm.gdufe.edu.cn/}">
+                        <img border="0" alt="" width="63" height="63" th:src="@{'/upload/images/acm.png'}" />
+                    </a>
+                    <a data-inverted="" data-tooltip="信息门户" data-position="top center" class="image" target="_blank" onclick="this.blur();" th:href="@{http://my.gdufe.edu.cn/}">
+                        <img border="0" alt="" width="63" height="63" th:src="@{'/upload/images/xinximenhu.png'}" />
+                    </a>
+                    <a data-inverted="" data-tooltip="教务系统" data-position="top center" class="image" target="_blank" onclick="this.blur();" th:href="@{http://jwxt.gdufe.edu.cn/jsxsd/}">
+                        <img border="0" alt="" width="63" height="63" th:src="@{'/upload/images/kaowu.png'}" />
+                    </a>
+                    <a data-inverted="" data-tooltip="Blackboard" data-position="top center" class="image" target="_blank" onclick="this.blur();" th:href="@{http://bb.gdufe.edu.cn}">
+                        <img border="0" alt="" width="63" height="63" th:src="@{'/upload/images/blackboard.png'}" />
+                    </a>
+                    <a data-inverted="" data-tooltip="学工服务" data-position="top center" class="image" target="_blank" onclick="this.blur();" th:href="@{http://xg.gdufe.edu.cn/epstar/web/swms/mainframe/homeWithGroupSelector.jsp}">
+                        <img border="0" alt="" width="63" height="63" th:src="@{'/upload/images/xuegong.png'}" />
+                    </a>
+                    <a data-inverted="" data-tooltip="素拓系统" data-position="top center" class="image" target="_blank" onclick="this.blur();" th:href="@{http://sztz.gdufe.edu.cn/sztz/Login}">
+                        <img border="0" alt="" width="63" height="63" th:src="@{'/upload/images/sutuo.png'}" />
+                    </a>
+                    <a data-inverted="" data-tooltip="宿舍服务" data-position="top center" class="image" target="_blank" onclick="this.blur();" th:href="@{http://ssgl.gdufe.edu.cn/epstar/web/swms/mainframe/homeWithGroupSelector.jsp}">
+                        <img border="0" alt="" width="63" height="63" th:src="@{'/upload/images/sushe.png'}" />
+                    </a>
+                    <a data-inverted="" data-tooltip="学费查询" data-position="top center" class="image" target="_blank" onclick="this.blur();" th:href="@{http://cw.gdufe.edu.cn/KfWeb/LoginInterface.aspx}">
+                        <img border="0" alt="" width="63" height="63" th:src="@{'/upload/images/xuefei.png'}" />
+                    </a>
+                    <a data-inverted="" data-tooltip="离校服务" data-position="top center" class="image" target="_blank" onclick="this.blur();" th:href="@{http://lx.gdufe.edu.cn/}">
+                        <img border="0" alt="" width="63" height="63" th:src="@{'/upload/images/lixiao.png'}" />
+                    </a>
+                    <a data-inverted="" data-tooltip="一卡通" data-position="top center" class="image" target="_blank" onclick="this.blur();" th:href="@{http://cardinfo.gdufe.edu.cn/gdcjportalHome.action}">
+                        <img border="0" alt="" width="63" height="63" th:src="@{'/upload/images/chaxun.png'}" />
+                    </a>
+                    <a data-inverted="" data-tooltip="图书馆系统" data-position="top center" class="image" target="_blank" onclick="this.blur();" th:href="@{http://opac.library.gdufe.edu.cn/reader/redr_info.php}">
+                        <img border="0" alt="" width="63" height="63" th:src="@{'/upload/images/tushuguan.png'}" />
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 分页 -->
+<div class="ui subPage container">
+    <div class="ui pagination menu" id="subPageMenu">
+        <!--
+        <a class="item">
+            首页
+        </a>
+        <a class="item">
+            上一页
+        </a>
+        <a class="active item">
+            1
+        </a>
+        <a class="item">
+            2
+        </a>
+        <a class="item">
+            3
+        </a>
+        <a class="item">
+            4
+        </a>
+        <a class="item">
+            5
+        </a>
+        <a class="item">
+            6
+        </a>
+        <a class="item">
+            7
+        </a>
+        <a class="item">
+            8
+        </a>
+        <a class="item">
+            下一页
+        </a>
+        <a class="item">
+            末页
+        </a>
+        -->
+    </div>
+</div>
+<!-- 不可抗力元素 -->
+<div class="second-footer">
+</div>
+<div id="footer">
+    <div class="ui container">
+        <div class="ui stackable two columns grid">
+            <div class="column">
+                <div class="ui two columns grid">
+                    <div class="column">
+                        <h3>项目介绍</h3>
+                        在线考试系统是一个在线测试学习系统，并用于辅助课程教学和学生学习。
+                    </div>
+                    <div class="column">
+                        <h3>联系我们</h3>
+                        如有问题请发邮件到
+                        zzqnxx@foxmail.com
+                    </div>
+                </div>
+            </div>
+            <div class="right aligned column">
+                &copy; 2018 GDUFE All Rights Reserved &nbsp;&nbsp;
+                <br />
+                网站版本：<a href="#">v1.0.0 Beta #20180109</a>&nbsp;&nbsp;
+                服务器时间：<span id="current_server_timer"></span>
+                <br />
+                站长统计 | 今日IP[91] | 今日PV[4511] | 昨日IP[133] | 昨日PV[10109] | 当前在线[1]
+                <!--
+                TODO::pv,uv统计
+                <span id='cnzz_stat_icon_1261763113'></span>
+                <script th:src='@{//s95.cnzz.com/stat.php?id=1261763113&amp;online=1&amp;show=line}' type='text/javascript'></script>
+                -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 登录模态框 -->
+<div class="ui mini modal" id="loginModal">
+    <div class="header">登录</div>
+    <div class="content">
+        <form class="ui form" id="loginModalForm">
+            <div class="ui hidden negative message" id="loginModalErrorMessage">
+                <!--
+                <div class="header">错误提示</div>
+                <p></p>
+                -->
+            </div>
+            <div class="field required">
+                <label>账号</label>
+                <div class="ui left icon input">
+                    <input id="username" type="text" placeholder="请输入学号或教工号或指定账号" />
+                    <i class="user icon"></i>
+                </div>
+            </div>
+            <div class="field required">
+                <label>密码</label>
+                <div class="ui left icon input">
+                    <input id="password" type="password" />
+                    <i class="lock icon"></i>
+                </div>
+            </div>
+            <div class="field">
+                <div class="ui toggle checkbox">
+                    <input type="checkbox" id="rememberMe" name="rememberMe" tabindex="0" class="hidden" />
+                    <label>记住登录</label>
+                </div>
+            </div>
+            <div class="ui button" id="loginModalCloseButton">关闭</div>
+            <div class="ui primary button" id="loginModalSubmitButton">登录</div>
+        </form>
+    </div>
+</div>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var pageNum = /*[[${data['pageNum']}]]*/;
+    var pageSize = /*[[${data['pageSize']}]]*/;
+    var totalPageNum = /*[[${data['totalPageNum']}]]*/;
+    var totalPageSize = /*[[${data['totalPageSize']}]]*/;
+    var posts = /*[[${data['posts']}]]*/;
+    var contextPath = /*[[${#httpServletRequest.getContextPath()}]]*/;
+
+    $(function(){
+        app.init(contextPath);
+        discussPage.init(pageNum, pageSize, totalPageNum, totalPageSize, posts);
+    });
+    /*]]>*/
+</script>
+</body>
+</html>

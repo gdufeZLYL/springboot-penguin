@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <title>GDUFE在线考试系统运营后台登录页面</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <link rel="stylesheet" th:href="@{https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css}" />
+    <link th:href="@{https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css}" rel="stylesheet" />
+    <link rel="stylesheet" th:href="@{/css/manage/manage-login.css}" />
+
+    <script type="text/javascript" th:src="@{https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js}"></script>
+    <script type="text/javascript" th:src="@{https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+    <script type="text/javascript" th:src="@{https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/manage/manage-app.js}"></script>
+    <script type="text/javascript" th:src="@{/js/manage/manage-login.js}"></script>
+</head>
+<body style="background-color: #EEEEEE">
+<div class="container">
+    <form class="form-signin">
+        <h2 class="form-signin-heading">控制台登录</h2>
+        <label for="username" class="sr-only">账号</label>
+        <input type="text" id="username" class="form-control" placeholder="请输入账号" required="required" autofocus="autofocus" />
+        <label for="password" class="sr-only">密码</label>
+        <input type="password" id="password" class="form-control" placeholder="请输入密码" required="required" />
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" id="rememberMe" value="remember-me" /> 记住我
+            </label>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="button" th:onclick="'adminLoginPage.checkLogin()'">登录</button>
+    </form>
+</div> <!-- /container -->
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var contextPath = /*[[${#httpServletRequest.getContextPath()}]]*/;
+
+    $(function(){
+        app.init(contextPath);
+        adminLoginPage.init();
+    });
+    /*]]>*/
+</script>
+</body>
+</html>

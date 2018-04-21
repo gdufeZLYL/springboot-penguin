@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qexz.dao.QuestionMapper" >
+    <resultMap id="BaseResultMap" type="com.qexz.model.Question" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="title" property="title" jdbcType="VARCHAR" />
+        <result column="content" property="content" jdbcType="LONGVARCHAR" />
+        <result column="question_type" property="questionType" jdbcType="INTEGER" />
+        <result column="option_a" property="optionA" jdbcType="VARCHAR" />
+        <result column="option_b" property="optionB" jdbcType="VARCHAR" />
+        <result column="option_c" property="optionC" jdbcType="VARCHAR" />
+        <result column="option_d" property="optionD" jdbcType="VARCHAR" />
+        <result column="answer" property="answer" jdbcType="LONGVARCHAR" />
+        <result column="parse" property="parse" jdbcType="LONGVARCHAR" />
+        <result column="subject_id" property="subjectId" jdbcType="INTEGER" />
+        <result column="contest_id" property="contestId" jdbcType="INTEGER" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+        <result column="score" property="score" jdbcType="INTEGER" />
+        <result column="difficulty" property="difficulty" jdbcType="INTEGER" />
+        <result column="state" property="state" jdbcType="INTEGER" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        id,title,content,question_type,option_a,option_b,option_c,
+        option_d,answer,parse,subject_id,contest_id,create_time,
+        update_time,score,difficulty,state
+    </sql>
+
+    <insert id="insertQuestion" parameterType="com.qexz.model.Question" >
+        insert into t_penguin_question
+        (title, content, question_type, option_a, option_b, option_c,
+        option_d, answer, parse, subject_id, contest_id, score, difficulty,
+        state)
+        values (#{question.title}, #{question.content}, #{question.questionType},
+        #{question.optionA}, #{question.optionB}, #{question.optionC}, #{question.optionD},
+        #{question.answer}, #{question.parse}, #{question.subjectId}, #{question.contestId},
+        #{question.score}, #{question.difficulty}, #{question.state})
+    </insert>
+
+    <delete id="deleteQuestion" parameterType="int">
+        DELETE FROM t_penguin_question
+        where id = #{id}
+    </delete>
+
+    <update id="updateQuestionById" parameterType="com.qexz.model.Question">
+        UPDATE t_penguin_question
+        SET
+          title = #{question.title}, content = #{question.content},
+          question_type = #{question.questionType}, option_a = #{question.optionA},
+          option_b = #{question.optionB}, option_c = #{question.optionC},
+          option_d = #{question.optionD}, answer = #{question.answer},
+          parse = #{question.parse}, subject_id = #{question.subjectId},
+          contest_id = #{question.contestId}, score = #{question.score},
+          difficulty = #{question.difficulty}
+        WHERE
+        id = #{question.id}
+    </update>
+
+    <select id="getQuestionById" resultMap="BaseResultMap" parameterType="int" >
+        SELECT
+        *
+        FROM t_penguin_question
+        WHERE id = #{id}
+    </select>
+
+    <select id="getCountByContent" resultType="int">
+        SELECT
+          COUNT(1)
+        FROM t_penguin_question
+        WHERE 1 = 1 AND state = 1
+        <if test="content != null and content != ''">
+            AND content LIKE CONCAT(CONCAT('%', #{content}), '%')
+        </if>
+    </select>
+
+    <select id="getQuestionsByContent" resultMap="BaseResultMap" >
+        SELECT
+        *
+        FROM t_penguin_question
+        WHERE 1 = 1 AND state = 1
+        <if test="content != null and content != ''">
+            AND content LIKE CONCAT(CONCAT('%', #{content}), '%')
+        </if>
+    </select>
+
+    <select id="getQuestionByContestId" resultMap="BaseResultMap" >
+        SELECT
+        *
+        FROM t_penguin_question
+        WHERE
+        contest_id = #{contestId}
+    </select>
+
+    <select id="getCountByProblemsetIdAndContentAndDiffculty" resultType="int">
+        SELECT
+        COUNT(1)
+        FROM t_penguin_question
+        WHERE state = 1 AND subject_id = #{problemsetId}
+        <if test="content != null and content != ''">
+            AND content LIKE CONCAT(CONCAT('%', #{content}), '%')
+        </if>
+        <if test='difficulty != "0"'>
+            AND difficulty = #{difficulty}
+        </if>
+    </select>
+
+    <select id="getQuestionsByProblemsetIdAndContentAndDiffculty" resultMap="BaseResultMap">
+        SELECT
+        *
+        FROM t_penguin_question
+        WHERE state = 1 AND subject_id = #{problemsetId}
+        <if test="content != null and content != ''">
+            AND content LIKE CONCAT(CONCAT('%', #{content}), '%')
+        </if>
+        <if test='difficulty != "0"'>
+            AND difficulty = #{difficulty}
+        </if>
+    </select>
+
+    <update id="updateQuestionsStateByContestId">
+        UPDATE t_penguin_question
+        SET
+          state = #{state}
+        WHERE
+        contest_id = #{contestId}
+    </update>
+</mapper>

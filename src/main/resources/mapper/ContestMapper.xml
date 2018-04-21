@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qexz.dao.ContestMapper" >
+    <resultMap id="BaseResultMap" type="com.qexz.model.Contest" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="title" property="title" jdbcType="VARCHAR" />
+        <result column="total_score" property="totalScore" jdbcType="INTEGER" />
+        <result column="subject_id" property="subjectId" jdbcType="INTEGER" />
+        <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+        <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+        <result column="state" property="state" jdbcType="INTEGER" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        id,title,total_score,subject_id,start_time,end_time,create_time,update_time,state
+    </sql>
+
+    <insert id="insertContest" parameterType="com.qexz.model.Contest" >
+        insert into t_penguin_contest
+        (title, total_score, subject_id, start_time, end_time, state)
+        values (#{contest.title}, #{contest.totalScore}, #{contest.subjectId},
+        #{contest.startTime}, #{contest.endTime}, #{contest.state})
+    </insert>
+
+    <delete id="deleteContest" parameterType="int">
+        DELETE FROM t_penguin_contest
+        where id = #{id}
+    </delete>
+
+    <update id="updateContestById" parameterType="com.qexz.model.Contest">
+        UPDATE t_penguin_contest
+        SET
+        title = #{contest.title}, total_score = #{contest.totalScore},
+        subject_id = #{contest.subjectId}, start_time = #{contest.startTime},
+        end_time = #{contest.endTime}, state = #{contest.state}
+        WHERE
+        id = #{contest.id}
+    </update>
+
+    <select id="getContestById" resultMap="BaseResultMap" parameterType="int" >
+        SELECT
+        *
+        FROM t_penguin_contest
+        WHERE id = #{id}
+    </select>
+
+    <select id="getCount" resultType="int">
+        SELECT
+        COUNT(1)
+        FROM t_penguin_contest
+    </select>
+
+    <select id="getContests" resultMap="BaseResultMap" >
+        SELECT
+        *
+        FROM t_penguin_contest
+        ORDER BY start_time DESC
+    </select>
+
+    <update id="updateStateToStart">
+        UPDATE t_penguin_contest
+        SET
+          state = 1
+        WHERE
+        state <![CDATA[ = ]]> 0 AND start_time <![CDATA[ <= ]]> #{currentTime} AND end_time <![CDATA[ > ]]> #{currentTime}
+    </update>
+
+    <update id="updateStateToEnd">
+        UPDATE t_penguin_contest
+        SET
+          state = 2
+        WHERE
+        state <![CDATA[ <= ]]> 2 AND end_time <![CDATA[ <= ]]> #{currentTime}
+    </update>
+
+    <select id="getContestsByContestIds" resultMap="BaseResultMap">
+        SELECT
+        *
+        FROM t_penguin_contest
+        WHERE 1 = 1
+        <if test="contestIds != null and contestIds.size > 0">
+            AND id IN
+            <foreach collection="contestIds" item="contestId" open="(" separator="," close=")">
+                #{contestId}
+            </foreach>
+        </if>
+    </select>
+</mapper>

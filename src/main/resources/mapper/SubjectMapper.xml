@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qexz.dao.SubjectMapper" >
+    <resultMap id="BaseResultMap" type="com.qexz.model.Subject" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="question_num" property="questionNum" jdbcType="INTEGER" />
+        <result column="img_url" property="imgUrl" jdbcType="VARCHAR" />
+        <result column="state" property="state" jdbcType="INTEGER" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        id,`name`,question_num,img_url,state,create_time,update_time
+    </sql>
+
+    <insert id="insertSubject" parameterType="com.qexz.model.Subject" >
+        insert into t_penguin_subject
+        (name, question_num, img_url)
+        values (#{subject.name}, #{subject.questionNum}, #{subject.imgUrl})
+    </insert>
+
+    <update id="updateSubjectById" parameterType="com.qexz.model.Subject">
+        UPDATE t_penguin_subject
+        SET
+        name = #{subject.name}, question_num = #{subject.questionNum},
+        img_url = #{subject.imgUrl}
+        WHERE
+        id = #{subject.id}
+    </update>
+    
+    <select id="getSubjectById" resultMap="BaseResultMap" parameterType="int" >
+        SELECT
+        *
+        FROM t_penguin_subject
+        WHERE id = #{id}
+    </select>
+    
+    <select id="getCount" resultType="int">
+        SELECT
+        COUNT(1)
+        FROM t_penguin_subject
+    </select>
+
+    <select id="getSubjects" resultMap="BaseResultMap" >
+        SELECT
+        *
+        FROM t_penguin_subject
+    </select>
+
+    <delete id="deleteSubjectById" parameterType="int">
+        DELETE FROM t_penguin_subject
+        where id = #{id}
+    </delete>
+</mapper>

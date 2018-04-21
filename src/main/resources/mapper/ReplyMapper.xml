@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qexz.dao.ReplyMapper" >
+    <resultMap id="BaseResultMap" type="com.qexz.model.Reply" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="user_id" property="userId" jdbcType="INTEGER" />
+        <result column="atuser_id" property="atuserId" jdbcType="INTEGER" />
+        <result column="post_id" property="postId" jdbcType="INTEGER" />
+        <result column="comment_id" property="commentId" jdbcType="INTEGER" />
+        <result column="content" property="content" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        id,user_id,atuser_id,post_id,comment_id,content,create_time
+    </sql>
+
+    <insert id="insertReply" parameterType="com.qexz.model.Reply" >
+        insert into t_penguin_reply
+        (user_id, atuser_id, post_id, comment_id, content)
+        values (#{reply.userId}, #{reply.atuserId},
+        #{reply.postId}, #{reply.commentId}, #{reply.content})
+    </insert>
+
+    <select id="getReliesByPostId" resultMap="BaseResultMap" >
+        SELECT
+        *
+        FROM t_penguin_reply
+        WHERE post_id = #{postId}
+        ORDER BY create_time ASC
+    </select>
+</mapper>
