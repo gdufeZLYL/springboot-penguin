@@ -66,12 +66,17 @@
 * 数据库: MySQL、Redis
 
 ## 预览效果
-![首页](https://github.com/gdufeZLYL/blog/tree/master/images/20180421163651.png)
-![首页](https://github.com/gdufeZLYL/blog/tree/master/images/20180421163704.png)
-![考试安排表页](https://github.com/gdufeZLYL/blog/tree/master/images/20180421163721.png)
-![答题卡](https://github.com/gdufeZLYL/blog/tree/master/images/20180421164520.png)
-![题库中心首页](https://github.com/gdufeZLYL/blog/tree/master/images/20180421163734.png)
-![讨论区页](https://github.com/gdufeZLYL/blog/tree/master/images/20180421163808.png)
+![首页](https://github.com/gdufeZLYL/blog/blob/master/images/20180421163651.png)
+
+![首页](https://github.com/gdufeZLYL/blog/blob/master/images/20180421163704.png)
+
+![考试安排表页](https://github.com/gdufeZLYL/blog/blob/master/images/20180421163721.png)
+
+![答题卡](https://github.com/gdufeZLYL/blog/blob/master/images/20180421164520.png)
+
+![题库中心首页](https://github.com/gdufeZLYL/blog/blob/master/images/20180421163734.png)
+
+![讨论区页](https://github.com/gdufeZLYL/blog/blob/master/images/20180421163808.png)
 
 ## 讨论
 有问题请在[issue](https://github.com/gdufeZLYL/springboot-penguin/issues)讨论
