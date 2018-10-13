@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qexz.dao.GradeMapper" >
+    <resultMap id="BaseResultMap" type="com.qexz.model.Grade" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="student_id" property="studentId" jdbcType="INTEGER" />
+        <result column="contest_id" property="contestId" jdbcType="INTEGER" />
+        <result column="result" property="result" jdbcType="INTEGER" />
+        <result column="auto_result" property="autoResult" jdbcType="INTEGER" />
+        <result column="manul_result" property="manulResult" jdbcType="INTEGER" />
+        <result column="answer_json" property="answerJson" jdbcType="LONGVARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="finish_time" property="finishTime" jdbcType="TIMESTAMP" />
+        <result column="state" property="state" jdbcType="INTEGER" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        id,student_id,contest_id,result,auto_result,manul_result,
+        answer_json,create_time,finish_time,state
+    </sql>
+
+    <insert id="insertGrade" parameterType="com.qexz.model.Grade" >
+        insert into t_penguin_grade
+        (student_id, contest_id, result, auto_result, manul_result,
+        answer_json)
+        values (#{grade.studentId}, #{grade.contestId}, #{grade.result},
+        #{grade.autoResult}, #{grade.manulResult}, #{grade.answerJson})
+    </insert>
+
+    <delete id="deleteGrade" parameterType="int">
+        DELETE FROM t_penguin_grade
+        where id = #{id}
+    </delete>
+
+    <update id="updateGradeById" parameterType="com.qexz.model.Grade">
+        UPDATE t_penguin_grade
+        SET
+        result = #{grade.result}, manul_result = #{grade.manulResult},
+        finish_time = #{grade.finishTime}, state = #{grade.state}
+        WHERE
+        id = #{grade.id}
+    </update>
+
+    <select id="getGradeById" resultMap="BaseResultMap" parameterType="int" >
+        SELECT
+        *
+        FROM t_penguin_grade
+        WHERE id = #{id}
+    </select>
+
+    <select id="getCountByStudentId" resultType="int" >
+        SELECT
+        COUNT(1)
+        FROM t_penguin_grade
+        WHERE state = 1 AND student_id = #{studentId}
+    </select>
+
+    <select id="getGradesByStudentId" resultMap="BaseResultMap" >
+        SELECT
+        *
+        FROM t_penguin_grade
+        WHERE state = 1 AND student_id = #{studentId}
+    </select>
+
+    <select id="getGradesByContestId" resultMap="BaseResultMap" >
+        SELECT
+        *
+        FROM t_penguin_grade
+        WHERE contest_id = #{contestId}
+        ORDER BY student_id ASC
+    </select>
+</mapper>

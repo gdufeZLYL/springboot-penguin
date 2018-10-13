@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qexz.dao.AccountMapper" >
+    <resultMap id="BaseResultMap" type="com.qexz.model.Account" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="username" property="username" jdbcType="VARCHAR" />
+        <result column="password" property="password" jdbcType="VARCHAR" />
+        <result column="qq" property="qq" jdbcType="VARCHAR" />
+        <result column="phone" property="phone" jdbcType="VARCHAR" />
+        <result column="email" property="email" jdbcType="VARCHAR" />
+        <result column="description" property="description" jdbcType="VARCHAR" />
+        <result column="avatar_img_url" property="avatarImgUrl" jdbcType="VARCHAR" />
+        <result column="state" property="state" jdbcType="INTEGER" />
+        <result column="level" property="level" jdbcType="INTEGER" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        id,`name`,username,password,qq,phone,email,description,avatar_img_url,state,`level`,create_time
+    </sql>
+
+    <insert id="insertAccount" parameterType="com.qexz.model.Account" >
+        insert into t_penguin_account
+        (name, username, password, qq, phone, email, description,
+        avatar_img_url, level)
+        values (#{account.name}, #{account.username}, #{account.password},
+        #{account.qq}, #{account.phone}, #{account.email}, #{account.description},
+        #{account.avatarImgUrl}, #{account.level})
+    </insert>
+    
+    <update id="updateAccountById" parameterType="com.qexz.model.Account">
+        UPDATE t_penguin_account
+        SET
+        password = #{account.password}, qq = #{account.qq}, phone = #{account.phone},
+        email = #{account.email}, description = #{account.description},
+        avatar_img_url = #{account.avatarImgUrl}
+        WHERE
+        id = #{account.id}
+    </update>
+
+    <update id="updateAvatarImgUrlById">
+        UPDATE t_penguin_account
+        SET
+        avatar_img_url = #{avatarImgUrl}
+        WHERE
+        id = #{id}
+    </update>
+
+    <!--根据账号查询账号信息-->
+    <select id="getAccountByUsername" resultMap="BaseResultMap" parameterType="String" >
+        select
+        <include refid="Base_Column_List" />
+        from t_penguin_account
+        where username = #{username}
+    </select>
+
+    <select id="getAccountsByIds" resultMap="BaseResultMap">
+        SELECT
+         *
+        FROM t_penguin_account
+        WHERE 1 = 1
+        <if test="studentIds != null and studentIds.size > 0">
+            AND id IN
+            <foreach collection="studentIds" item="studentId" open="(" separator="," close=")">
+                #{studentId}
+            </foreach>
+        </if>
+    </select>
+
+    <select id="getCount" resultType="int">
+        SELECT
+        COUNT(1)
+        FROM t_penguin_account
+    </select>
+
+    <select id="getAccounts" resultMap="BaseResultMap" >
+        SELECT
+        *
+        FROM t_penguin_account
+        ORDER BY create_time DESC
+    </select>
+
+    <delete id="deleteAccount" parameterType="int" >
+        delete from t_penguin_account
+        where id = #{id}
+    </delete>
+
+    <update id="updateState" >
+        update t_penguin_account set
+        state = #{state}
+        where id = #{id}
+    </update>
+
+    <select id="getAccountsByIdSets" resultMap="BaseResultMap">
+        SELECT
+        *
+        FROM t_penguin_account
+        WHERE 1 = 1
+        <if test="ids != null and ids.size > 0">
+            AND id IN
+            <foreach collection="ids" item="id" open="(" separator="," close=")">
+                #{id}
+            </foreach>
+        </if>
+    </select>
+
+    <!--根据主键ID查询账号信息-->
+    <select id="getAccountById" resultMap="BaseResultMap" parameterType="int" >
+        select
+        *
+        from t_penguin_account
+        where id = #{id}
+    </select>
+
+</mapper>

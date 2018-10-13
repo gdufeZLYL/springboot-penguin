@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <title>GDUFE在线考试系统</title>
+    <link rel="stylesheet" th:href="@{https://cdn.bootcss.com/semantic-ui/2.2.13/semantic.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/app.css}" />
+    <link rel="stylesheet" th:href="@{/css/contest/detail.css}" />
+    <script type="text/javascript" th:src="@{https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{https://cdn.bootcss.com/semantic-ui/2.2.13/semantic.min.js}"></script>
+    <script type="text/javascript" th:src="@{https://cdn.bootcss.com/jquery.countdown/2.2.0/jquery.countdown.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/app.js}"></script>
+    <script type="text/javascript" th:src="@{/js/contest/detail.js}"></script>
+</head>
+<body>
+<div class="ui fixed inverted menu">
+    <a th:href="@{/}" class="header item">
+        <!--<img class="ui" th:src="@{/img/logo_flat.png}" width="104" height="24" alt="" />-->
+        <img class="ui" th:src="@{/img/logo.png}" width="156" height="32" alt="" />
+    </a>
+</div>
+<div class="ui header container">
+    <div class="ui large breadcrumb">
+        <a class="section" href="/contest/index"><i class="home icon"></i>在线考试列表</a>
+        <i class="right chevron icon divider"></i>
+        <div class="section" th:text="${data['contest'].title}"></div>
+    </div>
+</div>
+
+<div class="ui problemDetail container">
+    <div class="ui secondary pointing menu">
+        <a class="active item"><i class="block layout icon"></i>题目详情</a>
+    </div>
+    <div class="ui grid">
+        <!-- 选择题,问答题 -->
+        <div class="ten wide column">
+            <div class="row">
+                <div class="ui stacked segment">
+                    <h4 class="ui horizontal divider header"><i class="help circle icon"></i>题目描述</h4>
+                    <p style="font-size: 16px;" id="currentQuetionTitle"></p>
+                </div>
+            </div>
+            <!-- 编程题 -->
+            <div class="row" style="margin-top: 1em;">
+                <div class="ui segment">
+                    <h5 class="ui dividing header">作答区</h5>
+                    <div class="ui form" id="currentQuestionAnswer">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="one wide column">
+        </div>
+        <div class="four wide column">
+            <div class="row">
+                <table class="ui table">
+                    <tbody>
+                    <tr>
+                        <td><span style="font-weight: bolder;">考生学号:</span></td>
+                        <td><span th:text="${current_account.username}"></span></td>
+                    </tr>
+                    <tr>
+                        <td><span style="font-weight: bolder;">当前考生:</span></td>
+                        <td><span th:text="${current_account.name}"></span></td>
+                    </tr>
+                    <tr>
+                        <td><span style="font-weight: bolder;">剩余时间:</span></td>
+                        <td><span id="contestTimeCountdown"></span></td>
+                    </tr>
+                    <tr>
+                        <td><span style="font-weight: bolder;">开始时间:</span></td>
+                        <td><span th:text="${#dates.format(data['contest'].startTime, 'yyyy-MM-dd HH:mm:ss')}">2018-02-21 08:00:00</span></td>
+                    </tr>
+                    <tr>
+                        <td><span style="font-weight: bolder;">结束时间:</span></td>
+                        <td><span th:text="${#dates.format(data['contest'].endTime, 'yyyy-MM-dd HH:mm:ss')}">2018-03-16 11:00:00</span></td>
+                    </tr>
+                    <tr>
+                        <td><span style="font-weight: bolder;">总分:</span></td>
+                        <td><span th:text="${data['contest'].totalScore}"></span></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="row" style="margin-top: 1em;">
+                <div class="ui segment">
+                    <div class="title">答题卡</div>
+                    <div class="content ui segment" id="currentQuestionButton">
+                        <!--
+                        <button class="mini ui button" style="margin-top: 10px;margin-left: 5px;">
+                            1
+                        </button>
+                        <button class="mini ui button" style="margin-top: 10px;margin-left: 5px;">
+                            2
+                        </button>
+                        <button class="mini ui button" style="margin-top: 10px;margin-left: 5px;">
+                            3
+                        </button>
+                        <button class="mini ui button" style="margin-top: 10px;margin-left: 5px;">
+                            4
+                        </button>
+                        <button class="mini ui button" style="margin-top: 10px;margin-left: 5px;">
+                            1
+                        </button>
+                        <button class="mini ui button" style="margin-top: 10px;margin-left: 5px;">
+                            2
+                        </button>
+                        <button class="mini ui button" style="margin-top: 10px;margin-left: 5px;">
+                            3
+                        </button>
+                        <button class="mini ui button" style="margin-top: 10px;margin-left: 5px;">
+                            4
+                        </button>
+                        <button class="mini ui button" style="margin-top: 10px;margin-left: 5px;">
+                            1
+                        </button>
+                        <button class="mini ui button" style="margin-top: 10px;margin-left: 5px;">
+                            2
+                        </button>
+                        <button class="mini ui button" style="margin-top: 10px;margin-left: 5px;">
+                            3
+                        </button>
+                        <button class="mini ui button" style="margin-top: 10px;margin-left: 5px;">
+                            4
+                        </button>
+                        -->
+                    </div>
+                    <div class="extra content">
+                        <button type="button" onclick="contestDetailPage.finishContestAction()" class="ui positive button">交卷</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="one wide column">
+        </div>
+    </div>
+</div>
+<!-- 不可抗力元素 -->
+<div class="second-footer">
+</div>
+<div id="footer">
+    <div class="ui container">
+        <div class="ui stackable two columns grid">
+            <div class="column">
+                <div class="ui two columns grid">
+                    <div class="column">
+                        <h3>项目介绍</h3>
+                        在线考试系统是一个在线测试学习系统，并用于辅助课程教学和学生学习。
+                    </div>
+                    <div class="column">
+                        <h3>联系我们</h3>
+                        如有问题请发邮件到
+                        zzqnxx@foxmail.com
+                    </div>
+                </div>
+            </div>
+            <div class="right aligned column">
+                &copy; 2018 GDUFE All Rights Reserved &nbsp;&nbsp;
+                <br />
+                网站版本：<a href="#">v1.0.0 Beta #20180109</a>&nbsp;&nbsp;
+                服务器时间：<span id="current_server_timer"></span>
+                <br />
+                站长统计 | 今日IP[91] | 今日PV[4511] | 昨日IP[133] | 昨日PV[10109] | 当前在线[1]
+                <!--
+                TODO::pv,uv统计
+                <span id='cnzz_stat_icon_1261763113'></span>
+                <script th:src='@{//s95.cnzz.com/stat.php?id=1261763113&amp;online=1&amp;show=line}' type='text/javascript'></script>
+                -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 正在提交试卷模态框 -->
+<div class="ui mini modal" id="waitSubmitModal">
+    <div class="header">信息</div>
+    <div class="content" style='font-size:18px; '>
+        请耐心等候,正在为您提交答题卡......
+    </div>
+</div>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var contest = /*[[${data['contest']}]]*/;
+    var questions = /*[[${data['questions']}]]*/;
+    var contextPath = /*[[${#httpServletRequest.getContextPath()}]]*/;
+
+    $(function(){
+        app.init(contextPath);
+        contestDetailPage.init(contest, questions);
+    });
+    /*]]>*/
+</script>
+</body>
+</html>

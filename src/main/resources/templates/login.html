@@ -1,0 +1,38 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="loginModal">
+    <div class="ui modal">
+        <div class="header">登录</div>
+        <div class="content">
+            <div class="ui two column middle aligned very relaxed stackable grid">
+                <div class="column">
+                    <div class="ui form">
+                        <div class="field">
+                            <label>Username</label>
+                            <div class="ui left icon input">
+                                <input type="text" placeholder="Username">
+                                <i class="user icon"></i>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>Password</label>
+                            <div class="ui left icon input">
+                                <input type="password">
+                                <i class="lock icon"></i>
+                            </div>
+                        </div>
+                        <div class="ui blue submit button">Login</div>
+                    </div>
+                </div>
+                <div class="ui vertical divider">Or </div>
+                <div class="center aligned column">
+                    <div class="ui big green labeled icon button"><i class="signup icon"></i> Sign Up </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

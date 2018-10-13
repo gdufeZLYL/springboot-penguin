@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>GDUFE在线考试系统控制台-用户管理</title>
+    <link rel="stylesheet" th:href="@{https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css}" />
+    <link th:href="@{https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css}" rel="stylesheet" />
+    <link rel="stylesheet" th:href="@{/css/manage/manage-app.css}" />
+
+    <script type="text/javascript" th:src="@{https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/manage/manage-app.js}"></script>
+    <script type="text/javascript" th:src="@{/js/manage/manage-accountList.js}"></script>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+        <a class="navbar-brand" href="#"><img style="width: 32px;height: 32px;" th:src="@{/img/manage-logo.png}" /></a>
+        <a class="navbar-brand" href="#">GDUFE在线考试系统控制台</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+        <img class="img-circle" style="width: 32px;height: 32px;" th:src="@{'/upload/images/'+${current_account.avatarImgUrl}}" />&nbsp;&nbsp;<span th:text="${current_account.name}"></span>
+        <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+        <li><a href="javascript:void(0);">修改密码</a></li>
+        <li><a id="logout">退出系统</a></li>
+        </ul>
+        </li>
+        </ul>
+    </div>
+    </div>
+    </nav>
+    <div class="container-fluid">
+    <div class="row">
+    <div class="col-sm-3 col-md-2 sidebar">
+    <ul class="nav nav-sidebar">
+        <li><a th:href="@{/manage/contest/list}"><i class="fa fa-tv"></i>&nbsp;考试管理 <span class="sr-only">(current)</span></a></li>
+        <li><a th:href="@{/manage/question/list}"><span class="glyphicon glyphicon-list-alt"></span>&nbsp;题目管理</a></li>
+        <li><a th:href="@{/manage/subject/list}"><span class="glyphicon glyphicon-book"></span>&nbsp;课程管理</a></li>
+        <li><a th:href="@{/manage/result/contest/list}"><span class="glyphicon glyphicon-signal"></span>&nbsp;成绩管理</a></li>
+        <li class="active"><a href="#"><span class="glyphicon glyphicon-user"></span>&nbsp;用户管理</a></li>
+        <li><a th:href="@{/manage/post/list}"><i class="fa fa-paper-plane"></i>&nbsp;帖子管理</a></li>
+        <li><a th:href="@{/manage/comment/list}"><i class="fa fa-commenting-o"></i>&nbsp;评论管理</a></li>
+    </ul>
+    </div>
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <h1 class="page-header">用户管理</h1>
+    <div class="row" style="margin-bottom: 5px;">
+    <div class="col-md-10">
+    </div>
+    <div class="col-md-2">
+    <button type="button" class="btn btn-success" id="addAccountBtn"><i class="fa fa-plus"></i>添加用户</button>
+    </div>
+    </div>
+    <div class="table-responsive">
+    <table class="table table-striped table-bordered">
+    <thead>
+    <tr>
+    <th>头像</th>
+    <th>姓名</th>
+    <th>账号</th>
+    <th>QQ</th>
+    <th>手机</th>
+    <th>邮箱</th>
+    <th>身份</th>
+    <th>状态</th>
+    <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="item,itemStats : ${data['accounts']}">
+    <td><img th:src="@{'/upload/images/'+${item.avatarImgUrl}}" style="width: 32px;height: 32px;" class="img-circle" /></td>
+    <td th:text="${item.name}"></td>
+    <td th:text="${item.username}"></td>
+    <td th:text="${item.qq}"></td>
+    <td th:text="${item.phone}"></td>
+    <td th:text="${item.email}"></td>
+    <td th:if="${item.level == 0}"><span class="label label-info">学生</span></td>
+    <td th:if="${item.level == 1}"><span class="label label-primary">教师</span></td>
+    <td th:if="${item.level == 2}"><span class="label label-warning">管理员</span></td>
+    <td th:if="${item.state == 0}"><span class="label label-success">正常</span></td>
+    <td th:if="${item.state == 1}"><span class="label label-danger">禁用</span></td>
+    <td>
+        <button type="button" th:if="${item.state == 0}" th:onclick="'manageAccountListPage.disabledAccountAction('+${item.id}+')'" class="btn btn-danger btn-xs"><i class="fa fa-eye-slash"></i>禁用</button>
+        <button type="button" th:if="${item.state == 1}" th:onclick="'manageAccountListPage.abledAccountAction('+${item.id}+')'" class="btn btn-info btn-xs"><i class="fa fa-eye"></i>解禁</button>
+        <button type="button" class="btn btn-primary btn-xs" th:onclick="'manageAccountListPage.updateAccountModalAction('+${itemStats.index}+')'"><i class="fa fa-edit"></i>编辑</button>
+        <button type="button" class="btn btn-danger btn-xs" th:onclick="'manageAccountListPage.deleteAccountAction('+${item.id}+')'"><i class="fa fa-trash"></i>删除</button>
+    </td>
+    </tr>
+    </tbody>
+    </table>
+    </div>
+    <div class="row">
+    <div class="col-md-9" id="subPageHead">
+    <!--
+    <ul class="pagination">
+    <li class="disabled"><a href="#"><span>首页</span></a></li>
+    <li class="disabled"><a href="#"><span>上一页</span></a></li>
+    <li class="active"><a href="#">1</a></li>
+    <li><a href="#">1</a></li>
+    <li><a href="#">2</a></li>
+    <li><a href="#">3</a></li>
+    <li><a href="#">4</a></li>
+    <li><a href="#">5</a></li>
+    <li><a href="#">6</a></li>
+    <li><a href="#">7</a></li>
+    <li><a href="#">8</a></li>
+    <li>
+    <a href="#">
+    <span>下一页</span>
+    </a>
+    </li>
+    <li>
+    <a href="#">
+    <span>末页</span>
+    </a>
+    </li>
+    </ul>
+    -->
+    </div>
+    <div class="col-md-3">
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    <!--新增窗口-->
+    <div id="addAccountModal" class="bootbox modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog ">
+    <div class="modal-content">
+    <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title" id="myModalLabel">新增账号</h4>
+    </div>
+    <div class="modal-body">
+    <form class="form-horizontal" role="form" onsubmit="return false;">
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">姓名</label>
+        <div class="col-sm-8">
+            <input id="addName" type="text" class="form-control" placeholder="" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">账号</label>
+        <div class="col-sm-8">
+            <input id="addUsername" type="text" class="form-control" placeholder="" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">密码</label>
+        <div class="col-sm-8">
+            <input id="addPassword" type="password" class="form-control" placeholder="" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">QQ</label>
+        <div class="col-sm-8">
+            <input id="addQq" type="text" class="form-control" placeholder="" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">手机</label>
+        <div class="col-sm-8">
+            <input id="addPhone" type="text" class="form-control" placeholder="" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">邮箱</label>
+        <div class="col-sm-8">
+            <input id="addEmail" type="text" class="form-control" placeholder="" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">身份</label>
+        <div class="col-sm-8">
+            <select class="form-control" id="addLevel">
+                <option value="0">普通</option>
+                <option value="1">教师</option>
+                <option value="2">管理员</option>
+            </select>
+           </div>
+    </div>
+    </form>
+    </div>
+    <div class="modal-footer">
+    <button data-bb-handler="confirm" type="button" id="confirmAddAccountBtn" class="btn btn-success radius">
+    <span><i class="icon-ok"></i></span> 确定
+    </button>
+    <button data-bb-handler="cancel" type="button" id="cancelAddAccountBtn" class="btn btn-danger radius">取消</button>
+    </div>
+    </div>
+    </div>
+    </div>
+
+    <!-- 编辑窗口 -->
+    <div id="updateAccountModal" class="bootbox modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">编辑账号</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" role="form" onsubmit="return false;">
+                        <input type="hidden" id="updateAccountIndex" />
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">姓名</label>
+                            <div class="col-sm-8">
+                                <input id="updateName" type="text" class="form-control" placeholder="" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">账号</label>
+                            <div class="col-sm-8">
+                                <input id="updateUsername" type="text" class="form-control" placeholder="" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">密码</label>
+                            <div class="col-sm-8">
+                                <input id="updatePassword" type="password" class="form-control" placeholder="" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">QQ</label>
+                            <div class="col-sm-8">
+                                <input id="updateQq" type="text" class="form-control" placeholder="" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">手机</label>
+                            <div class="col-sm-8">
+                                <input id="updatePhone" type="text" class="form-control" placeholder="" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">邮箱</label>
+                            <div class="col-sm-8">
+                                <input id="updateEmail" type="text" class="form-control" placeholder="" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">身份</label>
+                            <div class="col-sm-8">
+                                <select class="form-control" id="updateLevel">
+                                    <option value="0">普通</option>
+                                    <option value="1">教师</option>
+                                    <option value="2">管理员</option>
+                                </select>
+                               </div>
+                        </div>
+                        </form>
+                </div>
+                <div class="modal-footer">
+                    <button data-bb-handler="confirm" type="button" id="confirmUpdateAccountBtn" class="btn btn-success radius">
+                        <span><i class="icon-ok"></i></span> 保存
+                    </button>
+                    <button data-bb-handler="cancel" type="button" id="cancelUpdateAccountBtn" class="btn btn-danger radius">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var pageNum = /*[[${data['pageNum']}]]*/;
+    var pageSize = /*[[${data['pageSize']}]]*/;
+    var totalPageNum = /*[[${data['totalPageNum']}]]*/;
+    var totalPageSize = /*[[${data['totalPageSize']}]]*/;
+    var accounts = /*[[${data['accounts']}]]*/;
+    var contextPath = /*[[${#httpServletRequest.getContextPath()}]]*/;
+
+    $(function(){
+        app.init(contextPath);
+        manageAccountListPage.init(pageNum, pageSize, totalPageNum, totalPageSize, accounts);
+    });
+    /*]]>*/
+</script>
+</body>
+</html>
+

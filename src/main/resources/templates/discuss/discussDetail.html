@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <title>GDUFE在线考试系统</title>
+    <link rel="stylesheet" th:href="@{https://cdn.bootcss.com/semantic-ui/2.2.13/semantic.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/app.css}" />
+    <link rel="stylesheet" th:href="@{/css/discuss/discussDetail.css}" />
+    <script type="text/javascript" th:src="@{https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{https://cdn.bootcss.com/semantic-ui/2.2.13/semantic.min.js}"></script>
+    <script type="text/javascript" th:src="@{https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/app.js}"></script>
+    <script type="text/javascript" th:src="@{/js/discuss/discussDetail.js}"></script>
+</head>
+<body>
+<div class="ui fixed inverted menu">
+    <a th:href="@{/}" class="header item">
+        <!--<img class="ui" th:src="@{/img/logo_flat.png}" width="104" height="24" alt="" />-->
+        <img class="ui" th:src="@{/img/logo.png}" width="156" height="32" alt="" />
+    </a>
+    <a th:href="@{/contest/index}" href="#" class="item">
+        <i class="desktop icon"></i>在线考试
+    </a>
+    <a th:href="@{/problemset/list}" class="item">
+        <i class="list layout icon"></i>题库中心
+    </a>
+    <a th:href="@{/discuss}" class="active item">
+        <i class="talk icon"></i>讨论区
+    </a>
+    <a th:onclick="'app.showLogin()'" class="right item" th:if="${current_account == null}">
+        <i class="sign in icon"></i>登录
+    </a>
+    <div class="ui simple dropdown right item" th:if="${current_account != null}">
+        <img class="ui avatar image" th:src="@{'/upload/images/'+${current_account.avatarImgUrl}}" />
+        <span th:text="${current_account.name}"></span> <i class="dropdown icon"></i>
+        <div class="menu">
+            <a class="item" th:href="@{/account/profile}">
+                <i class="user icon"></i>我的主页
+            </a>
+            <a class="item" id="logout">
+                <i class="sign out icon"></i>退出
+            </a>
+        </div>
+    </div>
+</div>
+<div class="ui header container">
+    <div class="ui large breadcrumb">
+        <a class="section" th:href="@{/}"><i class="home icon"></i>首页</a>
+        <i class="right chevron icon divider"></i>
+        <a class="section" th:href="@{/discuss}">讨论区</a>
+        <i class="right chevron icon divider"></i>
+        <div class="active section" th:text="${data['post'].title}">某保险公司多年的资料表明，在索赔户中，被盗索赔户占20%，以 表示在随机抽查100个索赔户中因被盗而向保险公司索赔的户数，求 . x 0 0.5 1 1.5 2 2.5 3 Ф (x) 0.500 0.691 0.841 0.933 0.977 0.994 0.999</div>
+    </div>
+</div>
+
+<div class="ui discussList container">
+    <div class="ui grid">
+        <div class="eleven wide column">
+            <h2 class="ui header discuss-title" style="font-size: 16px;">
+                <i class="talk outline icon"></i>
+                <div class="content" th:text="${data['post'].title}">校招结束回顾：第一份工作的选择有多重要？应该考虑清楚些什么？</div>
+            </h2>
+            <h2 class="ui header">
+                <img class="ui avatar image discuss-author-avatar" style="height: 50px;width: 50px;" th:src="@{'/upload/images/'+${data['post'].author.avatarImgUrl}}" />
+                <div class="content">
+                    <a href="#" class="header discuss-author-name" th:text="${data['post'].author.name}">
+                        曾庆熙
+                    </a>
+                    <div class="extra discuss-author-edit-info">
+                        <span th:text="'编辑于 '+${#dates.format(data['post'].updateTime, 'yyyy-MM-dd HH:mm:ss')}">编辑于 2018-01-13 11:33:51</span>
+                        <span style="margin-left: 28em;">
+                                <i class="talk outline icon"></i>
+                                <span th:text="${data['post'].replyNum}">23</span>
+                                |
+                                <i class="thumbs outline up icon"></i>
+                                <span>17</span>
+                                |
+                                <i class="unhide icon"></i>
+                                <span>400</span>
+                        </span>
+                    </div>
+                </div>
+            </h2>
+            <div class="ui piled segment" id="postContent">
+                <!--
+                <h3>
+                    <strong>一面</strong>
+                </h3>
+                <ol>
+                    <li>   写自己知道的Linux命令；
+                    </li><li>   你对数据库进行查询，发现查询很慢，对代码排查，代码没问题，你怎么对数据库进行排查；（聊了索引）
+                </li><li>   给你一个数据库，数据库里面数据很大（TB级），你怎么解决查询慢（性能优化）的问题；（分区技术）
+                </li><li>   分区的类型；
+                </li><li>   加密算法(md5、base64等等)
+                </li><li>   你用的是多进程还是多线程；（多进程和多线程的区别）
+                </li><li>   socket编程，怎么实现一个多人聊天室；（怎么设计、怎么实现）
+                </li><li>   http和https区别；(https = http + ssl)
+                </li><li>   查找算法（顺序查找、二分查找、二叉排序树、平衡二叉树、哈希法等等）
+                </li></ol>
+                <h3>
+                    <strong>二面</strong>
+                </h3>
+                <ol>
+                    <li>   自我介绍（个人擅长的领域、个人突出的地方）
+                    </li><li>
+                    （笔试里面的一道题）数据库里有10000000条用户信息，需要给每位用户发送信息（必须发送成功），要求节省内存（主键索引、分区技术、异步处理）
+                </li><li>   HTTP请求方法（GET、HEAD、POST、PUT、DELETE、CONNECT、OPTIONS、TRACE）
+                </li><li>
+                    GET与POST请求区别（根据笔试题的回答提问），POST请求运用，GET幂等的理解，GET请求URL显示，GET请求URL中为什么有“？”（例如：<a target="_blank">https://www.nowcoder.com/discuss/post?type=2），访问“http://www.docer.com/?from=nav</a>
+                    _wps”后怎么显示，也就是空格的显示（出现“<a target="_blank">http://www.docer.com/?from=nav%20_wps”）</a>
+                </li><li>   说说RESTful架构
+                </li><li>   说说字典树
+                </li><li>   平时怎么写数据库的模糊查询（由字典树扯到模糊查询，前缀查询，例如“abc%”，还是索引策略的问题）
+                </li><li>   面向对象编程的理解
+                </li><li>   平时怎么写面向对象编程（聊了面向接口编程）
+                </li><li>   socket编程，怎么实现信息传输，还是多人聊天室的问题（项目的坑）
+                </li><li>   MySQL事务隔离等级，MySQL默认的事务隔离等级
+                </li><li>   MySQL事务特性   <h3>
+                    <strong>PS：金山WPS的服务端开发主要是GO语言</strong>
+                </h3>
+                </li></ol>
+                -->
+            </div>
+            <div class="ui vertical right aligned segment">
+                <a><i class="edit icon"></i>编辑</a>
+                <a><i class="remove circle outline icon"></i>删除</a>
+            </div>
+            <div class="ui vertical segment">
+                <div class="ui comments">
+                    <h3 class="ui dividing header"><i class="comments icon"></i><span th:text="${data['post'].replyNum}+'条回帖'"></span></h3>
+                    <div class="comment" th:each="item,itemStats : ${data['comments']}">
+                        <a class="avatar">
+                            <img class="ui avatar image" th:src="@{'/upload/images/'+${item.user.avatarImgUrl}}" />
+                        </a>
+                        <div class="content">
+                            <a class="author" th:text="${item.user.name}">Elliot Fu</a>
+                            <div class="metadata">
+                                <span class="date" th:text="${#dates.format(item.createTime, 'yyyy-MM-dd HH:mm:ss')}">昨天上午12:30</span>
+                            </div>
+                            <div class="text">
+                                <p th:text="${item.content}">這對我的研究是非常有用.謝謝!</p>
+                            </div>
+                            <div class="actions">
+                                <a class="reply" th:onclick="'discussDetailPage.showReplyModal('+${itemStats.index}+',0)'">回复</a>
+                            </div>
+                        </div>
+                        <div class="comments">
+                            <div class="comment" th:each="item2,itemStats2 : ${item.replies}">
+                                <a class="avatar">
+                                    <img class="ui avatar image" th:src="@{'/upload/images/'+${item2.user.avatarImgUrl}}" />
+                                </a>
+                                <div class="content">
+                                    <a class="author" th:text="${item2.user.name}">Jenny Hess</a>
+                                    <span th:if="${item2.atuserId != 0}">回复</span>
+                                    <a class="author" th:if="${item2.atuserId != 0}" th:text="${item2.atuser.name}">Jenny Hess</a>
+                                    <div class="metadata">
+                                        <span class="date" th:text="${#dates.format(item2.createTime, 'yyyy-MM-dd HH:mm:ss')}">刚刚</span>
+                                    </div>
+                                    <div class="text" th:text="${item2.content}">
+                                        艾略特你永远是多么正确 :)
+                                    </div>
+                                    <div class="actions">
+                                        <a class="reply" th:onclick="'discussDetailPage.showReplyModal('+${itemStats.index}+','+${item2.user.id}+')'">回复</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--
+                    <div class="comment">
+                        <a class="avatar">
+                            <img class="ui avatar image" th:src="@{'/upload/images/'+${current_account.avatarImgUrl}}" />
+                        </a>
+                        <div class="content">
+                            <a class="author">Matt</a>
+                            <div class="metadata">
+                                <span class="date">今天下午 5:42</span>
+                            </div>
+                            <div class="text">太赞了！ </div>
+                            <div class="actions">
+                                <a class="reply">Reply</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment">
+                        <a class="avatar">
+                            <img class="ui avatar image" th:src="@{'/upload/images/'+${current_account.avatarImgUrl}}" />
+                        </a>
+                        <div class="content">
+                            <a class="author">Elliot Fu</a>
+                            <div class="metadata">
+                                <span class="date">昨天上午12:30</span>
+                            </div>
+                            <div class="text">
+                                <p>這對我的研究是非常有用.謝謝!</p>
+                            </div>
+                            <div class="actions">
+                                <a class="reply">Reply</a>
+                            </div>
+                        </div>
+                        <div class="comments">
+                            <div class="comment">
+                                <a class="avatar">
+                                    <img class="ui avatar image" th:src="@{'/upload/images/'+${current_account.avatarImgUrl}}" />
+                                </a>
+                                <div class="content">
+                                    <a class="author">Jenny Hess</a>
+                                    <div class="metadata">
+                                        <span class="date">刚刚</span>
+                                    </div>
+                                    <div class="text">艾略特你永远是多么正确 :) </div>
+                                    <div class="actions">
+                                        <a class="reply">Reply</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="comment">
+                                <a class="avatar">
+                                    <img class="ui avatar image" th:src="@{'/upload/images/'+${current_account.avatarImgUrl}}" />
+                                </a>
+                                <div class="content">
+                                    <a class="author">Jenny Hess</a>
+                                    <span>回复</span>
+                                    <a class="author">Jenny Hess</a>
+                                    <div class="metadata">
+                                        <span class="date">刚刚</span>
+                                    </div>
+                                    <div class="text">
+                                        艾略特你永远是多么正确 :)
+                                    </div>
+                                    <div class="actions">
+                                        <a class="reply">Reply</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment">
+                        <a class="avatar">
+                            <img class="ui avatar image" th:src="@{'/upload/images/'+${current_account.avatarImgUrl}}" />
+                        </a>
+                        <div class="content">
+                            <a class="author">Joe Henderson</a>
+                            <div class="metadata">
+                                <span class="date">5 天以前</span>
+                            </div>
+                            <div class="text">老兄，这太棒了。非常感谢。 </div>
+                            <div class="actions">
+                                <a class="reply">Reply</a>
+                            </div>
+                        </div>
+                    </div>
+                    -->
+                    <form class="ui reply form">
+                        <div class="field">
+                            <textarea id="commentContent"></textarea>
+                        </div>
+                        <div class="ui blue labeled submit icon button" th:onclick="'discussDetailPage.addCommentsAction()'"><i class="icon edit"></i>回帖</div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="five wide column">
+            <div class="ui segment">
+                <div class="ui dividing header">
+                    <i class="world icon"></i>传送门
+                </div>
+                <div class="ui four images">
+                    <a data-inverted="" data-tooltip="ACM" data-position="top center" class="image" target="_blank" onclick="this.blur();" th:href="@{http://acm.gdufe.edu.cn/}">
+                        <img border="0" alt="" width="63" height="63" th:src="@{'/upload/images/acm.png'}" />
+                    </a>
+                    <a data-inverted="" data-tooltip="信息门户" data-position="top center" class="image" target="_blank" onclick="this.blur();" th:href="@{http://my.gdufe.edu.cn/}">
+                        <img border="0" alt="" width="63" height="63" th:src="@{'/upload/images/xinximenhu.png'}" />
+                    </a>
+                    <a data-inverted="" data-tooltip="教务系统" data-position="top center" class="image" target="_blank" onclick="this.blur();" th:href="@{http://jwxt.gdufe.edu.cn/jsxsd/}">
+                        <img border="0" alt="" width="63" height="63" th:src="@{'/upload/images/kaowu.png'}" />
+                    </a>
+                    <a data-inverted="" data-tooltip="Blackboard" data-position="top center" class="image" target="_blank" onclick="this.blur();" th:href="@{http://bb.gdufe.edu.cn}">
+                        <img border="0" alt="" width="63" height="63" th:src="@{'/upload/images/blackboard.png'}" />
+                    </a>
+                    <a data-inverted="" data-tooltip="学工服务" data-position="top center" class="image" target="_blank" onclick="this.blur();" th:href="@{http://xg.gdufe.edu.cn/epstar/web/swms/mainframe/homeWithGroupSelector.jsp}">
+                        <img border="0" alt="" width="63" height="63" th:src="@{'/upload/images/xuegong.png'}" />
+                    </a>
+                    <a data-inverted="" data-tooltip="素拓系统" data-position="top center" class="image" target="_blank" onclick="this.blur();" th:href="@{http://sztz.gdufe.edu.cn/sztz/Login}">
+                        <img border="0" alt="" width="63" height="63" th:src="@{'/upload/images/sutuo.png'}" />
+                    </a>
+                    <a data-inverted="" data-tooltip="宿舍服务" data-position="top center" class="image" target="_blank" onclick="this.blur();" th:href="@{http://ssgl.gdufe.edu.cn/epstar/web/swms/mainframe/homeWithGroupSelector.jsp}">
+                        <img border="0" alt="" width="63" height="63" th:src="@{'/upload/images/sushe.png'}" />
+                    </a>
+                    <a data-inverted="" data-tooltip="学费查询" data-position="top center" class="image" target="_blank" onclick="this.blur();" th:href="@{http://cw.gdufe.edu.cn/KfWeb/LoginInterface.aspx}">
+                        <img border="0" alt="" width="63" height="63" th:src="@{'/upload/images/xuefei.png'}" />
+                    </a>
+                    <a data-inverted="" data-tooltip="离校服务" data-position="top center" class="image" target="_blank" onclick="this.blur();" th:href="@{http://lx.gdufe.edu.cn/}">
+                        <img border="0" alt="" width="63" height="63" th:src="@{'/upload/images/lixiao.png'}" />
+                    </a>
+                    <a data-inverted="" data-tooltip="一卡通" data-position="top center" class="image" target="_blank" onclick="this.blur();" th:href="@{http://cardinfo.gdufe.edu.cn/gdcjportalHome.action}">
+                        <img border="0" alt="" width="63" height="63" th:src="@{'/upload/images/chaxun.png'}" />
+                    </a>
+                    <a data-inverted="" data-tooltip="图书馆系统" data-position="top center" class="image" target="_blank" onclick="this.blur();" th:href="@{http://opac.library.gdufe.edu.cn/reader/redr_info.php}">
+                        <img border="0" alt="" width="63" height="63" th:src="@{'/upload/images/tushuguan.png'}" />
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 不可抗力元素 -->
+<div class="second-footer">
+</div>
+<div id="footer">
+    <div class="ui container">
+        <div class="ui stackable two columns grid">
+            <div class="column">
+                <div class="ui two columns grid">
+                    <div class="column">
+                        <h3>项目介绍</h3>
+                        在线考试系统是一个在线测试学习系统，并用于辅助课程教学和学生学习。
+                    </div>
+                    <div class="column">
+                        <h3>联系我们</h3>
+                        如有问题请发邮件到
+                        zzqnxx@foxmail.com
+                    </div>
+                </div>
+            </div>
+            <div class="right aligned column">
+                &copy; 2018 GDUFE All Rights Reserved &nbsp;&nbsp;
+                <br />
+                网站版本：<a href="#">v1.0.0 Beta #20180109</a>&nbsp;&nbsp;
+                服务器时间：<span id="current_server_timer"></span>
+                <br />
+                站长统计 | 今日IP[91] | 今日PV[4511] | 昨日IP[133] | 昨日PV[10109] | 当前在线[1]
+                <!--
+                TODO::pv,uv统计
+                <span id='cnzz_stat_icon_1261763113'></span>
+                <script th:src='@{//s95.cnzz.com/stat.php?id=1261763113&amp;online=1&amp;show=line}' type='text/javascript'></script>
+                -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 回复模态框 -->
+<div class="ui mini modal" id="replyModal">
+    <div class="header">回复</div>
+    <div class="content">
+        <form class="ui form" id="replyModalForm">
+            <input type="hidden" id="replyCommentId" />
+            <input type="hidden" id="replyAtuserId" />
+            <div class="field required">
+                <div class="ui input">
+                    <input id="replyContent" type="text" placeholder="" />
+                </div>
+            </div>
+            <div class="ui negative button" id="cancelReplyBtn">取消</div>
+            <div class="ui positive button" id="confirmReplyBtn">确定</div>
+        </form>
+    </div>
+</div>
+<!-- 登录模态框 -->
+<div class="ui mini modal" id="loginModal">
+    <div class="header">登录</div>
+    <div class="content">
+        <form class="ui form" id="loginModalForm">
+            <div class="ui hidden negative message" id="loginModalErrorMessage">
+                <!--
+                <div class="header">错误提示</div>
+                <p></p>
+                -->
+            </div>
+            <div class="field required">
+                <label>账号</label>
+                <div class="ui left icon input">
+                    <input id="username" type="text" placeholder="请输入学号或教工号或指定账号" />
+                    <i class="user icon"></i>
+                </div>
+            </div>
+            <div class="field required">
+                <label>密码</label>
+                <div class="ui left icon input">
+                    <input id="password" type="password" />
+                    <i class="lock icon"></i>
+                </div>
+            </div>
+            <div class="field">
+                <div class="ui toggle checkbox">
+                    <input type="checkbox" id="rememberMe" name="rememberMe" tabindex="0" class="hidden" />
+                    <label>记住登录</label>
+                </div>
+            </div>
+            <div class="ui button" id="loginModalCloseButton">关闭</div>
+            <div class="ui primary button" id="loginModalSubmitButton">登录</div>
+        </form>
+    </div>
+</div>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var post = /*[[${data['post']}]]*/;
+    var comments = /*[[${data['comments']}]]*/;
+    var userId = /*[[${data['userId']}]]*/;
+    var contextPath = /*[[${#httpServletRequest.getContextPath()}]]*/;
+
+    $(function(){
+        app.init(contextPath);
+        discussDetailPage.init(post, comments, userId);
+    });
+    /*]]>*/
+</script>
+</body>
+</html>

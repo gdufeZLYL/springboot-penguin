@@ -1,0 +1,35 @@
+body {
+    background-color: #EEEEEE;
+}
+.main.container {
+    margin-top: 7em;
+    width: 1050px;
+}
+
+.ui.footer.segment {
+    margin: 5em 0em 0em;
+    padding: 5em 0em;
+}
+
+.second-footer {
+    height: 100px;
+}
+.paper {
+
+}
+.paper-title {
+    text-align: center;
+}
+.paper-type {
+    background-color: #9ED5C9;
+    font-weight: bolder;
+    color: #FFFFFF;
+    text-align: center;
+}
+.paper-finish-time {
+    font-size: 10px;
+}
+.ui.pagination.menu {
+    margin-left: 4em;
+    margin-top: 2em;
+}

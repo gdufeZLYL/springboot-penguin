@@ -1,0 +1,50 @@
+/*错误页面*/
+#errorpage{width:600px;text-align: center;padding: 80px 0;margin:0 auto;height:360px;}
+#errorpage .pinknum{color: #fe3a3b;}
+#errorpage p{font-size: 18px;font-weight: bold;padding-top: 30px;}
+#errorpage .greyspan{color: #999;}
+#errorpage i{font-size: 72px;color: #ccc;}
+#errorpage .errorsug{margin: 12px auto 62px;text-align: left;display: inline-block;*display: inline;}
+#errorpage .errorsug p{font-size: 14px;padding-top: 6px;text-indent: 15px;}
+#errorpage .bt a{background: #fe3a3b;padding: 9px 46px 11px;*padding: 7px 24px 9px;color: #fff;border: 0;font-size: 14px;}
+
+#errorpage .tfans_error .tfans{float: left;}
+#errorpage .tfans_error .errortans{margin: 0;text-align: left;float: left;z-index: 5;height: 300px;position: relative;padding: 80px 0 0 24px;}
+#errorpage .tfans_error .errortans .ter{position: absolute; left: 155px; top: 10px; z-index: 3; }
+#errorpage .tfans_error .errortans p{font-weight: normal;z-index: 10;position: relative;}
+#errorpage .tfans_error .errortans p b{font-size: 38px; }
+#errorpage .tfans_error .errortans div{margin-top: 30px; }
+#errorpage .tfans_error .errortans div button{font-size: 17px; padding: 3px 42px 5px; border-radius: 3px; }
+
+#errorpage .logo{display: inline-block;float: left;height:303px; width:256px;background: url(../img/tfans.jpg);}
+#errorpage .info{display: inline-block;float: left;position: relative;}
+#errorpage .e404{display: inline-block;position:absolute;top: -60px;left: 145px;;height:164px; width:150px;background: url(../img/404.jpg);}
+#errorpage .lh{height:90px;}
+#errorpage .err{font-size: 36px;}
+
+
+/*右侧菜单*/
+.left_floating{ position:fixed; _position:absolute;right:15px;_right:10px;z-index:9999; bottom:200px;}
+.left_floating a:hover{ text-decoration:none;}
+.left_floating ul{ /* background: #6a6a6c; */ margin:0px; padding:0px;}
+.left_floating ul li{ text-align:center; width: 45px; height: 45px; position: relative; margin-bottom: 1px;}
+.left_floating .floating_div{width:45px; height:45px; overflow:hidden;}
+.left_floating .floating_div .iconfont{ width:45px; height:45px; font-size:20px; display:inline-block; text-align:center; line-height:45px;}
+.left_floating .floating_a {color:#dbdbdb;display: block;position: absolute;right: 0;}
+a.floating_a:hover {width: 105px;background: #ff3a3b;color:#fff; text-decoration:none;}
+.left_floating .floating_div:hover{ color:#fff;width: 105px; text-align:left;}
+.left_floating .floating_div .floating_name{ color:#fff;  font-size:16px;}
+.floating_top,.floating_shop{color:#dbdbdb;}
+.floating_top .floating_ree,.floating_shop .floating_ree{ /* border-bottom:1px solid #fff; */width:45px; height:45px; overflow:hidden; line-height:45px; position:relative; font-size:20px;}
+.floating_top .floating_ree .returntop{font-size:20px;}
+.floating_shop .floating_ree .iconfont{ font-size:25px;}
+.floating_goin .floating_ree{ line-height:58px;}
+.floating_shop .floating_ree .floating_sp{font-size:25px;}
+.floating_shop .floating_ree .floating_bak{ background:url(../images/bg_mini.png); width:20px; height:24px; text-align:center; position:absolute; top:2px; color:#fff; font-size:12px; left:11px; line-height:20px;}
+.floating_shop .floating_ree .floating_bac{ background:url(../images/bg_mini.png); width:20px; height:24px; text-align:center; position:absolute; top:2px; color:#fff; font-size:12px; left:22px; line-height:20px;}
+.left_floating ul li a{display:block;background: #6a6a6c;}
+.left_floating ul li a:hover{background: #333;}
+
+.floating_goin .floating_ree #qiao-icon-wrap{position: absolute;top: 0;left: 0;}
+.floating_goin .floating_ree #qiao-icon-wrap .qiao-icon-group{width: 45px !important;height: 45px !important;background: transparent !important;}
+.floating_goin .floating_ree #qiao-icon-wrap .qiao-mess-container .qiao-mess-foot-send-btn{border: 1px solid #FF3536 !important;background: #FF3536 !important;}

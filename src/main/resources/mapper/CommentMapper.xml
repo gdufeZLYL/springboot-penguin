@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qexz.dao.CommentMapper" >
+    <resultMap id="BaseResultMap" type="com.qexz.model.Comment" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="user_id" property="userId" jdbcType="INTEGER" />
+        <result column="post_id" property="postId" jdbcType="INTEGER" />
+        <result column="content" property="content" jdbcType="LONGVARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        id,user_id,post_id,content,create_time
+    </sql>
+
+    <insert id="insertComment" parameterType="com.qexz.model.Comment" >
+        insert into t_penguin_comment
+        (user_id, post_id, content)
+        values (#{comment.userId}, #{comment.postId}, #{comment.content})
+    </insert>
+
+    <select id="getCommentsByPostId" resultMap="BaseResultMap" >
+        SELECT
+        *
+        FROM t_penguin_comment
+        WHERE post_id = #{postId}
+        ORDER BY create_time ASC
+    </select>
+
+    <select id="getCount" resultType="int">
+        SELECT
+        COUNT(1)
+        FROM t_penguin_comment
+    </select>
+
+    <select id="getComments" resultMap="BaseResultMap">
+        SELECT
+        *
+        FROM t_penguin_comment
+        ORDER BY create_time ASC
+    </select>
+
+    <delete id="deleteCommentById" parameterType="int" >
+        delete from t_penguin_comment
+        where id = #{id}
+    </delete>
+</mapper>
