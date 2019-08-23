@@ -1,4 +1,4 @@
-# 微众银行（内推，社招长期有效，校招有效到9月18号），期待你的加入
+# 微众银行（内推，社招长期有效，校招有效到9月18号(广州/武汉),10月15号(北京/上海)），期待你的加入
 ### [校招链接](https://webank.cheng95.com/positions/search?bole_id=385217&channel=1)
 
 ### [社招链接](https://webank.cheng95.com/positions/search?bole_id=385217&channel=0)
